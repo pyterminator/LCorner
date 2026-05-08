@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block root %}
+
+<h1>Səviyyələr</h1>
+
+<div class="table">
+    <div class="header">
+        <h2>Saytda mövcud olan oyun səviyyələri sual sayına və suallara verilən xallara görə fərqlənir.</h2>
+        <a href="{% url 'createlevel' %}">Yeni səviyyə yarat</a>
+    </div>
+
+    {% if levels %}
+        <div class="elements">
+            <div class="row">
+                <div class="col">ID</div>
+                <div class="col">Səviyyə adı</div>
+                <div class="col">Sual sayı</div>
+                <div class="col">Hər suala düşən xal</div>
+                <div class="col">Qiymət</div>
+            </div>
+            {% for level in levels %}
+                <div class="row">
+                    <div class="col">{{level.id}}</div>
+                    <div class="col">{{level.name}} <a href="{% url 'leveldetail' level.id %}"><i class="fa-solid fa-square-up-right"></i></a></div>
+                    <div class="col">{{level.q_count}}</div>
+                    <div class="col">{{level.scorepq}}</div>
+                    <div class="col">
+                        {% if level.ispaid %}
+                            {{level.price}} <b class="fa-solid fa-manat-sign"></b>
+                        {% else %}
+                            Pulsuz
+                        {% endif %}
+                    </div>
+                </div>  
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-content">
+            Göstəriləcək data yoxdur!
+        </div>
+    {% endif %}
+
+   
+</div>
+
+
+{% endblock %}

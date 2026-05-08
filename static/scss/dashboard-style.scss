@@ -1,0 +1,263 @@
+@use "_extends";
+
+#root {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &>div {
+        &:nth-child(1) {
+            width: 25rem;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--light-bg);
+
+            #logo {
+                width: 100%;
+                height: 6rem;
+                background-color: var(--bg);
+                text-align: center;
+                font-size: 3.2rem;
+                line-height: 6rem;
+                color: var(--light);
+                border-left: 1rem solid var(--light);
+            }
+
+            .menu {
+                width: 100%;
+                height: calc(100% - 6rem);
+                padding: 1rem;
+
+                a {
+                    display: block;
+                    width: 100%;
+                    @extend %button-style;
+                    margin-bottom: .5rem;
+                }
+            }
+        }
+
+        &:nth-child(2) {
+            width: calc(100% - 25rem);
+            min-height: 100vh;
+
+            nav {
+                width: 100%;
+                height: 6rem;
+                background-color: var(--light-bg);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 1rem;
+
+                .links {
+                    display: flex;
+                    gap: 2rem;
+
+                    a {
+                        @extend %button-style;
+                    }
+                }
+
+                .profile {
+                    position: relative;
+
+                    span {
+                        @extend %button-style;
+                        cursor: pointer;
+                    }
+
+                    .dropdown-menu {
+                        position: absolute;
+                        border-top-left-radius: 1.5rem;
+                        border-bottom-left-radius: 1.5rem;
+                        border-bottom-right-radius: 1.5rem;
+                        border: .1rem solid var(--dark);
+                        top: calc(100% + 1rem);
+                        right: 0;
+                        width: 20rem;
+                        padding: 1rem;
+                        background-color: var(--bg);
+                        display: none;
+                        justify-content: center;
+                        align-items: center;
+                        flex-direction: column;
+                        gap: .5rem;
+
+                        a {
+                            width: 100%;
+                            @extend %button-style;
+                        }
+                    }
+                }
+            }
+
+            main {
+                display: block;
+                width: 100%;
+                height: calc(100vh - 12rem);
+                padding: 1rem;
+                background-color: var(--light);
+
+                &>h1 {
+                    font-size: 3.2rem;
+                    margin-bottom: 1rem;
+                }
+
+                .table {
+                    width: 100%;
+                    border: .1rem solid var(--light-bg);
+                    border-radius: 1rem;
+                    padding: 1rem;
+
+                    .header {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        a {
+                            @extend %button-style;
+                        }
+
+                        h2 {
+                            font-size: 1.4rem;
+                            font-weight: 500;
+                            width: 30%;
+                        }
+                    }
+
+                    .no-content {
+                        display: block;
+                        width: 100%;
+                        color: red;
+                        margin-top: 2rem;
+                        font-size: 16px;
+                    }
+
+                    .elements {
+                        margin: 2rem 0;
+                        width: 100%;
+                        border: .1rem dotted var(--light-bg);
+                        border-bottom: none;
+                        border-right: none;
+
+                        .row {
+                            width: 100%;
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: stretch;
+                            border-bottom: .1rem dotted var(--light-bg);
+
+                            &:nth-child(1) {
+                                .col {
+                                    font-weight: 600;
+                                    font-size: 1.4rem;
+                                }
+                            }
+
+                            .col {
+                                width: calc((100% - 5rem) / 4);
+                                border-right: .1rem dotted var(--light-bg);
+                                line-height: 3rem;
+                                padding: .3rem .5rem;
+                                font-size: 1.4rem;
+
+                                &:nth-child(1) {
+                                    width: 5rem;
+                                    min-height: 3rem;
+                                    text-align: center;
+                                    font-weight: 600;
+                                    font-size: 1.4rem;
+                                    padding: 0;
+                                }
+
+                                &:nth-child(2) {
+                                    position: relative;
+
+                                    a {
+                                        position: absolute;
+                                        top: 0;
+                                        right: 0;
+                                        width: 1.5rem;
+                                        height: 1.5rem;
+                                        font-size: 1rem;
+                                        line-height: 1.5rem;
+                                        text-align: center;
+                                        color: var(--light-bg);
+
+                                        &:hover {
+                                            color: var(--dark);
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+                .create-level, .level-detail {
+                    form {
+                        &>label {
+                            display: block;
+                            font-size: 1.6rem;
+                            margin-bottom: .5rem;
+                        }
+
+                        &>label+input {
+                            @extend %input-style-after-label;
+                        }
+
+                        .input-group {
+                            @extend %input-group-style;
+                        }
+
+                        .select {
+                            @extend %select-style;
+                        }
+
+                        .opened {
+                            @extend %opened-select-style;
+                        }
+
+                        .disabled {
+                            @extend %disabled-select-style;
+                        }
+
+
+                        .button-group{ 
+                            @extend %button-group-style;
+                        }
+
+                    }
+                }
+
+                 
+            }
+
+            footer {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                left: 25rem;
+                width: 100%;
+                height: 6rem;
+                line-height: 6rem;
+                font-size: 1.6rem;
+                background-color: var(--light-bg);
+                padding: 0 1rem;
+                border-left: 1rem solid var(--bg);
+                color: var(--light);
+
+                a {
+                    @extend %button-style;
+                }
+            }
+        }
+    }
+}
