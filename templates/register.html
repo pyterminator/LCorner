@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - Hesab yaradın
+    </title>
+{% endblock %}
+
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/login.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+    <h1>Yeni hesab yaradın</h1>
+
+    <div class="member-login">
+        <div class="logo">
+            ECorner
+        </div>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <label for="username">
+                İstifadəçi adı təyin edin
+            </label>
+            <input type="text" name="username" onkeyup="validateUsername(this)" id="username" placeholder="İstifadəçi adı">
+            <div class="input-alert"></div>
+
+            <label for="email">
+                Email daxil edin
+            </label>
+            <input type="email" name="email" onkeyup="validateEmail(this)" id="email" placeholder="Email">
+            <div class="input-alert"></div>
+
+            <label for="password">
+                Şifrə təyin edin
+                <i class="fa-solid fa-eye" onclick="showPassword(this)"></i>
+            </label>
+            <input type="password" name="password" onkeyup="validatePassword(this)" id="password" placeholder="* * * * * * * *">
+            <div class="input-alert"></div>
+
+            <label for="repassword">
+                Şifrəni təkrar daxil edin
+                <i class="fa-solid fa-eye" onclick="showPassword(this)"></i>
+            </label>
+            <input type="password" name="repassword" onkeyup="validateRePassword(this)" id="repassword" placeholder="* * * * * * * *">
+            <div class="input-alert"></div>
+
+
+            <div class="button-group">
+                <button>Təsdiqlə</button>
+                <a href="{% url 'login' %}">Hesabım var</a>
+            </div>
+
+            <div class="links">
+                <a href="#">İstifadə şərtləri, qaydalar və razılaşma</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

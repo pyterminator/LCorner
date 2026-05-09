@@ -1,12 +1,12 @@
 @use "_extends";
 
 .member-login {
-    width: 50%;
-
+    width: 50%; 
+    
     .logo {
         width: 12rem;
         height: 8rem;
-        background-color: rgb(10,113, 254);
+        background-color: var(--bg);
         color: var(--light);
         font-size: 2rem;
         font-weight: 600;
@@ -29,29 +29,52 @@
     }
 
     form {
-        background-color: var(--main);
+        background-color: var(--light);
         display: flex;
         flex-direction: column;
         padding: 2rem;
 
         &>label {
             display: block;
-            font-size: 1.6rem;
-            margin-bottom: .5rem; 
+            font-size: 1.6rem; 
+            margin-bottom: .5rem;
+            margin-top: 2rem;
         }
+
+        &>label{
+            &:nth-child(2){
+                margin-top: 0;
+            }
+        }
+
+
+        
 
         &>label+input {
             @extend %input-style-after-label;
             width: 100%;
             background-color: var(--light);
+            margin-bottom: 0;
         }
 
         .button-group {
             @extend %button-group-style;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
         }
 
-        label[for=password]{
+        .links{
+            a{
+                font-size: 1.4rem;
+                font-weight: 500;
+                color: royalblue;
+                text-decoration:underline;
+            }
+        }
+
+        label[for=password], label[for=repassword] {
             position: relative;
+
             i {
                 position: absolute;
                 width: 3rem;
@@ -64,6 +87,13 @@
                 @extend %button-style;
                 cursor: pointer;
             }
+        }
+
+        .input-alert {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: red;
+            margin-top: .5rem;
         }
 
 

@@ -27,16 +27,25 @@
             <label for="username">
                 İstifadəçi adınızı daxil edin
             </label>
-            <input type="text" name="username" id="username">
+            <input type="text" name="username" id="username" placeholder="İstifadəçi adınız">
+
+            <div class="input-alert"></div>
 
             <label for="password">
                 Şifrənizi daxil edin
                 <i class="fa-solid fa-eye" onclick="showPassword(this)"></i>
             </label>
-            <input type="password" name="password" id="password">
+            <input type="password" name="password" id="password" placeholder="* * * * * * * *">
+
+            <div class="input-alert"></div>
 
             <div class="button-group">
                 <button>Daxil ol</button>
+                <a href="{% url 'register' %}">Qeydiyyat</a>
+            </div>
+
+            <div class="links">
+                <a href="#">Şifrəmi unutmuşam</a>
             </div>
         </form>
     </div>
