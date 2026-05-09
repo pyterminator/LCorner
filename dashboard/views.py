@@ -63,3 +63,6 @@ def LevelDetail(request, id):
     
     else:
         return redirect("levels")
+
+def QuizModels(request):
+    return render(request, "dashboard/quiz-models.html")

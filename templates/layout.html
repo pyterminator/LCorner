@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECorner</title>
+    {% block title %}{% endblock %}
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
@@ -20,6 +20,10 @@
     <link rel="stylesheet" href="{% static 'css/dashboard-style.min.css' %}">
     <!-- Colors -->
     <link rel="stylesheet" href="{% static 'css/colors.min.css' %}">
+    <!-- Quiz Models Style -->
+    <link rel="stylesheet" href="{% static 'css/quiz-models.min.css' %}">
+
+    {% block styles %}{% endblock %}
 
     <!-- Fontu sabitlə -->
     <style>
@@ -67,20 +71,24 @@
             <div class="menu">
                 <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
                 <a href="{% url 'levels' %}"><i class="fa-solid fa-chart-bar"></i> Səviyyələr</a>
+                <a href="{% url 'quizmodels' %}"><i class="fa-regular fa-square-plus"></i> Sual yarat</a>
             </div>
         </div>
         <div>
             <nav>
                 <div class="links">
-                    <a href="#">Ana səhifə</a>
-                    <a href="#">Mesajlar</a>
+                    <a href="{% url 'dashboard' %}">Ana səhifə</a>
+                    <a href="#">Əlaqə</a>
                 </div>
                 <div class="profile">
-                    <span onclick="openDropdownMenu(this)"><i class="fa-regular fa-user"></i> Hesabım</span>
+                    <a href="{% url 'login' %}">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Daxil ol
+                    </a>
+                    <!-- <span onclick="openDropdownMenu(this)"><i class="fa-regular fa-user"></i> Hesabım</span>
                     <div class="dropdown-menu">
                         <a href="#"><i class="fa-solid fa-gear"></i> Tənzimləmələr</a>
                         <a href="#"><i class="fa-regular fa-bell"></i> Bildirişlər</a>
-                    </div>
+                    </div> -->
                 </div>
             </nav>
 

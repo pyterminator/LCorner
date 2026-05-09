@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - Hesabınıza daxil olun
+    </title>
+{% endblock %}
+
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/login.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+    <h1>Hesabınıza daxil olun</h1>
+
+    <div class="member-login">
+        <div class="logo">
+            ECorner
+        </div>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <label for="username">
+                İstifadəçi adınızı daxil edin
+            </label>
+            <input type="text" name="username" id="username">
+
+            <label for="password">
+                Şifrənizi daxil edin
+                <i class="fa-solid fa-eye" onclick="showPassword(this)"></i>
+            </label>
+            <input type="password" name="password" id="password">
+
+            <div class="button-group">
+                <button>Daxil ol</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,71 @@
+@use "_extends";
+
+.member-login {
+    width: 50%;
+
+    .logo {
+        width: 12rem;
+        height: 8rem;
+        background-color: rgb(10,113, 254);
+        color: var(--light);
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 8rem;
+        text-align: center;
+        position: relative;
+        margin-bottom: 2rem;
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            top: -.5rem;
+            right: -.5rem;
+            background-color: var(--light);
+            border-radius: 50%;
+
+        }
+    }
+
+    form {
+        background-color: var(--main);
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+
+        &>label {
+            display: block;
+            font-size: 1.6rem;
+            margin-bottom: .5rem; 
+        }
+
+        &>label+input {
+            @extend %input-style-after-label;
+            width: 100%;
+            background-color: var(--light);
+        }
+
+        .button-group {
+            @extend %button-group-style;
+        }
+
+        label[for=password]{
+            position: relative;
+            i {
+                position: absolute;
+                width: 3rem;
+                height: 3rem;
+                background-color: var(--main);
+                top: 3.5rem;
+                color: var(--dark);
+                right: 1rem;
+                border-radius: .5rem;
+                @extend %button-style;
+                cursor: pointer;
+            }
+        }
+
+
+    }
+}

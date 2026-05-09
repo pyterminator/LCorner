@@ -36,3 +36,15 @@ function openPriceSelect(inp){
         price.classList.add("disabled")
     }
 }
+
+
+function showPassword(i){
+    const password_input = i.parentElement.nextElementSibling
+    if (password_input.getAttribute("type") == "password"){
+        password_input.setAttribute("type", "text")
+        i.className = "fa-solid fa-eye-slash"
+    } else {
+        password_input.setAttribute("type", "password")
+        i.className = "fa-solid fa-eye"
+    }
+}

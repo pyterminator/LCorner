@@ -1,0 +1,60 @@
+@use "_extends";
+
+.cards{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .card{
+        width: 15rem; 
+        background-color: var(--main);
+        overflow: hidden;
+        padding: .3rem;
+        border-radius: .5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .avatar{
+            width: 4rem;
+            margin-bottom: 1rem;
+            img{
+                width: 4rem;
+
+                aspect-ratio: 1/1;
+            }
+        }
+        .card-body{
+            h3{
+                font-size: 1.4rem;
+                text-align: left;
+                margin-bottom: .5rem;
+            }
+            p{
+                font-size: 1.2rem;
+            }
+        }
+
+        .card-footer{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin:1rem 0;
+            width: 60%;
+
+            a{
+                @extend %button-style;
+                display: inline-block;
+                font-size: 1.2rem;
+                padding: .3rem .5rem;
+                width: 100%;
+            }
+
+        }
+    }
+}
