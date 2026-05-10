@@ -2,6 +2,19 @@
 
 {% block root %}
 
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - Dashboard
+    </title>
+{% endblock %}
+
+
 <h1>Ana səhifə</h1>
+ 
+{% if request.user.is_authenticated %}
+    <h2>Xoş gəldin {{ request.user.username }}</h2>
+{% endif %}
+ 
 
 {% endblock %}

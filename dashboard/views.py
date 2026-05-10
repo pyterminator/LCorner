@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from dashboard.models import Level
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def Dashboard(request):
     return render(request, "dashboard/index.html")
 
+@login_required
 def Levels(request):
 
     data = {
@@ -13,6 +15,7 @@ def Levels(request):
 
     return render(request, "dashboard/levels.html", context=data)
 
+@login_required
 def CreateLevel(request):
 
     if request.method == "POST":
@@ -50,6 +53,7 @@ def CreateLevel(request):
     return render(request, "dashboard/create-new-level.html")
 
 
+@login_required
 def LevelDetail(request, id):
     find_level = Level.objects.filter(id=id).first()
 
@@ -64,5 +68,6 @@ def LevelDetail(request, id):
     else:
         return redirect("levels")
 
+@login_required
 def QuizModels(request):
     return render(request, "dashboard/quiz-models.html")

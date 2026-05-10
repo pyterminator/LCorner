@@ -6,6 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta Tags -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Shukurov Mushvig - PyTerminator">
     {% block title %}{% endblock %}
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -69,26 +73,38 @@
                 ECorner
             </h1>
             <div class="menu">
-                <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
-                <a href="{% url 'levels' %}"><i class="fa-solid fa-chart-bar"></i> Səviyyələr</a>
-                <a href="{% url 'quizmodels' %}"><i class="fa-regular fa-square-plus"></i> Sual yarat</a>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+                    <a href="{% url 'levels' %}"><i class="fa-solid fa-chart-bar"></i> Səviyyələr</a>
+                    <a href="{% url 'quizmodels' %}"><i class="fa-regular fa-square-plus"></i> Sual yarat</a>
+                {% else %}
+                    <a href="{% url 'login' %}"><i class="fa-solid fa-arrow-right-to-bracket"></i> Daxil ol</a>
+                    <a href="{% url 'register' %}"><i class="fa-solid fa-user-plus"></i> Hesab yarat</a>
+                {% endif %}
             </div>
         </div>
         <div>
             <nav>
                 <div class="links">
-                    <a href="{% url 'dashboard' %}">Ana səhifə</a>
-                    <a href="#">Əlaqə</a>
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}">Ana səhifə</a>
+                    {% endif %}
+                    <a href="javascript:void(0)">Əlaqə</a>
                 </div>
                 <div class="profile">
-                    <a href="{% url 'login' %}">
-                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Daxil ol
-                    </a>
-                    <!-- <span onclick="openDropdownMenu(this)"><i class="fa-regular fa-user"></i> Hesabım</span>
-                    <div class="dropdown-menu">
-                        <a href="#"><i class="fa-solid fa-gear"></i> Tənzimləmələr</a>
-                        <a href="#"><i class="fa-regular fa-bell"></i> Bildirişlər</a>
-                    </div> -->
+                    {% if request.user.is_authenticated %}
+                        <span onclick="openDropdownMenu(this)"><i class="fa-regular fa-user"></i> Hesabım</span>
+                        <div class="dropdown-menu">
+                            <a href="#"><i class="fa-solid fa-gear"></i> Tənzimləmələr</a>
+                            <a href="#"><i class="fa-regular fa-bell"></i> Bildirişlər</a>
+                            <a href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Çıxış et</a>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'login' %}">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Daxil ol
+                        </a>
+                    {% endif %}
+                    
                 </div>
             </nav>
 

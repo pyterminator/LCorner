@@ -22,33 +22,41 @@
             ECorner
         </div>
 
-        <form action="" method="post">
+        <form method="post">
             {% csrf_token %}
             <label for="username">
                 İstifadəçi adı təyin edin
             </label>
-            <input type="text" name="username" onkeyup="validateUsername(this)" id="username" placeholder="İstifadəçi adı">
-            <div class="input-alert"></div>
+            <input type="text" name="username" onkeyup="validateUsername(this)" id="username" placeholder="İstifadəçi adı" value="{% if username %} {{username}} {% endif %}">
+            <div class="input-alert">
+                {% if username_abc %} {{username_abc}} {% endif %}
+            </div>
 
             <label for="email">
                 Email daxil edin
             </label>
-            <input type="email" name="email" onkeyup="validateEmail(this)" id="email" placeholder="Email">
-            <div class="input-alert"></div>
+            <input type="email" name="email" onkeyup="validateEmail(this)" id="email" placeholder="Email" value="{% if email %} {{email}} {% endif %}">
+            <div class="input-alert">
+                {% if fake_email %} {{fake_email}} {% endif %}
+            </div>
 
             <label for="password">
                 Şifrə təyin edin
                 <i class="fa-solid fa-eye" onclick="showPassword(this)"></i>
             </label>
             <input type="password" name="password" onkeyup="validatePassword(this)" id="password" placeholder="* * * * * * * *">
-            <div class="input-alert"></div>
+            <div class="input-alert">
+                {% if invalid_password %} {{invalid_password}} {% endif %}
+            </div>
 
             <label for="repassword">
                 Şifrəni təkrar daxil edin
                 <i class="fa-solid fa-eye" onclick="showPassword(this)"></i>
             </label>
             <input type="password" name="repassword" onkeyup="validateRePassword(this)" id="repassword" placeholder="* * * * * * * *">
-            <div class="input-alert"></div>
+            <div class="input-alert">
+                {% if dontmatch %} {{dontmatch}} {% endif %}
+            </div>
 
 
             <div class="button-group">

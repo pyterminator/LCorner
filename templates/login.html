@@ -22,7 +22,7 @@
             ECorner
         </div>
 
-        <form action="" method="post">
+        <form method="post">
             {% csrf_token %}
             <label for="username">
                 İstifadəçi adınızı daxil edin
@@ -37,7 +37,9 @@
             </label>
             <input type="password" name="password" id="password" placeholder="* * * * * * * *">
 
-            <div class="input-alert"></div>
+            <div class="input-alert">
+                {% if wrong_username_or_password %} {{wrong_username_or_password}} {% endif %}
+            </div>
 
             <div class="button-group">
                 <button>Daxil ol</button>
