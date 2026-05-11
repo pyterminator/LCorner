@@ -386,13 +386,13 @@
     }
 }
 
-// Main panelin responsivi footer ve dvh ucun
+// Main panelin responsivi footer ve 100vh ucun
 @media only screen and (max-width: 762px) {
     #root {
         &>div {
             &:nth-child(2) {
                 main{
-                    min-height: calc(100dvh - 14rem);
+                    min-height: calc(100vh - 14rem);
                 }
             }
         }
