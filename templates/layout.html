@@ -80,8 +80,8 @@
     <div id="root">
         <div>
             <h1 id="logo">
-                ECorner
-            </h1>
+                ECorner <i class="fa-solid fa-angle-left" onclick="CloseMobileSidebar(this)"></i>
+            </h1> 
             <div class="menu">
                 {% if request.user.is_authenticated %}
                 <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
@@ -98,8 +98,12 @@
             <nav>
                 <div class="links">
                     <!-- Toggle Menu Sidebar -->
-                    <span onclick="ToggleSidebarMenu(this)" data-val="0"><i
-                            class="fa-solid fa-bars-staggered"></i></span>
+                    <span onclick="ToggleSidebarMenu(this)" data-val="0"><i class="fa-solid fa-bars-staggered"></i></span>
+
+                    <!-- Mobile Toggle Menu Sidebar -->
+                    <div class="mobile-toggle-sidebar" onclick="MobileToggleSidebarMenu(this)">
+                        <i class="fa-solid fa-bars-staggered"></i>
+                    </div>
 
                     {% if request.user.is_authenticated %}
                     <a href="{% url 'dashboard' %}">Ana səhifə</a>

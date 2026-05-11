@@ -108,11 +108,13 @@ function ToggleSidebarMenu(span){
 
     if (span.dataset.val == "1"){
         sidebar.style.display = "none"
+        sidebar.style.left = "0"
         blank.style.width = "100%";
         blank.style.marginLeft = "0";
         span.dataset.val = "0"
     } else {
         sidebar.style.display = "block"
+        sidebar.style.left = "0"
         blank.style.width = "calc(100% - 25rem)";
         blank.style.marginLeft = "25rem";
         span.dataset.val = "1"
@@ -137,4 +139,16 @@ function openModal(event) {
 
     modal.style.display = "flex" 
     modal.dataset.url = event.currentTarget.getAttribute("href")
+}
+
+function MobileToggleSidebarMenu(btn){
+    const sidebar = document.querySelector("#root > div:nth-child(1)")
+    const blank = document.querySelector("#root > div:nth-child(2)")
+    // Ac 
+    sidebar.style.display = "block";  
+    sidebar.style.left = "0";  
+}
+
+function CloseMobileSidebar(btn){
+    btn.parentElement.parentElement.style.left = "-25rem"
 }
