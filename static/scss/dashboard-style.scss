@@ -236,6 +236,20 @@
                     }
                 }
 
+                .users-table{
+                    .elements{
+                        .row{
+                            .col{
+                                width: calc((100% - 14rem) / 5);
+                                &:last-child{
+                                    width: 9rem;
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+
                 .create-level, .level-detail, .user-detail {
                     form {
                         &>label {
@@ -336,9 +350,17 @@
         .close{
             width: 100%;
             margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
             button{
                 @extend %button-style;
-                width: 100%;
+                width: 50%;
+                &:nth-child(1){
+                    background-color: rgb(10,113,254);
+                }
+                &:nth-child(2){
+                    background-color: red;
+                }
             }
         }
     }

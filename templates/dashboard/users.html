@@ -1,7 +1,5 @@
 {% extends 'layout.html' %}
 
-{% block root %}
-
 <!-- Page Title -->
 {% block title %}
     <title>
@@ -10,12 +8,10 @@
 {% endblock %}
 
 
+{% block root %}
 <h1>İstifadəçilər</h1>
 
-
-
-
-<div class="table">
+<div class="table users-table">
 
     <div class="main-modal">
         <div class="modal-body">
@@ -24,10 +20,16 @@
             </div>
             <div class="text">
                 <p>İstifadəçi saytdan qalıcı olaraq silinməyəcək, sadəcə aktivlik statusu dəyişəcək.</p>
+                <p>
+                    <b>
+                        İstifadəçi hesabını deaktiv etmək istədiyinizdən əminsiniz ?
+                    </b>
+                </p>
             </div>
 
             <div class="close">
-                <button onclick="closeModal(this)">Bağla</button>
+                <button onclick="deleteAndCloseModal(this)">Bəli</button>
+                <button onclick="closeModal(this)">Xeyr</button>
             </div>
         </div>
     </div>
@@ -35,7 +37,7 @@
 
     <div class="header">
         <h2>Saytda qeydiyyatdan keçən istifadəçilər</h2>
-        <a href="{% url 'createlevel' %}">İstifadəçi yarat</a>
+        <a href="{% url 'createuser' %}">İstifadəçi yarat</a>
     </div>
 
         {% if users %}
@@ -44,7 +46,9 @@
                 <div class="col">ID</div>
                 <div class="col">İstifadəçi adı</div>
                 <div class="col">E-mail</div>
-                <div class="col">Status</div>
+                <div class="col">Aktiv hesabdır</div>
+                <div class="col">Admindir</div>
+                <div class="col">Super Admindir</div>
                 <div class="col">Tənzimlə</div>
             </div>
             {% for u in users %}
@@ -52,10 +56,14 @@
                     <div class="col">{{u.id}}</div>
                     <div class="col">{{u.username}} <a href="{% url 'userdetail' u.id %}"><i class="fa-solid fa-square-up-right"></i></a></div>
                     <div class="col">{{u.email}}</div>
-                    <div class="col">{{u.is_active}}</div>
+                    <div class="col">{% if u.is_active %} Bəli {% else %} Xeyr {% endif %}</div>
+                    <div class="col">{% if u.is_staff %} Bəli {% else %} Xeyr {% endif %}</div>
+                    <div class="col">{% if u.is_superuser %} Bəli {% else %} Xeyr {% endif %}</div>
                     <div class="col settings-buttons"> 
                         <a href="javascript:void(0)"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="https://youtube.com" onclick="openModal(event)"><i class="fa-regular fa-trash-can"></i></a> 
+                        {% if u.is_active %}
+                            <a href="{% url 'deleteuser' u.id %}" onclick="openModal(event)"><i class="fa-regular fa-trash-can"></i></a> 
+                        {% endif %}
                     </div>
                 </div>  
             {% endfor %}

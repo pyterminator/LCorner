@@ -123,6 +123,11 @@ function closeModal(btn){
     btn.parentElement.parentElement.parentElement.style.display = "none"
 }
 
+function deleteAndCloseModal(btn){
+    const delete_url = btn.closest(".main-modal").dataset.url
+    window.location.href = delete_url
+}
+
 function openModal(event) {
     event.preventDefault()
 
@@ -130,5 +135,6 @@ function openModal(event) {
         .closest(".table")
         .querySelector(".main-modal")
 
-    modal.style.display = "flex"
+    modal.style.display = "flex" 
+    modal.dataset.url = event.currentTarget.getAttribute("href")
 }

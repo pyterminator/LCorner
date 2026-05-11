@@ -84,15 +84,59 @@ def Users(request):
 
 @login_required
 def UserDetail(request, id):
-
     user = User.objects.filter(id=id).first()
+
+    # Verilmiş İD ilə user olmasa users səhifəsinə qaytar
+    if user is None: return redirect("users")
+
+    if request.method == "POST":
+        is_active = request.POST.get("is_active", False )
+        is_staff = request.POST.get("is_staff", False)
+        is_superuser = request.POST.get("is_superuser", False)
+
+        
+        if is_active == "1": is_active = True 
+        else: is_active = False 
+
+        if is_staff == "1": is_staff = True 
+        else: is_staff = False 
+
+        if is_superuser == "1": is_superuser = True 
+        else: is_superuser = False 
+
+       
+
+        user.is_active = is_active
+        user.is_staff = is_staff
+        user.is_superuser = is_superuser
+
+        user.save()
+        
+
+    # user varsa datasını göndər səhifəyə
     data = {
         "user": user
     }
 
     return render(request, "dashboard/user-detail.html", context=data)
 
+@login_required
+def CreateUser(request):
+    return render(request, "dashboard/create-new-user.html")
 
+@login_required
+def DeleteUser(request, id):
+    user = User.objects.filter(id=id).first()
+
+    if user is None: return redirect("users")
+
+    user.is_active = False 
+    user.is_staff = False 
+    user.is_superuser = False
+    user.save()
+
+    return redirect("users")
+    
 
 
 
