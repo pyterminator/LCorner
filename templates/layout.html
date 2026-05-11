@@ -51,7 +51,14 @@
         a {
             text-decoration: none;
             color: inherit;
-            cursor: pointer;
+            cursor: pointer; 
+            -webkit-tap-highlight-color: transparent;
+            outline: none; 
+        }
+
+        a:focus,
+        a:active{
+            outline: none;
         }
 
         button {
@@ -88,7 +95,7 @@
             <nav>
                 <div class="links">
                     <!-- Toggle Menu Sidebar -->
-                    <span onclick="ToggleSidebarMenu(this)" data-val="1"><i class="fa-solid fa-bars-staggered"></i></span>
+                    <span onclick="ToggleSidebarMenu(this)" data-val="0"><i class="fa-solid fa-bars-staggered"></i></span>
 
                     {% if request.user.is_authenticated %}
                         <a href="{% url 'dashboard' %}">Ana səhifə</a>
