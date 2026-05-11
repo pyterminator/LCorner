@@ -77,6 +77,7 @@
                     <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
                     <a href="{% url 'levels' %}"><i class="fa-solid fa-chart-bar"></i> Səviyyələr</a>
                     <a href="{% url 'quizmodels' %}"><i class="fa-regular fa-square-plus"></i> Sual yarat</a>
+                    <a href="{% url 'users' %}"><i class="fa-solid fa-users"></i> İstifadəçilər</a>
                 {% else %}
                     <a href="{% url 'login' %}"><i class="fa-solid fa-arrow-right-to-bracket"></i> Daxil ol</a>
                     <a href="{% url 'register' %}"><i class="fa-solid fa-user-plus"></i> Hesab yarat</a>
@@ -86,9 +87,13 @@
         <div>
             <nav>
                 <div class="links">
+                    <!-- Toggle Menu Sidebar -->
+                    <span onclick="ToggleSidebarMenu(this)" data-val="1"><i class="fa-solid fa-bars-staggered"></i></span>
+
                     {% if request.user.is_authenticated %}
                         <a href="{% url 'dashboard' %}">Ana səhifə</a>
                     {% endif %}
+                    
                     <a href="javascript:void(0)">Əlaqə</a>
                 </div>
                 <div class="profile">

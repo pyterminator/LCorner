@@ -98,3 +98,37 @@ function validateRePassword(inp){
         alert_box.innerText = ""
     }
 }
+
+
+function ToggleSidebarMenu(span){ 
+    const sidebar = document.querySelector("#root > div:nth-child(1)")
+    const blank = document.querySelector("#root > div:nth-child(2)")
+
+
+
+    if (span.dataset.val == "1"){
+        sidebar.style.display = "none"
+        blank.style.width = "100%";
+        blank.style.marginLeft = "0";
+        span.dataset.val = "0"
+    } else {
+        sidebar.style.display = "block"
+        blank.style.width = "calc(100% - 25rem)";
+        blank.style.marginLeft = "25rem";
+        span.dataset.val = "1"
+    }
+}
+
+function closeModal(btn){
+    btn.parentElement.parentElement.parentElement.style.display = "none"
+}
+
+function openModal(event) {
+    event.preventDefault()
+
+    const modal = event.currentTarget
+        .closest(".table")
+        .querySelector(".main-modal")
+
+    modal.style.display = "flex"
+}

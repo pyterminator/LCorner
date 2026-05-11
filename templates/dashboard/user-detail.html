@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+
+{% block root %}
+
+{% block title %}
+    <title>ECorner - İstifadəçi detal səhifəsi</title>
+{% endblock %}
+
+<h1>İstifadəçi detal səhifəsi</h1>
+
+<div class="user-detail">
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">
+            İstifadəçi adı
+        </label>
+        <input type="text" id="username" name="username" value="{{user.username}}" disabled>
+        
+        <label for="email">
+            E-mail
+        </label>
+        <input type="text" id="email" name="email" value="{{user.email}}" disabled>
+        
+
+        <label for="is_active">
+            Aktiv hesabdır
+        </label>
+        <div class="input-group">
+            <label>
+                <span>Xeyr</span>
+                <input type="radio" id="is_active" name="is_active" value="0" {% if not user.is_active %}checked{% endif %}>
+                <span></span>
+            </label>
+            <label>
+                <span>Bəli</span>
+                <input type="radio" name="is_active" value="1" {% if user.is_active %}checked{% endif %}>
+                <span></span>
+            </label>
+        </div>
+
+        <label for="is_staff">
+            Admindir
+        </label>
+        <div class="input-group">
+            <label>
+                <span>Xeyr</span>
+                <input type="radio" id="is_staff" name="is_staff" value="0" {% if not user.is_staff %}checked{% endif %}>
+                <span></span>
+            </label>
+            <label>
+                <span>Bəli</span>
+                <input type="radio" name="is_staff" value="1" {% if user.is_staff %}checked{% endif %}>
+                <span></span>
+            </label>
+        </div>
+
+        <label for="is_superuser">
+            Super Admindir
+        </label>
+        <div class="input-group">
+            <label>
+                <span>Xeyr</span>
+                <input type="radio" id="is_superuser" name="is_superuser" value="0" {% if not user.is_superuser %}checked{% endif %}>
+                <span></span>
+            </label>
+            <label>
+                <span>Bəli</span>
+                <input type="radio" name="is_superuser" value="1" {% if user.is_superuser %}checked{% endif %}>
+                <span></span>
+            </label>
+        </div>
+        
+         
+        
+         
+         
+
+         
+
+        <div class="button-group">
+            <button>
+                Yadda saxla
+            </button>
+
+            <a href="{% url 'users' %}">
+                İstifadəçilər
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

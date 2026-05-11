@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from dashboard.models import Level
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -71,3 +72,28 @@ def LevelDetail(request, id):
 @login_required
 def QuizModels(request):
     return render(request, "dashboard/quiz-models.html")
+
+@login_required
+def Users(request):
+
+    data = {
+        "users": User.objects.all()
+    }
+
+    return render(request, 'dashboard/users.html', context=data)
+
+@login_required
+def UserDetail(request, id):
+
+    user = User.objects.filter(id=id).first()
+    data = {
+        "user": user
+    }
+
+    return render(request, "dashboard/user-detail.html", context=data)
+
+
+
+
+
+
