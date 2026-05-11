@@ -100,6 +100,28 @@
     }
 }
 
+@media only screen and (max-width: 600px){
+    .member-login{
+        form{
+            .button-group{
+                justify-content: space-between;
+                gap: 1rem;
+                button{
+                    width: 50%; 
+                }
+                a{
+                    width: 50%;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 762px){
+    
+}
+
+
 @media only screen and (max-width: 1000px){
     .member-login{
         width: 100%;

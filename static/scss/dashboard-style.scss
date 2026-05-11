@@ -117,7 +117,7 @@
             main {
                 display: block;
                 width: 100%;
-                min-height: calc(100vh - 12rem);
+                min-height: calc(100dvh - 12rem);
                 padding: 1rem;
                 background-color: var(--light); 
  
@@ -297,7 +297,10 @@
                 padding: 0 1rem;
                 border-left: 1rem solid var(--bg);
                 color: var(--light);
-
+                span{
+                    display: inline;
+                    color: var(--light);
+                }
                 a {
                     @extend %button-style;
                 }
@@ -359,6 +362,38 @@
                 }
                 &:nth-child(2){
                     background-color: red;
+                }
+            }
+        }
+    }
+}
+
+
+
+// Footerin Responsivi
+@media only screen and (max-width: 762px){
+    #root{
+        &>div {
+            &:nth-child(2){
+                footer{
+                    height: auto;
+                    line-height: 200%;
+                    padding: .5rem 1rem;
+                    span{
+                        display: block;
+                        color: var(--light-bg);
+                        height: 0;
+                        color: transparent;
+                        overflow: hidden;
+                    }
+                    a{ 
+                        display: inline-block;
+                        width: 12rem;
+                        height: 3rem;
+                        line-height: 3rem;
+                        font-size: 1.4rem;
+                        padding: 0;
+                    }
                 }
             }
         }
