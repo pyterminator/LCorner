@@ -1,13 +1,11 @@
 {% extends 'layout.html' %}
 
-{% block root %}
-
 {% block title %}
     <title>ECorner - İstifadəçi detal səhifəsi</title>
 {% endblock %}
 
+{% block root %}
 <h1>İstifadəçi detal səhifəsi</h1>
-
 <div class="user-detail">
     <form method="post">
         {% csrf_token %}
@@ -88,5 +86,4 @@
         </div>
     </form>
 </div>
-
 {% endblock %}

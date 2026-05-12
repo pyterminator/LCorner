@@ -1,7 +1,5 @@
 {% extends 'layout.html' %}
 
-{% block root %}
-
 <!-- Page Title -->
 {% block title %}
     <title>
@@ -9,12 +7,10 @@
     </title>
 {% endblock %}
 
-
-<h1>Ana səhifə</h1>
+{% block root %}
+    <h1>Ana səhifə</h1>
  
-{% if request.user.is_authenticated %}
-    <h2>Xoş gəldin {{ request.user.username }}</h2>
-{% endif %}
- 
-
+    {% if request.user.is_authenticated %}
+        <h2>Xoş gəldin {{ request.user.username }}</h2>
+    {% endif %}
 {% endblock %}

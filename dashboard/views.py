@@ -77,8 +77,6 @@ def QuizModels(request):
 def CreateQuizWithOptions(request):
     return render(request, "gamemodels/with-options.html")
 
-
-
 @login_required
 def Users(request):
 
@@ -142,7 +140,29 @@ def DeleteUser(request, id):
     user.save()
 
     return redirect("users")
+
+@login_required
+def Account(request, username):
+    user = User.objects.filter(username=username).first()
+
+    if user:
+        data = {
+            "user":user
+        }
+        return render(request, "dashboard/account.html", context=data)
     
+    return redirect("dashboard")
+
+
+
+
+
+
+
+
+
+
+
 
 
 

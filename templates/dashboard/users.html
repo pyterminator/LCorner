@@ -7,12 +7,9 @@
     </title>
 {% endblock %}
 
-
 {% block root %}
 <h1>İstifadəçilər</h1>
-
 <div class="table users-table">
-
     <div class="main-modal">
         <div class="modal-body">
             <div class="icon">
@@ -26,20 +23,16 @@
                     </b>
                 </p>
             </div>
-
             <div class="close">
                 <button onclick="deleteAndCloseModal(this)">Bəli</button>
                 <button onclick="closeModal(this)">Xeyr</button>
             </div>
         </div>
     </div>
-
-
     <div class="header">
         <h2>Saytda qeydiyyatdan keçən istifadəçilər</h2>
         <a href="{% url 'createuser' %}">İstifadəçi yarat</a>
     </div>
-
         {% if users %}
         <div class="elements">
             <div class="row">
@@ -73,10 +66,5 @@
                 Göstəriləcək data yoxdur!
             </div>
         {% endif %}
-
-   
 </div>
-
- 
-
 {% endblock %}
