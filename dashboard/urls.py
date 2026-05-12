@@ -1,7 +1,8 @@
 from django.urls import path
 from dashboard.views import (
     Dashboard, Levels, CreateLevel, LevelDetail, 
-    QuizModels, Users, UserDetail, CreateUser, DeleteUser
+    QuizModels, Users, UserDetail, CreateUser, DeleteUser,
+    CreateQuizWithOptions,
 )
 
 urlpatterns = [
@@ -11,6 +12,7 @@ urlpatterns = [
     path('levels/detail/<int:id>/', LevelDetail, name="leveldetail"),
 
     path('quizmodels/', QuizModels, name='quizmodels'),
+    path('quizmodels/withoptions/', CreateQuizWithOptions, name="createquizwithoptions"),
 
     path('users/', Users, name="users"),
     path('users/detail/<int:id>', UserDetail, name="userdetail"),

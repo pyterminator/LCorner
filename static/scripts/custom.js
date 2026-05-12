@@ -85,6 +85,17 @@ function validatePassword(inp){
 }
 
 
+function validateEmail(inp){
+    const alert_box = inp.nextElementSibling
+    const EMAIL_PATTERN = /^[A-Za-z0-9](?:[A-Za-z0-9._-]{1,}[A-Za-z0-9])?@[A-Za-z0-9](?:[A-Za-z0-9-]{0,}[A-Za-z0-9])?(?:\.[A-Za-z]{2,})+$/;
+    if(!EMAIL_PATTERN.test(inp.value)){
+        alert_box.innerText = "E-mail doğru formatda deyil!"
+    } else {
+        alert_box.innerText = ""
+    }
+}
+
+
 function validateRePassword(inp){
     const password = inp.parentElement.querySelector("input[name=password]").value
     const repassword = inp.value 
@@ -144,11 +155,13 @@ function openModal(event) {
 function MobileToggleSidebarMenu(btn){
     const sidebar = document.querySelector("#root > div:nth-child(1)")
     const blank = document.querySelector("#root > div:nth-child(2)")
-    // Ac 
+
     sidebar.style.display = "block";  
     sidebar.style.left = "0";  
+    sidebar.querySelector(".carpet").style.right = "0"
 }
 
 function CloseMobileSidebar(btn){
     btn.parentElement.parentElement.style.left = "-25rem"
+    btn.parentElement.parentElement.querySelector(".carpet").style.right = "-200%"
 }

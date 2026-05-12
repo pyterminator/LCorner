@@ -74,6 +74,12 @@ def QuizModels(request):
     return render(request, "dashboard/quiz-models.html")
 
 @login_required
+def CreateQuizWithOptions(request):
+    return render(request, "gamemodels/with-options.html")
+
+
+
+@login_required
 def Users(request):
 
     data = {

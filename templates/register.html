@@ -27,15 +27,15 @@
             <label for="username">
                 İstifadəçi adı təyin edin
             </label>
-            <input type="text" name="username" onkeyup="validateUsername(this)" id="username" placeholder="İstifadəçi adı" value="{% if username %} {{username}} {% endif %}">
+            <input type="text" name="username" onkeyup="validateUsername(this)" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" id="username" placeholder="İstifadəçi adı" value="{% if username %} {{username}} {% endif %}">
             <div class="input-alert">
                 {% if username_abc %} {{username_abc}} {% endif %}
             </div>
 
-            <label for="email">
+            <label for="emailfield">
                 Email daxil edin
             </label>
-            <input type="email" name="email" onkeyup="validateEmail(this)" id="email" placeholder="Email" value="{% if email %} {{email}} {% endif %}">
+            <input type="email" name="email" onkeyup="validateEmail(this)" id="emailfield" placeholder="Email" value="{% if email %} {{email}} {% endif %}"  autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
             <div class="input-alert">
                 {% if fake_email %} {{fake_email}} {% endif %}
             </div>
@@ -65,7 +65,7 @@
             </div>
 
             <div class="links">
-                <a href="#">İstifadə şərtləri, qaydalar və razılaşma</a>
+                <a href="javascript:void(0)">İstifadə şərtləri, qaydalar və razılaşma</a>
             </div>
         </form>
     </div>
