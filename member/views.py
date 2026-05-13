@@ -1,8 +1,8 @@
 import re
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required 
 
 USERNAME_PATTERN = r"^[a-z]+$"
 
@@ -82,7 +82,7 @@ def MemberRegistration(request):
             data["fake_email"] = "Email formatı doğru deyil!"
 
         # Password / RePassword 
-        if not (re.match(PASSWORD_PATTERN, password) and isinstance(password, str)):
+        if not re.match(PASSWORD_PATTERN, password):
             invalid_data = True
             data['invalid_password'] = "Şifrə minimum 8 simvol olmalı, kiçik/böyük hərf, rəqəm və nöqtədən ibarət olmalıdır."
         if repassword != password:
@@ -108,3 +108,52 @@ def MemberRegistration(request):
 def MemberLogout(request):
     logout(request)
     return redirect("login")
+
+
+
+@login_required
+def Account(request, username):
+    user = User.objects.filter(username=username).first()
+
+    if user:
+        data = {
+            "user":user
+        }
+        return render(request, "dashboard/account.html", context=data)
+    
+    return redirect("dashboard")
+
+@login_required
+def ChangeMyPassword(request):
+    data = {
+        "errors": []
+    }
+    if request.method == "POST":
+        old_password = request.POST.get("old_password")
+        password = request.POST.get("password")
+        repassword = request.POST.get("repassword")
+        
+        
+        if not request.user.check_password(old_password):
+            data["errors"].append("Şifrə yanlışdır!")
+
+        elif password != repassword:
+            data["errors"].append("Yeni şifrə və təkrarı fərqlidir!")
+
+        elif not re.match(PASSWORD_PATTERN, password):
+            data["errors"].append(
+                "Şifrə minimum 8 simvol olmalı, kiçik/böyük hərf, rəqəm və nöqtədən ibarət olmalıdır."
+            )
+
+        else:
+            request.user.set_password(password)
+            request.user.save()
+
+            update_session_auth_hash(request, request.user)
+
+            return redirect(
+                "myaccount",
+                username=request.user.username
+            )
+
+    return render(request, "dashboard/change-my-password.html", context=data)

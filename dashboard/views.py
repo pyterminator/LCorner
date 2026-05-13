@@ -141,17 +141,7 @@ def DeleteUser(request, id):
 
     return redirect("users")
 
-@login_required
-def Account(request, username):
-    user = User.objects.filter(username=username).first()
 
-    if user:
-        data = {
-            "user":user
-        }
-        return render(request, "dashboard/account.html", context=data)
-    
-    return redirect("dashboard")
 
 
 

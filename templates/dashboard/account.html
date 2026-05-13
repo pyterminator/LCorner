@@ -1,4 +1,10 @@
 {% extends 'layout.html' %}
+{% load static %}
+{% load tz %}
+
+<!-- TimeZone -->
+{% now "Y-m-d" as today %}
+{% now "Y-m-d" as now_date %}
 
 <!-- Page Title -->
 {% block title %}
@@ -7,6 +13,65 @@
     </title>
 {% endblock %}
 
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/account.min.css' %}">
+{% endblock %}
+
 {% block root %}
     <h1>Hesabım</h1>
+
+    <div class="my-account">
+        <div class="left">
+            <div class="avatar">
+                <h3>Profil şəkli</h3>
+                <img src="{% static 'images/default-avatar.png' %}" alt="avatar" draggable="false">
+            
+                <div class="statistic">
+                    <div>
+                        <span>0</span> İzləyən
+                    </div>
+                    <div class="line">|</div>
+                    <div>
+                        <span>5</span> İzlədiyim
+                    </div>
+                </div>
+
+            </div>
+            <div class="info">
+                <h3><b>İstifadəçi adı</b> <span>{{user.username}}</span></h3>
+                <h3><b>E-mail</b> <span>{{user.email}}</span></h3>
+                <h3>
+                    <b>Son giriş</b>
+                    <span>
+                        {% if user.last_login|date:"Y-m-d" == today %}
+                            Bu gün
+                        {% elif user.last_login|date:"Y-m-d" == yesterday %}
+                            Dünən
+                        {% else %}
+                            {{ user.last_login|date:"d.m.Y" }}
+                        {% endif %}
+                    </span>
+                </h3>
+                <h3>
+                    <b>Hesab yaradılıb</b>
+                    <span>
+                        {{ user.date_joined|date:"d.m.Y" }}
+                    </span>
+                </h3>
+            </div>
+        </div>
+        <div class="right">
+            <div class="quick-links">
+                <h3>Keçidlər</h3>
+                <a href="{% url 'changemypassword' %}">Şifrəmi dəyiş</a>
+                <a href="#">İstifadəçi adımı dəyiş</a>
+            </div>
+            <div class="my-score">
+                Topladığım Xal : <span>11,2K</span> <i class="fa-solid fa-star"></i>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
