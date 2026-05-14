@@ -157,3 +157,9 @@ def ChangeMyPassword(request):
             )
 
     return render(request, "dashboard/change-my-password.html", context=data)
+
+
+def Contact(request):
+    return render(request, "contact.html")
+
+

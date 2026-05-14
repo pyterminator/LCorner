@@ -27,6 +27,10 @@
     <link rel="stylesheet" href="{% static 'css/dashboard-style.min.css' %}">
     <!-- Colors -->
     <link rel="stylesheet" href="{% static 'css/colors.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/theme2.min.css' %}"> -->
+    <!-- <link rel="stylesheet" href="{% static 'css/theme3.min.css' %}"> -->
+    <!-- <link rel="stylesheet" href="{% static 'css/theme4.min.css' %}"> -->
+    <!-- <link rel="stylesheet" href="{% static 'css/theme5.min.css' %}"> -->
     <!-- Quiz Models Style -->
     <link rel="stylesheet" href="{% static 'css/quiz-models.min.css' %}">
 
@@ -113,7 +117,7 @@
                     <a href="{% url 'dashboard' %}">Ana səhifə</a>
                     {% endif %}
 
-                    <a href="javascript:void(0)">Əlaqə</a>
+                    <a href="{% url 'contact' %}">Əlaqə</a>
                 </div>
                 <div class="profile">
                     {% if request.user.is_authenticated %}
