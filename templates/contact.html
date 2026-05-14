@@ -35,7 +35,7 @@
             <label for="contact_name">
                 Adınızı daxil edin
             </label>
-            <input type="text" name="name" onkeyup="validateUsername(this)" autocomplete="off" id="contact_name" placeholder="Adınız" value="{% if name %} {{name}} {% endif %}">
+            <input type="text" name="name" onkeyup="validateName(this)" autocomplete="off" id="contact_name" placeholder="Adınız" value="{% if name %} {{name}} {% endif %}">
             <div class="input-alert">
                 {% if name_three %} {{name_three}} {% endif %}
             </div>
@@ -52,7 +52,7 @@
             <label for="message">
                 Mesajınızı daxil edin
             </label>
-            <textarea name="message" id="message"></textarea>
+            <textarea name="message" id="message" placeholder="Mesajınız"></textarea>
 
             <div class="button-group">
                 <button>Göndər</button> 
