@@ -1,5 +1,4 @@
 from django.contrib import admin
-from dashboard.models import Level, ContactMessage
+from dashboard.models import Level
 
 admin.site.register(Level)
-admin.site.register(ContactMessage)

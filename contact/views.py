@@ -1,0 +1,88 @@
+import re
+from datetime import timedelta
+from django.utils import timezone
+from contact.models import Message
+from django.shortcuts import render, redirect
+
+def contact_view(request):
+    data = {}
+
+    # HoneyPot
+    if request.POST.get("website"): 
+        data["message_validator"] = "Yanlış cəhd!"
+
+    if request.method == "POST":
+        last_sent = request.session.get("last_message_time")
+
+        if last_sent:
+            last_time = timezone.datetime.fromisoformat(last_sent) 
+
+            cooldown_end = last_time + timedelta(hours=1)
+            remaining = cooldown_end - timezone.now()
+
+
+            if remaining.total_seconds() > 0:
+                minutes = int(remaining.total_seconds() // 60)
+                data["message_validator"] = f"{minutes} dəqiqə sonra yenidən mesaj göndərə bilərsiniz!"
+
+        else:
+
+            name = request.POST.get("name", "").strip()
+            email = request.POST.get("email", "").strip()
+            message = request.POST.get("message", "").strip()
+
+            name_regex = r"^[A-ZÇŞƏĞÖÜİ][a-zçşəğöüıi]+$"
+            message_regex = r"^[A-Za-zÇŞƏĞÖÜİçşəğöüıi0-9\s.!?]+$"
+            email_regex = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+
+            data['name'] = name 
+            data['email'] = email
+            data['message'] = message
+
+            # NAME
+            if not name:
+                data["name_validator"] = "Ad boş ola bilməz!"
+            elif len(name) < 3:
+                data["name_validator"] = "Ad minimum 3 simvol olmalıdır!"
+            elif not re.match(name_regex, name):
+                data["name_validator"] = "Ad yalnız birinci hərfi böyük, qalanları kiçik olmalıdır!"
+
+            # EMAIL
+            if not email:
+                data["email_validator"] = "Email boş ola bilməz!"
+            elif not re.match(email_regex, email):
+                data["email_validator"] = "Email düzgün formatda deyil!"
+
+            # MESSAGE
+            if not message:
+                data["message_validator"] = "Mesaj boş ola bilməz!"
+            elif len(message) < 5:
+                data["message_validator"] = "Mesaj minimum 5 simvol olmalıdır!"
+            elif len(message) > 255:
+                data["message_validator"] = "Mesaj maksimum 255 simvol ola bilər!"
+            elif not re.match(message_regex, message):
+                data["message_validator"] = "Mesajda icazə verilməyən simvollar var!"
+
+            # SUCCESS
+            if "name_validator" not in data and "email_validator" not in data and "message_validator" not in data:
+                Message.objects.create(
+                    name=name, email=email, message=message
+                )
+                data["success"] = "Mesajınız qeydə alındı, tezliklə sizinlə əlaqə saxlanılacaq!"
+                data.pop("name")
+                data.pop("email")
+                data.pop("message")
+                request.session["last_message_time"] = timezone.now().isoformat()
+            
+
+    return render(request, "contact.html", context=data)
+
+
+# @login_required
+def messages_view(request):
+
+    data = {
+        "messages": Message.objects.all()
+    }
+
+    return render(request, "dashboard/messages.html", context=data)

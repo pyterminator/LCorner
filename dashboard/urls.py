@@ -7,14 +7,14 @@ from dashboard.views import (
 
 urlpatterns = [
     path('', Dashboard, name="dashboard"),
-    path('levels/', Levels, name="levels"),
-    path('levels/create-new/', CreateLevel, name="createlevel"),
+    path('levels', Levels, name="levels"),
+    path('levels/create-new', CreateLevel, name="createlevel"),
     path('levels/detail/<int:id>/', LevelDetail, name="leveldetail"),
 
-    path('quizmodels/', QuizModels, name='quizmodels'),
-    path('quizmodels/withoptions/', CreateQuizWithOptions, name="createquizwithoptions"),
+    path('quizmodels', QuizModels, name='quizmodels'),
+    path('quizmodels/withoptions', CreateQuizWithOptions, name="createquizwithoptions"),
 
-    path('users/', Users, name="users"),
+    path('users', Users, name="users"),
     path('users/detail/<int:id>', UserDetail, name="userdetail"),
     path('users/create-new/', CreateUser, name="createuser"),
     path('users/delete/<int:id>', DeleteUser, name="deleteuser"),

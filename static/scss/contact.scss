@@ -1,17 +1,17 @@
-@use "extends"; 
+@use "extends";
 @use "form";
 
 
-.member-login {
-    width: 50%; 
-    
+.contact {
+    width: 50%;
+
     .logo {
         @include form.form-logo;
     }
 
-    form{
+    form {
         @include form.form;
     }
-    
+
     @include form.form-media;
 }

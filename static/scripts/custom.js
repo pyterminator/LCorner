@@ -165,3 +165,8 @@ function CloseMobileSidebar(btn){
     btn.parentElement.parentElement.style.left = "-25rem"
     btn.parentElement.parentElement.querySelector(".carpet").style.right = "-200%"
 }
+
+
+function removeAlert(span){
+    span.parentElement.remove()
+}

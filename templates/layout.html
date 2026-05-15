@@ -81,6 +81,7 @@
             background-color: transparent;
         }
     </style>
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
 </head>
 
 <body>
@@ -95,6 +96,7 @@
                 <a href="{% url 'levels' %}"><i class="fa-solid fa-chart-bar"></i> Səviyyələr</a>
                 <a href="{% url 'quizmodels' %}"><i class="fa-regular fa-square-plus"></i> Sual yarat</a>
                 <a href="{% url 'users' %}"><i class="fa-solid fa-users"></i> İstifadəçilər</a>
+                <a href="{% url 'messages' %}"><i class="fa-solid fa-comments"></i> Mesajlar</a>
                 {% else %}
                 <a href="{% url 'login' %}"><i class="fa-solid fa-arrow-right-to-bracket"></i> Daxil ol</a>
                 <a href="{% url 'register' %}"><i class="fa-solid fa-user-plus"></i> Hesab yarat</a>
@@ -136,7 +138,7 @@
                 </div>
             </nav>
 
-            <main>
+            <main> 
                 <!-- Block Root -->
                 {% block root %} {% endblock %}
             </main>
@@ -150,6 +152,9 @@
     </div>
 
     <script src="{% static 'scripts/custom.js' %}"></script>
+
+    <!-- Block Scripts -->
+    {% block scripts %} {% endblock %}
 </body>
 
 </html>

@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>ECorner - Mesajlar</title>
+{% endblock %}
+
+{% block root %}
+<h1>Mesajlar</h1>
+
+<div class="table">
+    <div class="header">
+        <h2>Əlaqə formundan daxil edilən mesajlar</h2>
+    </div>
+
+    {% if messages %}
+        <div class="elements">
+            <div class="row">
+                <div class="col">ID</div>
+                <div class="col">Ad</div>
+                <div class="col">Email</div> 
+                <div class="col">Oxundu</div> 
+                <div class="col">Saytda görünür</div> 
+            </div>
+            {% for m in messages %}
+                <div class="row">
+                    <div class="col">{{m.id}}</div>
+                    <div class="col">{{m.name}} <a href="{% url 'leveldetail' m.id %}"><i class="fa-solid fa-square-up-right"></i></a></div>
+                    <div class="col">{{m.email}}</div>
+                    <div class="col">{% if m.is_read %}Bəli{% else %}Xeyr{% endif %}</div>
+                    <div class="col">{% if m.is_public %}Bəli{% else %}Xeyr{% endif %}</div>
+                </div>  
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-content">
+            Göstəriləcək data yoxdur!
+        </div>
+    {% endif %}
+
+   
+</div>
+{% endblock %}

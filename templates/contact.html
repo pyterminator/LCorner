@@ -1,66 +1,76 @@
 {% extends 'layout.html' %}
 {% load static %}
 
-
-
 <!-- Page Title -->
 {% block title %}
     <title>
-        ECorner - Əlaqə
+        ECorner - Bizimlə əlaqə
     </title>
 {% endblock %}
 
 <!-- Styles -->
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/login.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/contact.min.css' %}">
 {% endblock %}
 
- 
-
-
-
-
 {% block root %}
-    <h1>Əlaqə</h1>
     
+    {% if success %}
+        <div class="alert alert-success">
+            <i class="fa-regular fa-circle-check"></i>
+            <p>
+                {{success}}
+            </p>
+            <span class="fa-solid fa-xmark" onclick="removeAlert(this)"></span>
+        </div>
+    {% endif %}
 
-    <div class="member-login">
+    <h1>Bizimlə əlaqə</h1>
+
+    <div class="contact">
         <div class="logo">
             ECorner
         </div>
         <h2>Bizimlə əlaqə üçün formu doldurub, göndərin</h2>
 
-        <form method="post">
+        <form method="post" onsubmit="return validateContactForm()">
             {% csrf_token %}
-            <label for="contact_name">
+            <input type="text" name="website" style="display:none;">
+
+            <label for="name_field">
                 Adınızı daxil edin
             </label>
-            <input type="text" name="name" onkeyup="validateName(this)" autocomplete="off" id="contact_name" placeholder="Adınız" value="{% if name %} {{name}} {% endif %}">
+            <input type="text" name="name" onkeyup="validateName(this)" autocomplete="off" id="name_field" placeholder="Adınız" value="{% if name %} {{name}} {% endif %}">
             <div class="input-alert">
-                {% if name_three %} {{name_three}} {% endif %}
+                {% if name_validator %} {{name_validator}} {% endif %}
             </div>
 
-            <label for="emailfield">
+            <label for="email_field">
                 Email daxil edin
             </label>
-            <input type="email" name="email" onkeyup="validateEmail(this)" id="emailfield" placeholder="Email" value="{% if email %} {{email}} {% endif %}"  autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+            <input type="email" name="email" onkeyup="validateEmail(this)" id="email_field" placeholder="Email" value="{% if email %} {{email}} {% endif %}"  autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
             <div class="input-alert">
-                {% if fake_email %} {{fake_email}} {% endif %}
+                {% if email_validator %} {{email_validator}} {% endif %}
             </div>
-
              
-            <label for="message">
+            <label for="message_field">
                 Mesajınızı daxil edin
             </label>
-            <textarea name="message" id="message" placeholder="Mesajınız"></textarea>
+            <textarea name="message" id="message_field" onkeyup="validateMessage(this)" placeholder="Mesajınız">{% if message %} {{message}} {% endif %}</textarea>
+            <div class="textarea-alert">
+                {% if message_validator %} {{message_validator}} {% endif %}
+            </div>
+
+
 
             <div class="button-group">
                 <button>Göndər</button> 
             </div>
-
-            <!-- <div class="links">
-                <a href="javascript:void(0)">İstifadə şərtləri, qaydalar və razılaşma</a>
-            </div> -->
         </form>
     </div>
+{% endblock %}
+
+
+{% block scripts %} 
+    <script src="{% static 'scripts/contact.js' %}"></script>
 {% endblock %}

@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # MyApps
     'dashboard.apps.DashboardConfig',
     'member.apps.MemberConfig',
+    'contact.apps.ContactConfig',
 ]
 
 MIDDLEWARE = [
