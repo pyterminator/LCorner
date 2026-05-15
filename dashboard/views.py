@@ -135,9 +135,6 @@ def UserDetail(request, id):
 
     return render(request, "dashboard/user-detail.html", context=data)
 
-@login_required
-def CreateUser(request):
-    return render(request, "dashboard/create-new-user.html")
 
 @login_required
 def DeleteUser(request, id):
