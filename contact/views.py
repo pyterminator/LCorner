@@ -2,8 +2,11 @@ import re
 from datetime import timedelta
 from django.utils import timezone
 from contact.models import Message
-from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.admin.views.decorators import staff_member_required
 
 def contact_view(request):
     data = {}
@@ -79,7 +82,7 @@ def contact_view(request):
     return render(request, "contact.html", context=data)
 
 
-# @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def messages_view(request):
 
     data = {
@@ -88,6 +91,20 @@ def messages_view(request):
 
     return render(request, "dashboard/messages.html", context=data)
 
+@user_passes_test(lambda u: u.is_superuser)
+def message_detail_view(request, id):
+    msg = Message.objects.filter(id=id).first()
+    if not msg:
+        return redirect("messages")
+    return render(request, "dashboard/message-detail.html", context={"message": msg})
+
+@user_passes_test(lambda u: u.is_superuser)
+def delete_contact_message_view(request):
+    if request.method == "POST":
+        id = request.POST.get("id")
+        msg = Message.objects.filter(id=id).first()
+        if msg: msg.delete()
+    return redirect("contactmessages")
 
 def message_read_view(request, id):
     if not request.user.is_superuser:

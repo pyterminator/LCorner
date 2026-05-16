@@ -131,6 +131,59 @@
     }
 }
 
+.message-detail{
+    width: 50%;
+    float: left;
+    margin-right: 1rem;
+    &>div{
+        width: 100%;
+        @extend %input-style-after-label;
+        height: auto;
+        line-height: 3rem;
+        padding: 1rem;
+        p.info{
+            color: royalblue;
+            margin-bottom: .5rem;
+            font-weight: 600;
+        }
+        span{
+            color: var(--light-bg);
+        }
+        
+    }
+}
+
+.additions{
+    width: calc(50% - 1rem);
+    float: right;
+
+    form{
+        border: .2rem dotted var(--danger);
+        padding: 1rem;
+
+        h1{
+            font-size: 2.4rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        input{ 
+            display: block;
+            width: 100%;
+            @extend %input-style-after-label;
+        }
+
+        button{
+            @extend %button-style;
+            height: 6rem;
+            width: 100%;
+            display: block;
+            background-color: var(--danger);
+        }
+    }
+}
+
 
 @media only screen and (max-width: 1030px) {
     .table {

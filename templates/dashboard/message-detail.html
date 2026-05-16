@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - Mesaj detal səhifəsi
+    </title>
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/messages.min.css' %}">
+{% endblock %}
+
+{% block root %}
+    <h1>Mesaj detal səhifəsi</h1>
+    <div class="message-detail">
+        
+        <div>
+            <p class="info">Kimlik məlumatları</p>
+            <p>Ad : <span>{{message.name}}</span></p>
+            <p>Email : <span>{{message.email}}</span></p>
+        </div>
+
+        <div>
+            <p class="info">Mesaj tərkibi</p>
+            <span>
+                {{message.message}}
+            </span>
+        </div>
+
+        <div>
+            <p class="info">Mesaj oxunmuş kimi işarələnib</p>
+            <div class="switchery {% if message.is_read %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changemessageisread' message.id %}" data-type="changeMessageRead"></div> 
+            <br>
+            <p class="info">Mesaj saytda görünür</p>
+            <div class="switchery {% if message.is_public %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changemessageispublic' message.id %}" data-type="changeMessagePublic"></div>  
+        </div>
+
+        <div>
+            <p class="info">
+                Mesajın yazılma və güncəllənmə tarixi
+            </p>
+            <p> Yazılıb : <span>{{message.created_at|date:'d M, Y | H:i'}}</span> </p>
+            <p> Güncəllənib : <span>{{message.updated_at|date:'d M, Y | H:i'}}</span> </p>
+        </div>
+
+ 
+    </div>
+
+    <div class="additions">
+        <form action="{% url 'deletecontactmessage' %}" method="post">
+            {% csrf_token %}
+            <h1>Mesajı sil</h1>
+            <input type="text" name="id" autocomplete="off" placeholder="Mesaj İD-ni daxil edin">
+            <button>Sil</button>
+        </form>
+    </div>
+
+    <div style="clear: both;"></div>
+
+    
+{% endblock %}
+
+
+<!-- Scripts -->
+{% block scripts %}
+    <!-- Switchery -->
+    <script src="{% static 'scripts/messages.js' %}"></script>
+    <script src="{% static 'scripts/switchery.js' %}"></script>
+{% endblock %}
