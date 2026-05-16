@@ -1,8 +1,14 @@
 {% extends 'layout.html' %}
+{% load static %}
 
 {% block title %}
     <title>ECorner - Mesajlar</title>
 {% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/messages.min.css' %}">
+{% endblock %}
+
 
 {% block root %}
 <h1>Mesajlar</h1>
@@ -21,13 +27,18 @@
                 <div class="col">Oxundu</div> 
                 <div class="col">Saytda görünür</div> 
             </div>
+            
             {% for m in messages %}
                 <div class="row">
                     <div class="col">{{m.id}}</div>
-                    <div class="col">{{m.name}} <a href="{% url 'leveldetail' m.id %}"><i class="fa-solid fa-square-up-right"></i></a></div>
-                    <div class="col">{{m.email}}</div>
-                    <div class="col">{% if m.is_read %}Bəli{% else %}Xeyr{% endif %}</div>
-                    <div class="col">{% if m.is_public %}Bəli{% else %}Xeyr{% endif %}</div>
+                    <div class="col">{{m.name}}</div>
+                    <div class="col">{{m.email}} <a href="{% url 'leveldetail' m.id %}"><i class="fa-solid fa-square-up-right"></i></a></div>
+                    <div class="col">
+                        <div class="switchery {% if m.is_read %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changemessageisread' m.id %}" data-type="changeMessageRead"></div> 
+                    </div>
+                    <div class="col">
+                        <div class="switchery {% if m.is_public %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changemessageispublic' m.id %}" data-type="changeMessagePublic"></div>  
+                    </div>
                 </div>  
             {% endfor %}
         </div>
@@ -39,4 +50,11 @@
 
    
 </div>
+{% endblock %}
+
+<!-- Scripts -->
+{% block scripts %}
+    <!-- Switchery -->
+    <script src="{% static 'scripts/messages.js' %}"></script>
+    <script src="{% static 'scripts/switchery.js' %}"></script>
 {% endblock %}

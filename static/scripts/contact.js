@@ -10,6 +10,9 @@ function validateName(inp) {
     else if (username.length < 3) {
         alert_box.innerText = "Ad minimum 3 simvoldan ibarət olmalıdır!";
     } 
+    else if(username.length > 15){
+        alert_box.innerText = "Ad maksimum 15 simvoldan ibarət ola bilər!"
+    }
     else if (!validName.test(username)) {
         alert_box.innerText = "Adın yalnız birinci hərfi böyük, qalanları isə kiçik hərf olmalıdır!";
     } 
@@ -26,6 +29,8 @@ function validateEmail(inp){
     const EMAIL_PATTERN = /^[A-Za-z0-9](?:[A-Za-z0-9._-]{1,}[A-Za-z0-9])?@[A-Za-z0-9](?:[A-Za-z0-9-]{0,}[A-Za-z0-9])?(?:\.[A-Za-z]{2,})+$/;
     if(!EMAIL_PATTERN.test(inp.value)){
         alert_box.innerText = "E-mail doğru formatda deyil!"
+    } else if(inp.value.length > 50){
+        alert_box.innerText = "E-mail maksimum 50 simvoldan ibarət ola bilər!"
     } else {
         alert_box.innerText = ""
         return true

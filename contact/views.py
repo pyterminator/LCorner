@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.utils import timezone
 from contact.models import Message
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 
 def contact_view(request):
     data = {}
@@ -86,3 +87,54 @@ def messages_view(request):
     }
 
     return render(request, "dashboard/messages.html", context=data)
+
+
+def message_read_view(request, id):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {
+                "success": False
+            }
+        )
+    
+    if request.method == "POST":
+        msg = Message.objects.filter(id=id).first()
+        if msg:
+            if msg.is_read:
+                msg.is_read = False 
+            else:
+                msg.is_read = True 
+            msg.save()
+            return JsonResponse({
+                "success":True
+            })
+        
+    return JsonResponse({
+        "success":False
+    })
+
+
+def message_public_view(request, id):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {
+                "success": False
+            }
+        )
+    
+    if request.method == "POST":
+        msg = Message.objects.filter(id=id).first()
+        if msg:
+            if msg.is_public:
+                msg.is_public = False 
+            else:
+                msg.is_public = True 
+            msg.save()
+            return JsonResponse({
+                "success":True
+            })
+        
+    return JsonResponse({
+        "success":False
+    })
+
