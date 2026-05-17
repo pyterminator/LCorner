@@ -131,50 +131,52 @@
     }
 }
 
-.message-detail{
+.message-detail {
     width: 50%;
     float: left;
     margin-right: 1rem;
-    &>div{
+
+    &>div {
         width: 100%;
         @extend %input-style-after-label;
         height: auto;
         line-height: 3rem;
         padding: 1rem;
-        p.info{
+
+        p.info {
             color: royalblue;
             margin-bottom: .5rem;
             font-weight: 600;
         }
-        span{
+
+        span {
             color: var(--light-bg);
         }
-        
     }
 }
 
-.additions{
+.additions {
     width: calc(50% - 1rem);
     float: right;
 
-    form{
+    form {
         border: .2rem dotted var(--danger);
         padding: 1rem;
 
-        h1{
+        h1 {
             font-size: 2.4rem;
             font-weight: 600;
             display: block;
             margin-bottom: 1rem;
         }
 
-        input{ 
+        input {
             display: block;
             width: 100%;
             @extend %input-style-after-label;
         }
 
-        button{
+        button {
             @extend %button-style;
             height: 6rem;
             width: 100%;
@@ -215,12 +217,24 @@
                         display: none;
                     }
 
-                    &:nth-child(4) { 
+                    &:nth-child(4) {
                         width: 7rem;
-                        justify-content: center; 
+                        justify-content: center;
                     }
                 }
             }
         }
+    }
+
+    .message-detail {
+        width: 100%;
+        float: none;
+        margin-right: 0;
+        margin-bottom: 2rem;
+    }
+
+    .additions {
+        width: 100%;
+        float: none;
     }
 }

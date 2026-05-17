@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'member.apps.MemberConfig',
     'contact.apps.ContactConfig',
+    'post.apps.PostConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +119,20 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+USERNAME_PATTERN = r"^[a-z]+$"
+
+EMAIL_PATTERN = (
+    r"^[A-Za-z0-9](?:[A-Za-z0-9._-]{1,}[A-Za-z0-9])?"
+    r"@[A-Za-z0-9](?:[A-Za-z0-9-]{0,}[A-Za-z0-9])?"
+    r"(?:\.[A-Za-z]{2,})+$"
+)
+
+PASSWORD_PATTERN = (
+    r"^(?=.*[A-ZÜŞÇİĞÖƏ])"
+    r"(?=.*[a-züçşıəöğ])"
+    r"(?=.*\d)"
+    r"(?=.*\.)"
+    r"[A-Za-z0-9.üçşıəöğÜŞÇİĞÖƏ]{8,}$"
+)

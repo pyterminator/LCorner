@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% load static %}
 
 <!-- Page Title -->
 {% block title %}
@@ -7,10 +8,39 @@
     </title>
 {% endblock %}
 
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.min.css' %}">
+{% endblock %}
+
+
 {% block root %}
-    <h1>Ana səhifə</h1>
- 
-    {% if request.user.is_authenticated %}
-        <h2>Xoş gəldin {{ request.user.username }}</h2>
-    {% endif %}
+    <div class="dashboard-cards">
+        <div class="welcome">
+            <div class="card-img">
+                <img src="{% static 'images/welcome.png' %}" alt="welcome" draggable="false">
+            </div>
+            <div class="card-body">
+                <h2>Xoş gəldin, {{request.user.username}}</h2>
+                <p>
+                    Post paylaşaraq xal qazana biləcəyini bilirdin? İndi isə necə işlədiyini izah edək:
+                </p> 
+                <ul>
+                    <li>
+                        📝 Hər paylaşdığın post üçün balansından 100 xal çıxılır.
+                    </li>
+                    <li>
+                        ❤️ Lakin postuna gələn hər bəyənmə sənə +10 xal qazandırır.
+                    </li>
+                </ul>
+                <p>
+                    Nə qədər maraqlı və keyfiyyətli post paylaşsan, bir o qədər çox xal əldə edə bilərsən. Hazırsansa, ilk postunu paylaş! 🚀
+                </p>
+                <div class="card-footer">
+                    <a href="{% url 'postcreate' %}"><i class="fa-solid fa-square-plus"></i> Post paylaş</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

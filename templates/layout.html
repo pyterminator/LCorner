@@ -23,13 +23,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
 
-    <!-- Dashboard style -->
-    <link rel="stylesheet" href="{% static 'css/dashboard-style.min.css' %}">
+    <!-- Layout style -->
+    <link rel="stylesheet" href="{% static 'css/layout.min.css' %}">
     
     <!-- Colors -->
     <link rel="stylesheet" href="{% static 'css/colors.min.css' %}">
     <!-- Common Style -->
     <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.min.css' %}">
     {% block styles %}{% endblock %}
 </head>
 
@@ -44,10 +45,7 @@
                     <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
                     
                     {% if request.user.is_superuser %}
-                        <a href="{% url 'levels' %}"><i class="fa-solid fa-chart-bar"></i> Səviyyələr</a>
-                        <a href="{% url 'quizmodels' %}"><i class="fa-regular fa-square-plus"></i> Sual yarat</a>
-                        <a href="{% url 'users' %}"><i class="fa-solid fa-users"></i> İstifadəçilər</a>
-                        <a href="{% url 'contactmessages' %}"><i class="fa-solid fa-comments"></i> Mesajlar</a>
+                        <a href="{% url 'contactmessages' %}"><i class="fa-solid fa-comments"></i> Mesajlar</a>   
                     {% endif %}
 
                 {% else %}
@@ -79,7 +77,6 @@
                     <span onclick="openDropdownMenu(this)"><i class="fa-regular fa-user"></i> Hesabım</span>
                     <div class="dropdown-menu">
                         <a href="{% url 'myaccount' request.user.username %}"><i class="fa-solid fa-gear"></i> Tənzimləmələr</a>
-                        <a href="#"><i class="fa-regular fa-bell"></i> Bildirişlər</a>
                         <a href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Çıxış et</a>
                     </div>
                     {% else %}

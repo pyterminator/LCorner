@@ -5,4 +5,5 @@ urlpatterns = [
     path('', include("member.urls")),
     path('contact/', include("contact.urls")),
     path('dashboard/', include("dashboard.urls")),
+    path('post/', include("post.urls")),
 ]

@@ -1,28 +1,10 @@
 import re
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.conf import settings
+from member.models import Account
 from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required  
-
-USERNAME_PATTERN = r"^[a-z]+$"
-
-EMAIL_PATTERN = (
-    r"^[A-Za-z0-9](?:[A-Za-z0-9._-]{1,}[A-Za-z0-9])?"
-    r"@[A-Za-z0-9](?:[A-Za-z0-9-]{0,}[A-Za-z0-9])?"
-    r"(?:\.[A-Za-z]{2,})+$"
-)
-
-PASSWORD_PATTERN = (
-    r"^(?=.*[A-ZÜŞÇİĞÖƏ])"
-    r"(?=.*[a-züçşıəöğ])"
-    r"(?=.*\d)"
-    r"(?=.*\.)"
-    r"[A-Za-z0-9.üçşıəöğÜŞÇİĞÖƏ]{8,}$"
-)
-
-
-
-
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 def MemberLogin(request):
     # Login olubsa dashboarda qaytar
@@ -54,7 +36,7 @@ def MemberRegistration(request):
     # Login olubsa dashboarda qaytar
     if request.user.is_authenticated:
         return redirect("dashboard")
-    
+
     data = {}
 
     if request.method == "POST":
@@ -69,7 +51,7 @@ def MemberRegistration(request):
         data["email"] = email
 
         # Username
-        if not re.match(USERNAME_PATTERN, username):
+        if not re.match(settings.USERNAME_PATTERN, username):
             invalid_data = True
             data["username_abc"] = "İstifadəçi adında yalnız ingiliscə kiçik hərflər ola bilər!"
         if len(username) < 3:
@@ -77,12 +59,12 @@ def MemberRegistration(request):
             data["username_abc"] = "İstifadəçi adı minimum 3 simvoldan ibarət olmalıdır!"
 
         # Email
-        if not (re.match(EMAIL_PATTERN, email) and isinstance(email, str)):
+        if not (re.match(settings.EMAIL_PATTERN, email) and isinstance(email, str)):
             invalid_data = True
             data["fake_email"] = "Email formatı doğru deyil!"
 
         # Password / RePassword 
-        if not re.match(PASSWORD_PATTERN, password):
+        if not re.match(settings.PASSWORD_PATTERN, password):
             invalid_data = True
             data['invalid_password'] = "Şifrə minimum 8 simvol olmalı, kiçik/böyük hərf, rəqəm və nöqtədən ibarət olmalıdır."
         if repassword != password:
@@ -109,15 +91,16 @@ def MemberLogout(request):
     logout(request)
     return redirect("login")
 
-
-
 @login_required
-def Account(request, username):
+def UserAccount(request, username):
     user = User.objects.filter(username=username).first()
 
     if user:
+        user_account = Account.objects.filter(user=user).first()
+
         data = {
-            "user":user
+            "user":user,
+            "account":user_account
         }
         return render(request, "dashboard/account.html", context=data)
     
@@ -140,7 +123,7 @@ def ChangeMyPassword(request):
         elif password != repassword:
             data["errors"].append("Yeni şifrə və təkrarı fərqlidir!")
 
-        elif not re.match(PASSWORD_PATTERN, password):
+        elif not re.match(settings.PASSWORD_PATTERN, password):
             data["errors"].append(
                 "Şifrə minimum 8 simvol olmalı, kiçik/böyük hərf, rəqəm və nöqtədən ibarət olmalıdır."
             )

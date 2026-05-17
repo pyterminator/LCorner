@@ -1,0 +1,17 @@
+@use "extends"; 
+@use "form";
+
+
+.member-register {
+    width: 50%; 
+    
+    .logo {
+        @include form.form-logo;
+    }
+
+    form{
+        @include form.form;
+    }
+    
+    @include form.form-media;
+}
