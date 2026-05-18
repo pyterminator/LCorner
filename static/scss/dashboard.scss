@@ -75,11 +75,13 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        img{
+
+        img {
             width: 6rem;
             height: 6rem;
             object-fit: cover;
         }
+
         p {
             font-size: 1.6rem;
             width: 70%;
@@ -95,6 +97,7 @@
 @media only screen and (max-width: 1000px) {
     .dashboard-cards {
         .welcome {
+            width: 100%;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
@@ -143,6 +146,10 @@
 
                 }
             }
+        }
+
+        .development {
+            display: none;
         }
     }
 

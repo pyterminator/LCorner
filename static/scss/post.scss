@@ -131,3 +131,144 @@ form.post-create {
         background-color: #121212;
     }
 }
+
+
+.table{
+    width: 100%;
+    border: .1rem solid var(--light-bg);
+    border-radius: 1rem;
+    padding: 1rem;
+
+
+    .header {
+        width: 100%;
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            width: 100%;
+        }
+    }
+
+    .no-content {
+        display: block;
+        width: 100%;
+        color: red;
+        margin-top: 2rem;
+        font-size: 16px;
+    }
+
+    .elements{
+        margin: 2rem 0;
+        width: 100%;
+        border: .1rem dotted var(--light-bg);
+        border-bottom: none;
+        border-right: none;
+        .row {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: stretch;
+            border-bottom: .1rem dotted var(--light-bg);
+
+            // Header Row
+            &:nth-child(1) {
+                .col {
+                    font-weight: 600;
+                    font-size: 1.4rem;  
+                    padding: 0 1rem;
+                }
+            }
+
+            .col {
+                width: calc((100% - 46.2rem) / 2);
+                border-right: .1rem dotted var(--light-bg);
+                line-height: 3rem;
+                padding: .3rem .5rem;
+                font-size: 1.4rem; 
+
+                &:nth-child(1) {
+                    width: 5rem;
+                    min-height: 3rem; 
+                    font-weight: 600;
+                    font-size: 1.4rem;  
+                }
+
+                &:nth-child(2){
+                    width: 10rem;
+                }
+                &:nth-child(3){
+                    width: 7rem;
+                    img{
+                        width: 4rem;
+                        object-fit: contain;
+                        margin: 0 auto;
+                        display: block;
+                    }
+                }
+
+                &:nth-child(4) {
+                    overflow-x: hidden;
+                    position: relative;
+
+                    a {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        font-size: 1rem;
+                        line-height: 1.5rem;
+                        text-align: center;
+                        color: var(--light-bg);
+                        z-index: 1;
+
+                        &:hover {
+                            color: var(--dark);
+                        }
+                    }
+
+
+
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        width: 3rem;
+                        height: calc(100% - .2rem);
+                        z-index: 0;
+                        top: .1rem;
+                        right: .1rem;
+                        bottom: .1rem;
+                        background-color: var(--light);
+
+                    }
+                }
+
+                &:nth-child(6), &:nth-child(7){
+                    width: 12rem;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                }
+            }
+
+            .settings-buttons {
+                a {
+                    @extend %button-style;
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    padding: .3rem;
+
+                    &:nth-child(1) {
+                        background-color: orangered;
+                    }
+
+                    &:nth-child(2) {
+                        background-color: red;
+                    }
+                }
+            }
+
+        }
+    }
+}

@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - Postlar
+    </title>
+{% endblock %}
+
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/post.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+    <h1>Postlar</h1>
+    <div class="table">
+    <div class="header">
+        <h2>İstifadəçilərin yazdığı postlar</h2>
+    </div>
+
+    {% if posts %}
+        <div class="elements">
+            <div class="row">
+                <div class="col">ID</div>
+                <div class="col">Sahibi</div>
+                <div class="col">Dil</div>
+                <div class="col">Cümlə</div>
+                <div class="col">Açıqlama</div> 
+                <div class="col">Paylaşılıb</div>
+                <div class="col">Təsdiqlənib</div>
+            </div>
+            
+            {% for p in posts %}
+                <div class="row">
+                    <div class="col">{{p.id}}</div>
+                    <div class="col">{{p.author.username}}</div>
+                    <div class="col">
+                        {% if p.lang == 'EN' %}
+                            <img src="{% static 'images/en.png' %}" alt="EN">
+                        {% elif p.lan == "GE" %}
+                            <img src="{% static 'images/ge.png' %}" alt="GE">
+                        {% else %}
+                            <img src="{% static 'images/ru.png' %}" alt="RU">
+                        {% endif %}
+                    </div>
+                    <div class="col">{{p.sentence}} <a href=""><i class="fa-solid fa-square-up-right"></i></a></div>
+                    <div class="col">{{p.description}}</div>
+                     <div class="col">
+                        <div class="switchery {% if p.is_published %}switchery-on{% endif %}"></div>  
+                    </div>
+                    <div class="col">
+                        <div class="switchery {% if p.approved %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changepostapproved' p.id %}" data-type="changePostApproved"></div>  
+                    </div>
+                </div>  
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-content">
+            Göstəriləcək data yoxdur!
+        </div>
+    {% endif %}
+
+   
+    </div>
+{% endblock %}
+
+<!-- Scripts -->
+{% block scripts %}
+    <script src="{% static 'scripts/post-create.js' %}"></script>
+    <script src="{% static 'scripts/switchery.js' %}"></script>
+{% endblock %}
