@@ -4,14 +4,14 @@
 
 .table {
     width: 100%;
-    border: .1rem solid var(--light-bg);
+    border: .1rem solid var(--light);
     border-radius: 1rem;
     padding: 1rem;
 
 
     .header {
         width: 100%;
-
+        color: var(--light);
         h2 {
             font-size: 1.4rem;
             font-weight: 500;
@@ -22,15 +22,15 @@
     .no-content {
         display: block;
         width: 100%;
-        color: red;
+        color: var(--danger);
         margin-top: 2rem;
-        font-size: 16px;
+        font-size: 1.6rem;
     }
 
     .elements {
         margin: 2rem 0;
         width: 100%;
-        border: .1rem dotted var(--light-bg);
+        border: .1rem dotted var(--light);
         border-bottom: none;
         border-right: none;
 
@@ -39,7 +39,7 @@
             display: flex;
             justify-content: flex-start;
             align-items: stretch;
-            border-bottom: .1rem dotted var(--light-bg);
+            border-bottom: .1rem dotted var(--light);
 
             &:nth-child(1) {
                 .col {
@@ -50,10 +50,11 @@
 
             .col {
                 width: calc((100% - 29rem) / 2);
-                border-right: .1rem dotted var(--light-bg);
+                border-right: .1rem dotted var(--light);
                 line-height: 3rem;
                 padding: .3rem .5rem;
                 font-size: 1.4rem;
+                color: var(--light);
 
                 &:nth-child(1) {
                     width: 5rem;
@@ -77,11 +78,11 @@
                         font-size: 1rem;
                         line-height: 1.5rem;
                         text-align: center;
-                        color: var(--light-bg);
+                        color: var(--light);
                         z-index: 1;
-
+                        
                         &:hover {
-                            color: var(--dark);
+                            color: var(--link);
                         }
                     }
 
@@ -94,9 +95,9 @@
                         height: calc(100% - .2rem);
                         z-index: 0;
                         top: .1rem;
-                        right: .1rem;
+                        right: .2rem;
                         bottom: .1rem;
-                        background-color: var(--light);
+                        background-color: var(--main);
 
                     }
                 }

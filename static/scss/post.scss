@@ -2,9 +2,9 @@
 
 form.post-create {
     display: block;
-    width: 40rem;
-    overflow-x: hidden;
+    max-width: 40rem;
     padding: 1rem 0;
+    margin: 0 auto;
 
     .foreign-lang {
         display: flex;
@@ -17,9 +17,9 @@ form.post-create {
             width: 12rem;
             height: 6rem;
             border-radius: 1rem;
-            background-color: #121212;
+            background-color: var(--dark);
             position: relative;
-            border: .2rem solid #1241cc;
+            border: .2rem solid var(--link);
             cursor: pointer;
             color: var(--light);
 
@@ -32,7 +32,7 @@ form.post-create {
                         content: "";
                         width: 1rem;
                         height: 1rem;
-                        background-color: var(--light);
+                        background-color: var(--dark);
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%, -50%);
@@ -55,8 +55,8 @@ form.post-create {
                 width: 1.5rem;
                 height: 1.5rem;
                 border-radius: 50%;
-                background-color: #1241cc;
-                border: .1rem dotted var(--light);
+                background-color: var(--link);
+                border: .3rem solid var(--light);
             }
 
             .price {
@@ -67,7 +67,7 @@ form.post-create {
                 font-weight: 600;
 
                 i {
-                    color: #ffff61;
+                    color: var(--star);
                 }
             }
         }
@@ -80,30 +80,36 @@ form.post-create {
         position: relative;
         margin-bottom: 4rem;
 
+
         p {
             font-size: 1.6rem;
+            color: var(--light);
         }
 
         textarea {
             width: 100%;
             padding: 1rem;
-            min-height: 13rem;
+            min-height: 6.6rem;
             resize: none;
-            border: .2rem solid #121212;
+            border: .1rem solid var(--dark);
+            border-radius: .5rem;
+            background-color: var(--input-bg);
+            color: var(--light);
+            box-shadow: var(--dark) 0px 6px 12px -2px;
         }
 
         .counter {
             position: absolute;
-            bottom: -.2rem;
+            bottom: -.3rem;
             width: 100%;
             height: .4rem;
-            background-color: #1241cc;
+            background-color: var(--light);
 
             span {
                 display: block;
                 width: 0%;
                 height: .4rem;
-                background-color: #121212;
+                background-color: var(--input-bg);
             }
         }
     }
@@ -115,34 +121,42 @@ form.post-create {
 
         p {
             font-size: 1.6rem;
+            color: var(--light);
         }
 
         textarea {
             width: 100%;
             padding: 1rem;
-            min-height: 13rem;
+            min-height: 8rem;
             resize: none;
-            border: .2rem solid #121212;
+            border: .1rem solid var(--dark);
+            border-radius: .5rem;
+            background-color: var(--input-bg);
+            color: var(--light);
+            box-shadow: var(--dark) 0px 6px 12px -2px;
+
         }
     }
 
-    button{
+    button {
         @extend %button-style;
-        background-color: #121212;
+        background-color: var(--bg);
+        width: 100%;
+        height: 5rem;
     }
 }
 
 
-.table{
+.table {
     width: 100%;
-    border: .1rem solid var(--light-bg);
+    border: .1rem solid var(--light);
     border-radius: 1rem;
     padding: 1rem;
 
 
     .header {
         width: 100%;
-
+        color: var(--light);
         h2 {
             font-size: 1.4rem;
             font-weight: 500;
@@ -158,48 +172,52 @@ form.post-create {
         font-size: 16px;
     }
 
-    .elements{
+    .elements {
         margin: 2rem 0;
         width: 100%;
-        border: .1rem dotted var(--light-bg);
+        border: .1rem dotted var(--light);
         border-bottom: none;
         border-right: none;
+        overflow-x: hidden;
+
         .row {
             width: 100%;
             display: flex;
             justify-content: flex-start;
             align-items: stretch;
-            border-bottom: .1rem dotted var(--light-bg);
+            border-bottom: .1rem dotted var(--light);
 
             // Header Row
             &:nth-child(1) {
                 .col {
                     font-weight: 600;
-                    font-size: 1.4rem;  
-                    padding: 0 1rem;
+                    font-size: 1.4rem;
                 }
             }
 
             .col {
-                width: calc((100% - 46.2rem) / 2);
-                border-right: .1rem dotted var(--light-bg);
+                width: calc((100% - 46rem) / 2);
+                border-right: .1rem dotted var(--light);
                 line-height: 3rem;
                 padding: .3rem .5rem;
-                font-size: 1.4rem; 
+                font-size: 1.4rem;
+                color: var(--light);
 
                 &:nth-child(1) {
                     width: 5rem;
-                    min-height: 3rem; 
+                    min-height: 3rem;
                     font-weight: 600;
-                    font-size: 1.4rem;  
+                    font-size: 1.4rem;
                 }
 
-                &:nth-child(2){
+                &:nth-child(2) {
                     width: 10rem;
                 }
-                &:nth-child(3){
+
+                &:nth-child(3) {
                     width: 7rem;
-                    img{
+
+                    img {
                         width: 4rem;
                         object-fit: contain;
                         margin: 0 auto;
@@ -220,11 +238,11 @@ form.post-create {
                         font-size: 1rem;
                         line-height: 1.5rem;
                         text-align: center;
-                        color: var(--light-bg);
+                        color: var(--light);
                         z-index: 1;
 
                         &:hover {
-                            color: var(--dark);
+                            color: var(--link);
                         }
                     }
 
@@ -237,14 +255,15 @@ form.post-create {
                         height: calc(100% - .2rem);
                         z-index: 0;
                         top: .1rem;
-                        right: .1rem;
+                        right: .2rem;
                         bottom: .1rem;
-                        background-color: var(--light);
+                        background-color: var(--main);
 
                     }
                 }
 
-                &:nth-child(6), &:nth-child(7){
+                &:nth-child(6),
+                &:nth-child(7) {
                     width: 12rem;
                     display: flex;
                     justify-content: flex-start;
@@ -269,6 +288,22 @@ form.post-create {
                 }
             }
 
+        }
+    }
+}
+
+
+@media only screen and (max-width: 405px) {
+    form.post-create {
+        .foreign-lang {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 1rem;
+
+            label {
+                width: 100%;
+            }
         }
     }
 }

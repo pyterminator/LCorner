@@ -14,7 +14,7 @@ def Dashboard(request):
     today = date.today()
     days = (today - START_DATE).days + 1
     
-    posts = Post.objects.filter(approved=True).all().order_by('-id')
+    posts = Post.objects.filter(approved=True).filter(is_public=True).all().order_by('-id')
     my_account = Account.objects.filter(user=request.user).first()
 
 

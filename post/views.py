@@ -38,7 +38,7 @@ def post_create_view(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def posts_view(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by("-id")
 
     data = {
         "posts": posts

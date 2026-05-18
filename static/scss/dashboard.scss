@@ -127,6 +127,12 @@
                 background-color: var(--post-bg);
                 position: relative;
 
+                &:hover{
+                    .flag{
+                        transform: scale(1.2);
+                    }
+                }
+
                 .dots {
                     position: absolute;
                     display: flex;
@@ -239,7 +245,9 @@
                             font-size: 1.2rem;
                             background-color: var(--light);
                             color: var(--link);
-
+                            &:hover{
+                                transform: scale(1.2);
+                            }
                             b {
                                 color: var(--dark);
                             }
@@ -254,7 +262,7 @@
                     left: 0;
                     width: 1.5rem;
                     height: 1rem;
-                    object-fit: cover;
+                    object-fit: cover; 
                 }
             }
         }

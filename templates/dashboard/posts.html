@@ -37,11 +37,11 @@
             {% for p in posts %}
                 <div class="row">
                     <div class="col">{{p.id}}</div>
-                    <div class="col">{{p.author.username}}</div>
+                    <div class="col">{{p.author.user.username}}</div>
                     <div class="col">
                         {% if p.lang == 'EN' %}
                             <img src="{% static 'images/en.png' %}" alt="EN">
-                        {% elif p.lan == "GE" %}
+                        {% elif p.lang == "GE" %}
                             <img src="{% static 'images/ge.png' %}" alt="GE">
                         {% else %}
                             <img src="{% static 'images/ru.png' %}" alt="RU">
@@ -50,7 +50,7 @@
                     <div class="col">{{p.sentence}} <a href=""><i class="fa-solid fa-square-up-right"></i></a></div>
                     <div class="col">{{p.description}}</div>
                      <div class="col">
-                        <div class="switchery {% if p.is_published %}switchery-on{% endif %}"></div>  
+                        <div class="switchery {% if p.is_public %}switchery-on{% endif %}"></div>  
                     </div>
                     <div class="col">
                         <div class="switchery {% if p.approved %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changepostapproved' p.id %}" data-type="changePostApproved"></div>  

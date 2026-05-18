@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <!-- Meta Tags -->
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -104,6 +104,31 @@
 
     <!-- Block Scripts -->
     {% block scripts %} {% endblock %}
+
+    <script>
+        document.addEventListener("keydown", function(e){
+
+            if (
+                e.ctrlKey &&
+                (
+                    e.key === "+" ||
+                    e.key === "-" ||
+                    e.key === "="
+                )
+            ){
+                e.preventDefault()
+            }
+
+        }) 
+
+        document.addEventListener("wheel", function(e){
+
+            if (e.ctrlKey){
+                e.preventDefault()
+            }
+
+        }, { passive:false }) 
+    </script>
 </body>
 
 </html>
