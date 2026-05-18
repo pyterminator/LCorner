@@ -66,10 +66,14 @@ def MemberRegistration(request):
         # Password / RePassword 
         if not re.match(settings.PASSWORD_PATTERN, password):
             invalid_data = True
-            data['invalid_password'] = "Şifrə minimum 8 simvol olmalı, kiçik/böyük hərf, rəqəm və nöqtədən ibarət olmalıdır."
+            data['invalid_password'] = "Şifrə minimum 8 simvol olmalı, kiçik/böyük hərf, rəqəm və nöqtədən ibarət olmalıdır!"
         if repassword != password:
             invalid_data = True
-            data["dontmatch"] = "Şifrə və Təkrar Şifrə uyğun gəlmir."
+            data["dontmatch"] = "Şifrə və Təkrar Şifrə uyğun gəlmir!"
+
+        if User.objects.filter(username=username).first() or User.objects.filter(email=email).first():
+            invalid_data = True 
+            data["username_abc"] = "İstifadəçi adı və ya email artıq istifadə edilir!"
 
         if not invalid_data: 
             
@@ -80,6 +84,11 @@ def MemberRegistration(request):
 
             new_user.set_password(password)
             new_user.save()
+
+            Account.objects.create(
+                user = new_user,
+                xp = 100
+            )
             
             return redirect('login')
         

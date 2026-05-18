@@ -1,8 +1,13 @@
 @use 'extends';
 
 .dashboard-cards {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+
     .welcome {
-        width: 100%;
+        width: 80%;
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
@@ -11,37 +16,41 @@
         border-radius: .75rem;
         border: .1rem solid var(--main);
         padding: 3rem;
-        box-shadow: 0 0 .3rem .05rem var(--main); 
+        box-shadow: 0 0 .3rem .05rem var(--main);
+
 
         .card-img {
             width: 25rem;
             height: 25rem;
-            img{
+
+            img {
                 width: 100%;
                 object-fit: contain;
             }
         }
 
-        .card-body{
-            h2{
+        .card-body {
+            h2 {
                 font-size: 3.2rem;
                 margin-bottom: 1rem;
             }
-            p{
+
+            p {
                 font-size: 1.6rem;
                 font-weight: 600;
             }
 
-            ul{
-                li{
+            ul {
+                li {
                     font-size: 1.4rem;
                 }
             }
 
-            .card-footer{
+            .card-footer {
                 width: 15rem;
                 margin-top: 2rem;
-                a{
+
+                a {
                     @extend %button-style;
                     padding: 0;
                     width: 100%;
@@ -56,56 +65,85 @@
             }
         }
     }
-}
 
-@media only screen and (max-width: 1000px){
-    .dashboard-cards {
-    .welcome {
+    .development {
+        width: 20%;
+        border-radius: .75rem;
+        box-shadow: 0 0 .3rem .05rem var(--main);
+        padding: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;  
-        gap: 0; 
-        .card-img {
-            width: 25rem;
-            height: 20rem;
-            overflow: hidden;
-            margin-bottom: 0;
-            img{
-                width: 25rem;
-                height: 25rem;
-                aspect-ratio: 1/1;
-                object-fit: cover;
-            }
+        img{
+            width: 6rem;
+            height: 6rem;
+            object-fit: cover;
         }
+        p {
+            font-size: 1.6rem;
+            width: 70%;
+            text-align: center;
 
-        .card-body{
-            h2{
-                font-size: 2.4rem;
-                text-align: center;
-            }
-            p{
-                font-size: 1.4rem; 
-            }
-
-            ul{
-                li{
-                    font-size: 1.2rem;
-                }
-            }
-
-            .card-footer{
-                width: 100%;
-                display: flex;
-                justify-content: flex-end; 
-                a{
-                    width: 15rem;
-                    height: 4rem;
-                    line-height: 4rem;
-                }
-                 
+            span {
+                font-weight: bold;
             }
         }
     }
 }
+
+@media only screen and (max-width: 1000px) {
+    .dashboard-cards {
+        .welcome {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 0;
+
+            .card-img {
+                width: 25rem;
+                height: 20rem;
+                overflow: hidden;
+                margin-bottom: 0;
+
+                img {
+                    width: 25rem;
+                    height: 25rem;
+                    aspect-ratio: 1/1;
+                    object-fit: cover;
+                }
+            }
+
+            .card-body {
+                h2 {
+                    font-size: 2.4rem;
+                    text-align: center;
+                }
+
+                p {
+                    font-size: 1.4rem;
+                }
+
+                ul {
+                    li {
+                        font-size: 1.2rem;
+                    }
+                }
+
+                .card-footer {
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-end;
+
+                    a {
+                        width: 15rem;
+                        height: 4rem;
+                        line-height: 4rem;
+                    }
+
+                }
+            }
+        }
+    }
 
 }

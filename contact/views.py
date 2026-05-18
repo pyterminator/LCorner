@@ -96,6 +96,8 @@ def message_detail_view(request, id):
     msg = Message.objects.filter(id=id).first()
     if not msg:
         return redirect("messages")
+    msg.is_read = True 
+    msg.save()
     return render(request, "dashboard/message-detail.html", context={"message": msg})
 
 @user_passes_test(lambda u: u.is_superuser)

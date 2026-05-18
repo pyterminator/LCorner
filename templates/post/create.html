@@ -17,4 +17,85 @@
 
 {% block root %}
     <h1>Yeni post paylaş</h1>
+    <form class="post-create" method="POST"> 
+        {% csrf_token %}
+        <div class="foreign-lang">
+            <label for="lang_en">
+                <p>İngiliscə</p>
+                <input type="radio" id="lang_en" name="foreign_lang" value="EN" checked>
+                <span class="checker"></span>
+                <div class="price">-100 <i class="fa-solid fa-star"></i></div>
+    
+            </label>
+            <label for="lang_ge">
+                <p>Almanca</p>
+                <input type="radio" id="lang_ge" name="foreign_lang" value="GE">
+                <span class="checker"></span>
+                <div class="price">-100 <i class="fa-solid fa-star"></i></div>
+            </label>
+            <label for="lang_ru">
+                <p>Rusca</p>
+                <input type="radio" id="lang_ru" name="foreign_lang" value="RU">
+                <span class="checker"></span>
+    
+                <div class="price">-100 <i class="fa-solid fa-star"></i></div>
+            </label>
+        </div>
+
+        <label class="sentence" for="foreign_sent">
+            <p>Cümləni daxil edin :</p>
+            <textarea type="text" id="foreign_sent" name="sentence" autocomplete="off"></textarea>
+            <div class="counter">
+                <span></span>
+            </div>
+        </label>
+
+        <label class="description" for="descr">
+            <p>İzahı :</p>
+            <textarea type="text" id="descr" name="desc" autocomplete="off"></textarea>
+            <div class="counter">
+                <span></span>
+            </div>
+        </label>
+
+        <button>
+            Paylaş
+        </button>
+        
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        const descr = document.getElementById("descr")
+        const foreign_sent = document.getElementById("foreign_sent")
+        const counter_span = document.querySelector(".counter > span")
+
+        foreign_sent.addEventListener("input", function(){
+
+            this.style.height = "auto"
+            this.style.height = this.scrollHeight+5 + "px"
+
+        })
+
+        descr.addEventListener("input", function(){
+
+            this.style.height = "auto"
+            this.style.height = this.scrollHeight+5 + "px"
+
+        })
+
+        foreign_sent.addEventListener("input", function(e){
+            const max = 255
+            const len = e.target.value.length
+            const percent = (len / max) * 100
+            if(percent >= 100){
+                e.target.value = e.target.value.slice(0, 256)
+            } else {
+                counter_span.style.width = percent + "%"
+            }
+        })
+
+    </script>
 {% endblock %}

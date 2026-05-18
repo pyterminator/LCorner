@@ -46,6 +46,7 @@
                     
                     {% if request.user.is_superuser %}
                         <a href="{% url 'contactmessages' %}"><i class="fa-solid fa-comments"></i> Mesajlar</a>   
+                        <a href="{% url 'posts_admin' %}"><i class="fa-brands fa-buffer"></i> Postlar</a>
                     {% endif %}
 
                 {% else %}

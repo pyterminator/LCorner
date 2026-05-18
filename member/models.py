@@ -4,7 +4,13 @@ from django.contrib.auth.models import User
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    score = models.IntegerField(default=0)
+
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
+    bio = models.CharField(max_length=255, blank=True, null=True)
+
+    xp = models.IntegerField(default=0)
+    level = models.IntegerField(default=1)
+    post_count = models.PositiveIntegerField(default=0)
 
     linkedin = models.CharField(max_length=255, blank=True, null=True)
     instagram = models.CharField(max_length=255, blank=True, null=True)
