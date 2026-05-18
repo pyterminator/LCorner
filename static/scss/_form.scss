@@ -17,23 +17,24 @@
         height: 2rem;
         top: -.5rem;
         right: -.5rem;
-        background-color: var(--light);
+        background-color: var(--dark);
         border-radius: 50%;
 
     }
 }
 
 @mixin form {
-    background-color: var(--light);
+    background-color: var(--main);
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 1rem;
 
     &>label {
         display: block;
         font-size: 1.6rem;
         margin-bottom: .5rem;
         margin-top: 2rem;
+        color: var(--light);
     }
 
     &>label {
@@ -45,10 +46,17 @@
 
 
 
-    &>label+input {
-        @extend %input-style-after-label;
+    &>label+input { 
+        height: 5rem;
+        padding: 0 1rem;
+        font-size: 1.8rem;
+        font-weight: 500;
+        border: .1rem solid var(--dark);
+        border-radius: .5rem;
+        box-shadow: var(--dark) 0px 6px 12px -2px;
         width: 100%;
-        background-color: var(--light);
+        background-color: var(--input-bg);
+        color: var(--light);
         margin-bottom: 0;
     }
 
@@ -62,7 +70,7 @@
         a {
             font-size: 1.4rem;
             font-weight: 500;
-            color: royalblue;
+            color: var(--link);
             text-decoration: underline;
         }
     }
@@ -76,9 +84,9 @@
             position: absolute;
             width: 3rem;
             height: 3rem;
-            background-color: var(--main);
+            background-color: var(--bg);
             top: 3.5rem;
-            color: var(--dark);
+            color: var(--light);
             right: 1rem;
             border-radius: .5rem;
             @extend %button-style;
@@ -89,7 +97,7 @@
     .input-alert, .textarea-alert{
         font-size: 1.4rem;
         font-weight: 500;
-        color: red;
+        color: var(--danger);
         margin-top: .5rem;
     }
 
@@ -98,7 +106,8 @@
         width: 100%;
         min-height: 15rem;
         resize: vertical;
-        background-color: var(--light);
+        background-color: var(--input-bg);
+        color: var(--light);
         margin-bottom: 0;
         padding: 1rem;
     }

@@ -19,13 +19,13 @@ def post_create_view(request):
         data["sentence"] = sentence
         data["desc"] = description 
 
-        account = Account(user=author)
-        if account.xp >= 100:
+        account = Account.objects.filter(user=author).first()
+        if account and account.xp >= 100:
             account.xp -= 100
             account.save()
 
             new_post = Post.objects.create(
-                author = author, 
+                author = account, 
                 lang = foreign_lang,
                 sentence = sentence,
                 description = description,

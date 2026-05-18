@@ -9,6 +9,10 @@
         @include form.form-logo;
     }
 
+    .logo+h2{
+        color: var(--bg)
+    }
+
     form {
         @include form.form;
     }

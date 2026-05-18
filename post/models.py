@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from member.models import Account
 
 class Post(models.Model):
 
@@ -9,7 +9,7 @@ class Post(models.Model):
         ("GE", "GE"),
     )
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(Account, on_delete=models.CASCADE)
     lang = models.CharField(choices=LANG_CHOICES , default=LANG_CHOICES [0][0], max_length=10)
     sentence = models.CharField(max_length=255)
     description = models.TextField()
