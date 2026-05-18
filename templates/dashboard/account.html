@@ -22,6 +22,57 @@
 {% block root %}
     <h1>Hesabım</h1>
 
+    <div class="user-profile">
+        <div class="avatar">
+            {% if account.avatar %}
+                <img src="{{account.avatar.url}}" alt="avatar" id="avatar" draggable="false">
+            {% else %}
+                <img src="{% static 'images/default-avatar.png' %}" draggable="false" alt="avatar" id="default-avatar">
+            {% endif %}
+
+            <div class="expand">
+                <i class="fa-solid fa-expand"></i>
+            </div>
+
+            <form action="{% url 'changemyavatar' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" onchange="changeUserProfile(this)" name="avatar" id="change-user-profile" accept="image/*">
+                <label for="change-user-profile">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </label>
+            </form>
+        </div>
+        <div class="fullname">
+            Şükürov Müşviq
+        </div>
+        <div class="profession">
+            PCAP sertifikatına sahib Jr Python developer
+        </div>
+        <div class="props">
+            <div class="prop">
+                <i class="fa-brands fa-buffer"></i>
+                <p>
+                    34 post
+                </p>
+            </div>
+             <div class="prop">
+                <i class="fa-solid fa-web-awesome"></i>
+                <p>level 5</p>
+             </div>
+            <div class="prop">
+                <i class="fa-solid fa-star"></i>
+                <p>
+                    99,890 xal
+                </p>
+            </div>
+        </div>
+        <div class="follows">
+            <p>34 <a href="#">İzləyən</a></p>
+            <p>5 <a href="#">İzlədiyim</a></p>
+        </div>
+    </div>
+
+
     <div class="my-account">
         <div class="left">
             <div class="avatar">
@@ -74,4 +125,8 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'scripts/user-profile.js' %}"></script>
 {% endblock %}

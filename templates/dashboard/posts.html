@@ -39,13 +39,7 @@
                     <div class="col">{{p.id}}</div>
                     <div class="col">{{p.author.user.username}}</div>
                     <div class="col">
-                        {% if p.lang == 'EN' %}
-                            <img src="{% static 'images/en.png' %}" alt="EN">
-                        {% elif p.lang == "GE" %}
-                            <img src="{% static 'images/ge.png' %}" alt="GE">
-                        {% else %}
-                            <img src="{% static 'images/ru.png' %}" alt="RU">
-                        {% endif %}
+                        <img src="{% static 'images/'|add:p.lang|lower|add:'.png' %}" draggable="false" class="flag" alt="{{p.lang}}">
                     </div>
                     <div class="col">{{p.sentence}} <a href=""><i class="fa-solid fa-square-up-right"></i></a></div>
                     <div class="col">{{p.description}}</div>

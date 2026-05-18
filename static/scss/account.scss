@@ -1,5 +1,142 @@
+.user-profile{
+    max-width: 70rem;
+    margin: 0 auto;
+    color: var(--light);
+    .avatar{
+        width: 20rem;
+        height: 20rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 2rem auto;
+        background-color: var(--light);
+        border-radius: 1rem;
+        position: relative;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            border-radius: 1rem;
+        }
+
+        #default-avatar{
+            width: 3rem;
+            height: 3rem; 
+            object-fit: cover;
+            margin: 0 auto;
+        }
+
+        form{
+            input{
+                display: none;
+            }
+            label{
+                position: absolute;
+                top: .5rem;
+                right: -4.5rem;
+                width: 4rem;
+                height: 4rem;
+                line-height: 4rem;
+                text-align: center;
+                font-size: 1.6rem;
+                cursor: pointer;
+                background-color: var(--bg);
+                border-radius: 1rem;
+                color: var(--light);
+            }
+        }
+
+        .expand{
+            position: absolute;
+            top: .5rem;
+            left: -4.5rem;
+            width: 4rem;
+            height: 4rem;
+            line-height: 4rem;
+            text-align: center;
+            font-size: 1.6rem;
+            cursor: pointer;
+            background-color: var(--star);
+            border-radius: 1rem;
+            color: var(--dark);
+        }
+
+    }
+
+    .fullname{
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+    .profession{
+        text-align: center;
+        font-size: 1.4rem;
+        color: var(--main-dark);
+    }
+
+    .props{
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        margin: 2rem 0;
+        gap: .5rem;
+        color: var(--dark);
+        .prop{
+            width: calc((100% - 1rem) / 3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: var(--light);
+            padding: 1rem 1.5rem;
+            i{
+                font-size: 2.4rem;
+                margin-bottom: 1rem;
+                text-shadow: 0 0 .2rem  var(--dark); 
+            }
+            p{
+                font-size: 1.4rem;
+                font-weight: 600;
+                text-transform: capitalize;
+            }
+            &:nth-child(1){
+                i{
+                    color: var(--success);
+                }
+            }
+            &:nth-child(2){
+                i{
+                    color: var(--danger);
+                }
+            }
+            &:nth-child(3){
+                i{
+                    color: var(--star); 
+                }
+            }
+        }
+    }
+
+    .follows{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        font-size: 1.6rem;
+        text-transform: capitalize;
+        p{
+            a{
+                color: var(--link);
+            }
+        }
+    }
+}
+
+
+
+
 .my-account {
-    display: flex;
+    display: none;
     flex-direction: row;
     justify-content: space-between;
     align-items: stretch;

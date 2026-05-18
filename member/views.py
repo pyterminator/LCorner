@@ -1,10 +1,12 @@
 import re
 from django.conf import settings
 from member.models import Account
+from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required  
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+
 
 def MemberLogin(request):
     # Login olubsa dashboarda qaytar
@@ -149,6 +151,25 @@ def ChangeMyPassword(request):
             )
 
     return render(request, "dashboard/change-my-password.html", context=data)
+
+@login_required
+def ChangeMyAvatar(request):
+    if request.method == "POST":
+
+        avatar = request.FILES.get("avatar")
+        try:
+            account = Account.objects.filter(user=request.user).first()
+            account.avatar = avatar 
+            account.save()
+        except: ...
+        else:
+            return JsonResponse({
+                "success":True
+            })
+    
+    return JsonResponse({
+        "success":False
+    })
 
 
 

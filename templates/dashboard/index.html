@@ -67,8 +67,9 @@
                         </div>
                         <a class="left" href="#">
                             {% if p.author.avatar %}
+                                <img src="{{p.author.avatar.url}}" alt="avatar" class="account-avatar" draggable="false">
                             {% else %}
-                                <img src="{% static 'images/default-avatar.png' %}" alt="avatar">
+                                <img src="{% static 'images/default-avatar.png' %}" alt="avatar" class="default-avatar" draggable="false">
                             {% endif %}
                         </a>
                         <div class="right">
