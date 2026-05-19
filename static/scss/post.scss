@@ -270,24 +270,6 @@ form.post-create {
                     align-items: center;
                 }
             }
-
-            .settings-buttons {
-                a {
-                    @extend %button-style;
-                    font-size: 1.2rem;
-                    font-weight: 600;
-                    padding: .3rem;
-
-                    &:nth-child(1) {
-                        background-color: orangered;
-                    }
-
-                    &:nth-child(2) {
-                        background-color: red;
-                    }
-                }
-            }
-
         }
     }
 }

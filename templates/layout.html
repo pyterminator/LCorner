@@ -46,6 +46,7 @@
                     <a href="{% url 'postcreate' %}"><i class="fa-solid fa-wand-magic-sparkles"></i> Post paylaş</a>
 
                     {% if request.user.is_superuser %}
+                        <a href="{% url 'accounts' %}"><i class="fa-solid fa-users"></i> Hesablar</a>
                         <a href="{% url 'contactmessages' %}"><i class="fa-solid fa-comments"></i> Mesajlar</a>   
                         <a href="{% url 'posts_admin' %}"><i class="fa-brands fa-buffer"></i> Postlar</a>
                     {% endif %}

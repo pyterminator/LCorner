@@ -1,4 +1,10 @@
 {% extends 'layout.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/users.min.css' %}">
+{% endblock %}
+
 
 <!-- Page Title -->
 {% block title %}
@@ -8,62 +14,46 @@
 {% endblock %}
 
 {% block root %}
-<h1>İstifadəçilər</h1>
-<div class="table users-table">
-    <div class="main-modal">
-        <div class="modal-body">
-            <div class="icon">
-                <i class="fa-solid fa-bullhorn"></i>
-            </div>
-            <div class="text">
-                <p>İstifadəçi saytdan qalıcı olaraq silinməyəcək, sadəcə aktivlik statusu dəyişəcək.</p>
-                <p>
-                    <b>
-                        İstifadəçi hesabını deaktiv etmək istədiyinizdən əminsiniz ?
-                    </b>
-                </p>
-            </div>
-            <div class="close">
-                <button onclick="deleteAndCloseModal(this)">Bəli</button>
-                <button onclick="closeModal(this)">Xeyr</button>
-            </div>
+    <h1>İstifadəçilər</h1>
+    <div class="table">
+        <div class="header">
+            <h2>Saytda qeydiyyatdan keçən istifadəçilər</h2>
         </div>
-    </div>
-    <div class="header">
-        <h2>Saytda qeydiyyatdan keçən istifadəçilər</h2>
-    </div>
-        {% if users %}
-        <div class="elements">
-            <div class="row">
-                <div class="col">ID</div>
-                <div class="col">İstifadəçi adı</div>
-                <div class="col">E-mail</div>
-                <div class="col">Aktiv hesabdır</div>
-                <div class="col">Admindir</div>
-                <div class="col">Super Admindir</div>
-                <div class="col">Tənzimlə</div>
-            </div>
-            {% for u in users %}
+            {% if accounts %}
+            <div class="elements">
                 <div class="row">
-                    <div class="col">{{u.id}}</div>
-                    <div class="col">{{u.username}} <a href="{% url 'userdetail' u.id %}"><i class="fa-solid fa-square-up-right"></i></a></div>
-                    <div class="col">{{u.email}}</div>
-                    <div class="col">{% if u.is_active %} Bəli {% else %} Xeyr {% endif %}</div>
-                    <div class="col">{% if u.is_staff %} Bəli {% else %} Xeyr {% endif %}</div>
-                    <div class="col">{% if u.is_superuser %} Bəli {% else %} Xeyr {% endif %}</div>
-                    <div class="col settings-buttons"> 
-                        <a href="javascript:void(0)"><i class="fa-solid fa-pen-to-square"></i></a>
-                        {% if u.is_active %}
-                            <a href="{% url 'deleteuser' u.id %}" onclick="openModal(event)"><i class="fa-regular fa-trash-can"></i></a> 
-                        {% endif %}
-                    </div>
-                </div>  
-            {% endfor %}
-        </div>
-        {% else %}
-            <div class="no-content">
-                Göstəriləcək data yoxdur!
+                    <div class="col">ID</div>
+                    <div class="col">Avatar</div>
+                    <div class="col">İstifadəçi adı</div> 
+                    <div class="col">Aktiv hesabdır</div>
+                    <div class="col">Admindir</div>
+                    <div class="col">Super Admindir</div>
+                </div>
+                {% for account in accounts %}
+                    <div class="row">
+                        <div class="col">{{account.id}}</div>
+                        <div class="col">
+                            <div class="account-avatar">
+                                <img src="{% static 'images/default-avatar.png' %}" alt="{{account.user.username}}" draggable="false">
+                            </div>
+                        </div>
+                        <div class="col">{{account.user.username}} <a href="#"><i class="fa-solid fa-square-up-right"></i></a></div>
+                        <div class="col">
+                            <div class="switchery {% if account.user.is_active %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="" data-type=""></div>    
+                        </div>
+                        <div class="col">
+                            <div class="switchery {% if account.user.is_staff %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="" data-type=""></div>    
+                        </div>
+                        <div class="col">
+                            <div class="switchery {% if account.user.is_superuser %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="" data-type=""></div>    
+                        </div>
+                    </div>  
+                {% endfor %}
             </div>
-        {% endif %}
-</div>
+            {% else %}
+                <div class="no-content">
+                    Göstəriləcək data yoxdur!
+                </div>
+            {% endif %}
+    </div>
 {% endblock %}

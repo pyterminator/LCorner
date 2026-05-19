@@ -6,7 +6,7 @@ from member.models import Account
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required  
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 def MemberLogin(request):
@@ -218,5 +218,13 @@ def DeleteMyAvatar(request):
         "success":False
     })
 
+@user_passes_test(lambda u: u.is_superuser)
+def AccountList(request):
+    accounts = Account.objects.all()
 
+    data = {
+        "accounts": accounts
+    }
+
+    return render(request, "dashboard/users.html", context=data)
 

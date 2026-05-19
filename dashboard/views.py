@@ -36,18 +36,29 @@ def PostLike(request):
 
         post = get_object_or_404(Post, id=post_id)
 
-        like, created = Like.objects.get_or_create(
-            account=account,
-            post=post
-        )
+
+
+        like = Like.objects.filter(account=account, post=post).first()
+
+        created = False
+
+        if like is None:
+            like = Like.objects.create(
+                account=account,
+                post=post
+            )
+            created = True
 
         if not created:
-            like.delete()
             liked = False
         else:
             liked = True
             post.likes += 1
             post.save()
+            
+            if account.user.id != post.author.user.id:
+                account.xp += 10
+                account.save()
             
 
         return JsonResponse({
