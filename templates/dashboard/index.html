@@ -93,7 +93,7 @@
                                 </p>
                             </div>
 
-                            <div class="btn-group">
+                            <div class="btn-group" data-id="{{p.id}}" data-url="{% url 'postlike' %}" onclick="postLike(this)">
                                 <span class="like">
                                     <i class="fa-regular fa-thumbs-up"></i>
                                     <b>{{p.likes}}</b>
