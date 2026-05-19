@@ -3,6 +3,39 @@
     margin: 0 auto;
     color: var(--light);
 
+    .avatar-max{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: var(--main);
+        z-index: 12;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        transition: all .1s ease-in-out;
+        img{
+            width: 25rem;
+            height: 25rem;
+        }
+
+        i{
+            width: 4rem;
+            height: 4rem;
+            background-color: var(--danger);
+            color: var(--light);
+            position: absolute;
+            top: 2rem;
+            border-radius: 1rem;
+            right: 2rem;
+            text-shadow: 0 0 .2rem var(--dark);
+            line-height: 4rem;
+            cursor: pointer;
+            font-size: 1.4rem;
+        }
+    }
+
     .avatar {
         width: 20rem;
         height: 20rem;
@@ -44,25 +77,25 @@
         .expand,
         .delete-avatar {
             position: absolute;
-            right: -4.5rem;
-            width: 4rem;
-            height: 4rem;
-            line-height: 4rem;
+            right: -3.5rem;
+            width: 3rem;
+            height: 3rem;
+            line-height: 3rem;
             text-align: center;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             cursor: pointer;
             border-radius: 1rem;
             text-shadow: 0 0 .2rem var(--dark);
         }
 
         .expand {
-            top: 5rem; 
+            top: 4rem; 
             background-color: var(--light); 
             color: var(--dark);
         }
 
         .delete-avatar { 
-            top: 9.5rem; 
+            top: 7.5rem; 
             background-color: var(--danger);
             color: var(--light); 
         }

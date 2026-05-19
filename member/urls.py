@@ -1,10 +1,11 @@
 from django.urls import path 
-from member.views import MemberLogin, MemberRegistration, MemberLogout, UserAccount, ChangeMyPassword, ChangeMyAvatar
+from member.views import MemberLogin, MemberRegistration, MemberLogout, UserAccount, ChangeMyPassword, ChangeMyAvatar, DeleteMyAvatar
 urlpatterns = [
     path('', MemberLogin, name="login"),
     path('logout', MemberLogout, name="logout"),
     path('register', MemberRegistration, name="register"),
     path('change-my-password',ChangeMyPassword, name="changemypassword"), 
     path('change-my-avatar',ChangeMyAvatar, name="changemyavatar"), 
+    path('delete-my-avatar',DeleteMyAvatar, name="deletemyavatar"), 
     path('@<str:username>', UserAccount, name="myaccount"),
 ]

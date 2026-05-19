@@ -136,22 +136,24 @@
     width: 50%;
     float: left;
     margin-right: 1rem;
+    color: var(--light);
 
     &>div {
         width: 100%;
         @extend %input-style-after-label;
+        background-color: var(--dark);
         height: auto;
         line-height: 3rem;
         padding: 1rem;
 
         p.info {
-            color: royalblue;
+            color: var(--link);
             margin-bottom: .5rem;
             font-weight: 600;
         }
 
         span {
-            color: var(--light-bg);
+            color: var(--bg);
         }
     }
 }
@@ -169,12 +171,15 @@
             font-weight: 600;
             display: block;
             margin-bottom: 1rem;
+            color: var(--light);
         }
 
         input {
             display: block;
             width: 100%;
             @extend %input-style-after-label;
+            background-color: var(--input-bg);
+            color: var(--light);
         }
 
         button {

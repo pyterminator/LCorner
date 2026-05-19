@@ -17,20 +17,28 @@
 {% block root %}
     <h1>Hesabım</h1>
     <div class="user-profile">
-        <div class="avatar">
+        {% if account.avatar %}
+            <div class="avatar-max">
+                <img src="" alt="avatar" draggable="false">
+                <i class="fa-solid fa-times" onclick="closeAvatar(this)"></i>
+            </div>
+        {% endif %}
+        <div class="avatar" data-default="{% static 'images/default-avatar.png' %}">
             {% if account.avatar %}
                 <img src="{{account.avatar.url}}" alt="avatar" id="avatar" draggable="false">
             {% else %}
                 <img src="{% static 'images/default-avatar.png' %}" draggable="false" alt="avatar" id="default-avatar">
             {% endif %}
 
-            <div class="expand">
-                <i class="fa-solid fa-expand"></i>
-            </div>
+            {% if account.avatar %}
+                <div class="expand" onclick="expandAvatar(this)">
+                    <i class="fa-solid fa-expand"></i>
+                </div>
+                <div class="delete-avatar" onclick="deleteUserProfile(this)" data-url="{% url 'deletemyavatar' %}" >
+                    <i class="fa-solid fa-trash"></i>
+                </div>
+            {% endif %}
 
-            <div class="delete-avatar">
-                <i class="fa-solid fa-trash"></i>
-            </div>
 
             <form action="{% url 'changemyavatar' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -50,7 +58,7 @@
             <div class="prop">
                 <i class="fa-brands fa-buffer"></i>
                 <p>
-                    34 post
+                    {{post_count}} post
                 </p>
             </div>
              <div class="prop">

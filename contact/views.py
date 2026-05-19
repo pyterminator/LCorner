@@ -30,13 +30,16 @@ def contact_view(request):
                 data["message_validator"] = f"{minutes} dəqiqə sonra yenidən mesaj göndərə bilərsiniz!"
 
         else:
+            if request.user.is_authenticated:
+                email = request.user.email
+            else:
+                email = request.POST.get("email", "").strip()
 
             name = request.POST.get("name", "").strip()
-            email = request.POST.get("email", "").strip()
             message = request.POST.get("message", "").strip()
 
             name_regex = r"^[A-ZÇŞƏĞÖÜİ][a-zçşəğöüıi]+$"
-            message_regex = r"^[A-Za-zÇŞƏĞÖÜİçşəğöüıi0-9\s.!?]+$"
+            message_regex = r"^[A-Za-zÇŞƏĞÖÜİçşəğöüıi0-9\s.!,?]+$"
             email_regex = r"^[\w\.-]+@[\w\.-]+\.\w+$"
 
             data['name'] = name 

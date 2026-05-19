@@ -44,7 +44,7 @@
             <div class="input-alert">
                 {% if name_validator %} {{name_validator}} {% endif %}
             </div>
-
+            {% if not request.user.is_authenticated %}
             <label for="email_field">
                 Email daxil edin
             </label>
@@ -52,6 +52,7 @@
             <div class="input-alert">
                 {% if email_validator %} {{email_validator}} {% endif %}
             </div>
+            {% endif %}
              
             <label for="message_field">
                 Mesajınızı daxil edin

@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% load static %}
+{% load custom_filters %}
 
 <!-- Page Title -->
 {% block title %}
@@ -41,8 +42,8 @@
             <p class="info">
                 Mesajın yazılma və güncəllənmə tarixi
             </p>
-            <p> Yazılıb : <span>{{message.created_at|date:'d M, Y | H:i'}}</span> </p>
-            <p> Güncəllənib : <span>{{message.updated_at|date:'d M, Y | H:i'}}</span> </p>
+            <p> Yazılıb : <span>{{message.created_at|smart_date}} - {{message.created_at|date:"H:i"}}</span> </p>
+            <p> Güncəllənib : <span>{{message.updated_at|smart_date}} - {{message.updated_at|date:"H:i"}}</span> </p>
         </div>
 
  

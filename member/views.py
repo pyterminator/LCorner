@@ -1,5 +1,6 @@
 import re
 import os 
+from post.models import Post
 from django.conf import settings
 from member.models import Account
 from django.http import JsonResponse
@@ -7,7 +8,6 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required  
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-
 
 def MemberLogin(request):
     # Login olubsa dashboarda qaytar
@@ -104,12 +104,16 @@ def UserAccount(request, username):
 
     if user:
         user_account = Account.objects.filter(user=user).first()
-
-        data = {
-            "user":user,
-            "account":user_account
-        }
-        return render(request, "dashboard/account.html", context=data)
+        if user_account:
+            posts = Post.objects.filter(author=user_account).all()
+            post_count = posts.count()
+            data = {
+                "account":user_account,
+                "posts":posts,
+                "post_count": post_count,
+            }
+            return render(request, "dashboard/account.html", context=data)
+        
     
     return redirect("dashboard")
 
@@ -181,7 +185,38 @@ def ChangeMyAvatar(request):
         "success":False
     })
 
+@login_required
+def DeleteMyAvatar(request):
+    if request.method == "POST": 
+        try:
+            account = Account.objects.filter(user=request.user).first()
+            if not account:
+                return JsonResponse({
+                    "success":False
+                })
+            
 
+            if account.avatar: 
+                old_avatar_path = account.avatar.path 
+                if os.path.isfile(old_avatar_path):
+                    os.remove(old_avatar_path)
+
+
+            account.avatar = None 
+            account.save()
+            
+        except: 
+            return JsonResponse({
+                "success":False
+            })
+        else:
+            return JsonResponse({
+                "success":True
+            })
+    
+    return JsonResponse({
+        "success":False
+    })
 
 
 

@@ -44,7 +44,7 @@ function validateMessage(textarea) {
     const alert_box = textarea.nextElementSibling;
     const message = textarea.value.trim();
 
-    const validMessage = /^[A-Za-zÇŞƏĞÖÜİçşəğöüıi0-9\s.!?]+$/;
+    const validMessage = /^[A-Za-zÇŞƏĞÖÜİçşəğöüıi0-9\s.!,?]+$/;
 
     if (message === "") {
         alert_box.innerText = "Mesaj boş ola bilməz!";
