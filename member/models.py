@@ -1,19 +1,15 @@
-import random 
-import string
+import random, string 
 from django.db import models
-from django.contrib.auth.models import User 
+from django.dispatch import receiver
+from django.contrib.auth.models import User  
+from django.db.models.signals import post_save
 
 
-def get_random_avatar_name(instance, filename):
-    # Şəklin uzantısını götürürük (məsələn: '.jpg', '.png')
-    ext = filename.split(".")[-1]
-
-    # 10 simvollu random string yaradırıq (hərflər və rəqəmlərdən ibarət)
+def get_random_avatar_name(instance, filename): 
+    ext = filename.split(".")[-1] 
     random_str = "".join(
         random.choices(string.ascii_letters + string.digits, k=10)
-    )
-
-    # Yeni adı formalaşdırırıq: "avatars/abc123xyz8.jpg"
+    ) 
     return f"avatars/{random_str}.{ext}"
 
 
@@ -34,3 +30,19 @@ class Account(models.Model):
     facebook = models.CharField(max_length=255, blank=True, null=True)
     tiktok = models.CharField(max_length=255, blank=True, null=True)
     x = models.CharField(max_length=255, blank=True, null=True)
+
+
+
+
+@receiver(post_save, sender=User)
+def create_user_account(sender, instance, created, **kwargs):
+    if created:  # Əgər user yeni yaradılıbsa (update edilməyibsə)
+        Account.objects.create(user=instance, xp=100)
+
+
+
+@receiver(post_save, sender=User)
+def save_user_account(sender, instance, **kwargs):
+    # Əgər hər hansı səbəbdən account yoxdursa, xəta verməməsi üçün hasattr yoxlanışı
+    if hasattr(instance, "account"):
+        instance.account.save()

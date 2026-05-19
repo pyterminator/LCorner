@@ -88,11 +88,6 @@ def MemberRegistration(request):
             new_user.set_password(password)
             new_user.save()
 
-            Account.objects.create(
-                user = new_user,
-                xp = 100
-            )
-            
             return redirect('login')
         
 
