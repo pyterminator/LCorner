@@ -4,22 +4,17 @@ from django.contrib.auth.decorators import login_required
 from post.models import Post 
 from member.models import Account
 
-from datetime import date
-
-START_DATE = date(2026, 5, 7)
-
+ 
 # Butun userlər girə bilər
 @login_required
 def Dashboard(request):
-    today = date.today()
-    days = (today - START_DATE).days + 1
+     
     
     posts = Post.objects.filter(approved=True).filter(is_public=True).all().order_by('-id')
     my_account = Account.objects.filter(user=request.user).first()
 
 
-    data = {
-        "days": days,
+    data = { 
         "has_post": Post.objects.filter(author=my_account).first(),
         "posts": posts
     }

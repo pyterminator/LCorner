@@ -10,7 +10,7 @@ function openDropdownMenu(btn) {
 
 function openSelect(header) {
     const my_select = header.closest(".select")
-    if (!my_select.classList.contains('disabled')){
+    if (!my_select.classList.contains('disabled')) {
         my_select.classList.toggle("opened")
     }
 }
@@ -22,27 +22,27 @@ function setValueSelect(option) {
 }
 
 
-function showSelectValue(inp) { 
+function showSelectValue(inp) {
     const select_span = inp.parentElement.querySelector(".header p span")
     select_span.innerText = inp.value
     openSelect(inp.parentElement.querySelector(".header"))
 }
 
-function openPriceSelect(inp){
+function openPriceSelect(inp) {
     const price = inp.parentElement.parentElement.nextElementSibling
-    if (inp.getAttribute('value')==1){
+    if (inp.getAttribute('value') == 1) {
         price.classList.remove("disabled")
-    } else if (inp.getAttribute('value')==0) {
+    } else if (inp.getAttribute('value') == 0) {
         price.classList.add("disabled")
     }
 }
 
 
-function showPassword(i){
+function showPassword(i) {
     const password_input = i.parentElement.nextElementSibling
-    if (password_input.getAttribute("type") == "password"){
+    if (password_input.getAttribute("type") == "password") {
         password_input.type = "text"
-        password_input.placeholder = "Ş i f r ə n i z" 
+        password_input.placeholder = "Ş i f r ə n i z"
         i.className = "fa-solid fa-eye-slash"
     } else {
         password_input.type = "password"
@@ -52,43 +52,43 @@ function showPassword(i){
 }
 
 
-function validateUsername(inp){
+function validateUsername(inp) {
     const alert_box = inp.nextElementSibling
-    const username = inp.value 
+    const username = inp.value
 
-    if(username == ""){
+    if (username == "") {
         alert_box.innerText = "İstifadəçi adı boş ola bilməz!"
-    } else if (username.length <= 2){
+    } else if (username.length <= 2) {
         alert_box.innerText = "İstifadəçi adı minimum 3 simvoldan ibarət olmalıdır!"
-    } else if (!/^[a-z]+$/.test(username)){
+    } else if (!/^[a-z]+$/.test(username)) {
         alert_box.innerText = "İstifadəçi adında yalnız ingiliscə kiçik hərflər ola bilər!"
     } else {
         alert_box.innerText = ""
     }
 }
 
-function validatePassword(inp){
+function validatePassword(inp) {
     const alert_box = inp.nextElementSibling
-    const password = inp.value 
+    const password = inp.value
     const repassword = inp.parentElement.querySelector("input[name=repassword]")
 
-    if(password == ""){
+    if (password == "") {
         alert_box.innerText = "Şifrənizi daxil edin!"
-    } else if (password.length <= 7){
+    } else if (password.length <= 7) {
         alert_box.innerText = "Şifrə minimum 8 simvoldan ibarət olmalıdır"
     } else {
         alert_box.innerText = ""
     }
 
-    
+
     validateRePassword(repassword)
 }
 
 
-function validateEmail(inp){
+function validateEmail(inp) {
     const alert_box = inp.nextElementSibling
     const EMAIL_PATTERN = /^[A-Za-z0-9](?:[A-Za-z0-9._-]{1,}[A-Za-z0-9])?@[A-Za-z0-9](?:[A-Za-z0-9-]{0,}[A-Za-z0-9])?(?:\.[A-Za-z]{2,})+$/;
-    if(!EMAIL_PATTERN.test(inp.value)){
+    if (!EMAIL_PATTERN.test(inp.value)) {
         alert_box.innerText = "E-mail doğru formatda deyil!"
     } else {
         alert_box.innerText = ""
@@ -96,14 +96,14 @@ function validateEmail(inp){
 }
 
 
-function validateRePassword(inp){
+function validateRePassword(inp) {
     const password = inp.parentElement.querySelector("input[name=password]").value
-    const repassword = inp.value 
+    const repassword = inp.value
     const alert_box = inp.nextElementSibling
 
- 
 
-    if (password != repassword){
+
+    if (password != repassword) {
         alert_box.innerText = "Şifrələr eyni deyil!"
     } else {
         alert_box.innerText = ""
@@ -111,13 +111,13 @@ function validateRePassword(inp){
 }
 
 
-function ToggleSidebarMenu(span){ 
+function ToggleSidebarMenu(span) {
     const sidebar = document.querySelector("#root > div:nth-child(1)")
     const blank = document.querySelector("#root > div:nth-child(2)")
 
 
 
-    if (span.dataset.val == "1"){
+    if (span.dataset.val == "1") {
         sidebar.style.display = "none"
         sidebar.style.left = "0"
         blank.style.width = "100%";
@@ -132,11 +132,11 @@ function ToggleSidebarMenu(span){
     }
 }
 
-function closeModal(btn){
+function closeModal(btn) {
     btn.parentElement.parentElement.parentElement.style.display = "none"
 }
 
-function deleteAndCloseModal(btn){
+function deleteAndCloseModal(btn) {
     const delete_url = btn.closest(".main-modal").dataset.url
     window.location.href = delete_url
 }
@@ -148,25 +148,34 @@ function openModal(event) {
         .closest(".table")
         .querySelector(".main-modal")
 
-    modal.style.display = "flex" 
+    modal.style.display = "flex"
     modal.dataset.url = event.currentTarget.getAttribute("href")
 }
 
-function MobileToggleSidebarMenu(btn){
+function MobileToggleSidebarMenu(btn) {
     const sidebar = document.querySelector("#root > div:nth-child(1)")
     const blank = document.querySelector("#root > div:nth-child(2)")
 
-    sidebar.style.display = "block";  
-    sidebar.style.left = "0";  
+    sidebar.style.display = "block";
+    sidebar.style.left = "0";
     sidebar.querySelector(".carpet").style.right = "0"
 }
 
-function CloseMobileSidebar(btn){
+function CloseMobileSidebar(btn) {
     btn.parentElement.parentElement.style.left = "-25rem"
     btn.parentElement.parentElement.querySelector(".carpet").style.right = "-200%"
 }
 
 
-function removeAlert(span){
+function removeAlert(span) {
     span.parentElement.remove()
 }
+
+
+const all_images = document.querySelectorAll("img")
+all_images.forEach(element => {
+    element.addEventListener("contextmenu", function (event) {
+        event.preventDefault();
+        return false;
+    })
+});

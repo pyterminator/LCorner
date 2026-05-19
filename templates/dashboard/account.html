@@ -1,10 +1,5 @@
 {% extends 'layout.html' %}
 {% load static %}
-{% load tz %}
-
-<!-- TimeZone -->
-{% now "Y-m-d" as today %}
-{% now "Y-m-d" as now_date %}
 
 <!-- Page Title -->
 {% block title %}
@@ -21,7 +16,6 @@
 
 {% block root %}
     <h1>Hesabım</h1>
-
     <div class="user-profile">
         <div class="avatar">
             {% if account.avatar %}
@@ -32,6 +26,10 @@
 
             <div class="expand">
                 <i class="fa-solid fa-expand"></i>
+            </div>
+
+            <div class="delete-avatar">
+                <i class="fa-solid fa-trash"></i>
             </div>
 
             <form action="{% url 'changemyavatar' %}" method="post" enctype="multipart/form-data">
@@ -57,12 +55,12 @@
             </div>
              <div class="prop">
                 <i class="fa-solid fa-web-awesome"></i>
-                <p>level 5</p>
+                <p>level {{account.level}}</p>
              </div>
             <div class="prop">
                 <i class="fa-solid fa-star"></i>
                 <p>
-                    99,890 xal
+                    {{account.xp}} xal
                 </p>
             </div>
         </div>
@@ -70,60 +68,6 @@
             <p>34 <a href="#">İzləyən</a></p>
             <p>5 <a href="#">İzlədiyim</a></p>
         </div>
-    </div>
-
-
-    <div class="my-account">
-        <div class="left">
-            <div class="avatar">
-                <h3>Profil şəkli</h3>
-                <img src="{% static 'images/default-avatar.png' %}" alt="avatar" draggable="false">
-            
-                <div class="statistic">
-                    <div>
-                        <span>0</span> İzləyən
-                    </div>
-                    <div class="line">|</div>
-                    <div>
-                        <span>0</span> İzlədiyim
-                    </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <h3><b>İstifadəçi adı</b> <span>{{user.username}}</span></h3>
-                <h3><b>E-mail</b> <span>{{user.email}}</span></h3>
-                <h3>
-                    <b>Son giriş</b>
-                    <span>
-                        {% if user.last_login|date:"Y-m-d" == today %}
-                            Bu gün
-                        {% elif user.last_login|date:"Y-m-d" == yesterday %}
-                            Dünən
-                        {% else %}
-                            {{ user.last_login|date:"d.m.Y" }}
-                        {% endif %}
-                    </span>
-                </h3>
-                <h3>
-                    <b>Hesab yaradılıb</b>
-                    <span>
-                        {{ user.date_joined|date:"d.m.Y" }}
-                    </span>
-                </h3>
-            </div>
-        </div>
-        <div class="right">
-            <div class="quick-links">
-                <h3>Keçidlər</h3>
-                <a href="{% url 'changemypassword' %}">Şifrəmi dəyiş</a>
-                <a href="#">İstifadəçi adımı dəyiş</a>
-            </div>
-            <div class="my-score">
-                Topladığım Xal : <span>{{account.xp}}</span> <i class="fa-solid fa-star"></i>
-            </div>
-        </div>
-
     </div>
 {% endblock %}
 
