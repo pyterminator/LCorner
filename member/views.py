@@ -1,4 +1,5 @@
 import re
+import os 
 from django.conf import settings
 from member.models import Account
 from django.http import JsonResponse
@@ -159,9 +160,23 @@ def ChangeMyAvatar(request):
         avatar = request.FILES.get("avatar")
         try:
             account = Account.objects.filter(user=request.user).first()
+            if not account:
+                return JsonResponse({
+                    "success":False
+                })
+            
+
+            if account.avatar: 
+                old_avatar_path = account.avatar.path 
+                if os.path.isfile(old_avatar_path):
+                    os.remove(old_avatar_path)
+
             account.avatar = avatar 
             account.save()
-        except: ...
+        except: 
+            return JsonResponse({
+                "success":False
+            })
         else:
             return JsonResponse({
                 "success":True

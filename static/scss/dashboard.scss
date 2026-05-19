@@ -131,20 +131,8 @@
                     .flag {
                         transform: scale(1.2);
                     }
-                }
 
-                .dots {
-                    position: absolute;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    width: 3.3rem;
-                    height: 1rem;
-                    top: -.5rem;
-                    right: .5rem;
-                    cursor: pointer;
-
-                    &:hover {
+                    .dots {
                         span {
                             transition: all .1s ease-in-out;
 
@@ -161,6 +149,18 @@
                             }
                         }
                     }
+                }
+
+                .dots {
+                    position: absolute;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 3.3rem;
+                    height: 1rem;
+                    top: -.5rem;
+                    right: .5rem;
+                    cursor: pointer;
 
                     span {
                         display: inline-block;
