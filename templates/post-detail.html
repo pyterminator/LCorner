@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load custom_filters %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - {{post.sentence|slice:"0:50"}}
+    </title>
+{% endblock %}
+
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/post-detail.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+<div class="post-detail">
+    <div class="post">
+        <div class="post-header">
+            <div class="left">
+                <div class="avatar">
+                    {% if post.author.avatar %}
+                        <img src="{{post.author.avatar.url}}" alt="{{post.author.username}}" draggable="false">
+                    {% else %}
+                        <img src="{% static 'images/default-avatar.png' %}" alt="{{post.author.username}}" draggable="false" class="default-img">
+                    {% endif %}
+                </div>
+                <div class="account-info"> 
+                    <h2>
+                        <a href="#">@{{post.author.user.username}}</a>
+                    </h2>
+                    {% if post.author.user.first_name or post.author.user.last_name %}
+                        <h3>{{post.author.user.last_name}} {{post.author.user.first_name}}</h3>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="right">
+                <div class="dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="post-dropdown"></div>
+            </div>
+        </div>
+        <div class="post-body">
+            <div class="foreign-lang">
+                <div class="flag">
+                    <img src="{% static 'images/'|add:post.lang|lower|add:'.png' %}" draggable="false" alt="{{post.lang}}">
+                </div>
+                <div class="content">
+                    <div class="lang">{{post.lang}}</div>
+                    <div class="sentence">{{post.sentence}}</div>
+                </div>
+            </div>
+
+            <div class="description">
+                <div div class="flag">
+                    <img src="{% static 'images/az.png' %}" draggable="false" alt="AZ">
+                </div>
+                <div class="content">
+                    <div class="lang">AZ</div>
+                    <div class="sentence">{{post.description}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="like-created">
+            <div class="like"> 
+                {% if liked %}
+                    <i class="fa-solid fa-heart"></i>
+                {% else %}
+                    <i class="fa-regular fa-heart" onclick="postLike(this)" data-id="{{post.id}}" data-url="{% url 'postlike' %}"></i>
+                {% endif %}
+                <span>{{post.likes}}</span>
+            </div>
+            <div class="dot"></div>
+            <div class="created">
+                {{post.created_at|smart_date}} paylaşılıb
+            </div>
+        </div>
+        <div class="btn-group">
+            <button onclick="takeScreenShot(this)" data-name="{{post.sentence|slice:'0:20'}}"><i class="fa-solid fa-download"></i> Screenshot götür</button>
+        </div>
+    </div> 
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'scripts/home.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="{% static 'scripts/take-screenshot.js' %}"></script>
+{% endblock %}

@@ -1,94 +1,12 @@
-@use 'extends';
-
-.post-create-cards { 
-    margin-bottom: 5rem;
-    .welcome {
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-direction: column;  
-        background-color: var(--main);
-
-
-        .card-img {
-            width: 25rem; 
-            height: 20rem;
-            img {
-                width: 100%;
-                object-fit: cover;
-                object-position: center;
-            }
-        }
-
-        .card-body {
-            color: var(--light);
-            h2 {
-                font-size: 3.2rem;
-                margin-bottom: 1rem;
-                text-align: center;
-                span{
-                    color: var(--bg);
-                }
-            }
-
-            p {
-                font-size: 1.6rem;
-                font-weight: 600;
-            }
-
-            ul {
-                margin: 1rem 0;
-                display: block;
-                li {
-                    font-size: 1.4rem;
-                }
-            }
-
-            .card-footer {
-                width: 25rem;
-                margin: 0 auto;
-                margin-top: 2rem;
-
-                a {
-                    @extend %button-style;
-                    padding: 0;
-                    width: 100%;
-                    display: block;
-                    height: 5rem;
-                    line-height: 5rem;
-                    font-size: 1.5rem;
-                    font-weight: bolder;
-                    color: var(--light);
-                    background-color: var(--bg);
-                }
-            }
-        }
-    } 
-}
-
-.posts-container {
-    width: 100%;
-    background-color: var(--dark);
-    box-shadow: 0 0 .1rem .005rem var(--dark);
-    padding: 1rem;
-    margin: .25rem 0;
-
-    h3.posts-header {
-        font-size: 2.4rem;
-        margin-bottom: 1rem;
-        color: var(--light);
-    }
-
-    .posts {
-        display: flex;
-        justify-content: flex-start;
-        align-items: stretch;
-        flex-wrap: wrap;
-        gap: 1rem;
-        .post{
-            width: calc((100% - 2rem) / 3);
-            min-width: 35rem;
+.post-detail{
+    width: 70rem;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+    background-color: var(--main);
+     .post{
+            width: 100%; 
             background-color: var(--post-bg);
             padding: 1rem;
             border-radius: 1rem; 
@@ -238,6 +156,7 @@
                         .lang{
                             font-size: 1.2rem;
                             text-transform: uppercase; 
+                            color: var(--main-dark);
                         }
                         .sentence{
                             font-size: 1.4rem;
@@ -288,6 +207,7 @@
                 justify-content: flex-start;
                 align-items: center;
                 a, button{ 
+                    display: inline-block;
                     background-color: var(--post-bg);
                     color: var(--main-dark);
                     font-size: 1.6rem;
@@ -305,18 +225,4 @@
                 }
             }
         } 
-    }
-}
-
-
-
-
-
-
-@media only screen and (max-width: 1250px) {
-
-}
-
-@media only screen and (max-width: 1000px) {
-
 }

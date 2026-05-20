@@ -91,7 +91,13 @@
                                 </div>
                                 <div class="content">
                                     <div class="lang">{{p.lang}}</div>
-                                    <div class="sentence">{{p.sentence}}</div>
+                                    <div class="sentence">
+                                        {% if p.sentence|length > 30 %}
+                                            {{p.sentence|slice:"0:27"|add:'...'}}
+                                        {% else %}
+                                            {{p.sentence}}
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
 
@@ -102,7 +108,11 @@
                                 <div class="content">
                                     <div class="lang">AZ</div>
                                     <div class="sentence">
-                                        {{p.description}}
+                                        {% if p.description|length > 35 %}
+                                            {{p.description|slice:"0:32"|add:'...'}}
+                                        {% else %}
+                                            {{p.description}}
+                                        {% endif %} 
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +132,7 @@
                             </div>
                         </div>
                         <div class="btn-group">
-                            <a href="#"><i class="fa-brands fa-leanpub"></i> Ətraflı bax</a>
+                            <a href="{% url 'postdetail' p.id %}"><i class="fa-brands fa-leanpub"></i> Ətraflı bax</a>
                         </div>
                     </div>  
                 {% endfor %}

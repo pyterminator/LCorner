@@ -7,6 +7,7 @@ from member.models import Account
 from django.http import JsonResponse
 from dashboard.models import Like
 from django.shortcuts import get_object_or_404
+from django.db.models import F
  
 # Butun userlər girə bilər
 @login_required
@@ -34,8 +35,9 @@ def PostLike(request):
     if request.method != "POST":
         return JsonResponse({"success": False})
     
-    try:
-        account = Account.objects.filter(user=request.user).first()
+    try: 
+        account = get_object_or_404(Account, user=request.user)
+
         data = json.loads(request.body)
         post_id = data.get("id")
 
@@ -58,12 +60,15 @@ def PostLike(request):
             liked = False
         else:
             liked = True
-            post.likes += 1
-            post.save()
+
+            post.likes = F("likes") + 1
+            post.save(update_fields=["likes"])
+            post.refresh_from_db()
             
-            if account.user.id != post.author.user.id:
-                account.xp += 10
-                account.save()
+            if account.id != post.author.id:
+                Account.objects.filter(id=post.author_id).update(
+                    xp=F("xp") + 10
+                )
             
 
         return JsonResponse({
