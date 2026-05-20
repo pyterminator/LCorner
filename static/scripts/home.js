@@ -1,6 +1,6 @@
-async function postLike(div){
-    const url = div.dataset.url
-    const id = div.dataset.id
+async function postLike(i){
+    const url = i.dataset.url
+    const id = i.dataset.id
 
     const response = await fetch(url, {
         method:"POST",
@@ -16,6 +16,7 @@ async function postLike(div){
     const data = await response.json()
 
     if (data.liked){
-        div.querySelector("span.like > b").innerText = data.new_like_count
+        i.className = "fa-solid fa-heart"
+        i.nextElementSibling.innerText = data.new_like_count
     }
 }

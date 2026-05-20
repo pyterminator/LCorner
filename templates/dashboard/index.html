@@ -20,8 +20,8 @@
     {% if not has_post %}
         <div class="post-create-cards">
             <div class="welcome">
-                <div class="card-img">
-                    <img src="{% static 'images/welcome.png' %}" alt="welcome" draggable="false">
+                <div class="card-img"> 
+                    <img src="{% static 'images/welcome.webp' %}" alt="welcome" draggable="false" loading="lazy" >
                 </div>
                 <div class="card-body">
                     <h2>Xoş gəldin, <span>{{request.user.username}}</span></h2>
@@ -51,62 +51,83 @@
     {% endif %}
 
     {% if posts %}
-    <div class="posts-container"> 
-        <h3 class="posts-header">Saytda ən son paylaşılan təsdiqlənmiş postlar</h3>
-        <div class="container">
+
+        <div class="posts-container">
+            <h3 class="posts-header">Saytda ən son paylaşılan təsdiqlənmiş postlar</h3>
             <div class="posts">
                 {% for p in posts %}
                     <div class="post">
-                        <div class="dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                        <div class="post-header">
+                            <div class="left">
+                                <div class="avatar">
+                                    {% if p.author.avatar %}
+                                        <img src="{{p.author.avatar.url}}" alt="{{p.author.username}}" draggable="false">
+                                    {% else %}
+                                        <img src="{% static 'images/default-avatar.png' %}" alt="{{p.author.username}}" draggable="false" class="default-img">
+                                    {% endif %}
+                                </div>
+                                <div class="account-info"> 
+                                    <h2>
+                                        <a href="#">@{{p.author.user.username}}</a>
+                                    </h2>
+                                    {% if p.author.user.first_name or p.author.user.last_name %}
+                                        <h3>{{p.author.user.last_name}} {{p.author.user.first_name}}</h3>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="post-dropdown"></div>
+                            </div>
                         </div>
-                        <a class="left" href="#">
-                            {% if p.author.avatar %}
-                                <img src="{{p.author.avatar.url}}" alt="avatar" class="account-avatar" draggable="false">
-                            {% else %}
-                                <img src="{% static 'images/default-avatar.png' %}" alt="avatar" class="default-avatar" draggable="false">
-                            {% endif %}
-                        </a>
-                        <div class="right">
-                            <h3>
-                                <a href="#">@{{p.author.user.username}}</a>
-                            </h3>
-                            <div class="content">
-                                <p>
-                                    {% if p.sentence|length > 25 %}
-                                        {{p.sentence|slice:'0:25'|add:"..."}}
-                                    {% else %}
-                                        {{p.sentence}}
-                                    {% endif %}
-                                </p>
-                                <p class="short-desc">
-                                    {% if p.description|length > 35 %}
-                                        {{p.description|slice:"0:35"}}...
-                                    {% else %}
-                                        {{p.description}}
-                                    {% endif %}
-                                </p> 
-                                <p>
-                                    {{ p.created_at|smart_date  }}
-                                </p>
+                        <div class="post-body">
+                            <div class="foreign-lang">
+                                <div class="flag">
+                                    <img src="{% static 'images/'|add:p.lang|lower|add:'.png' %}" draggable="false" alt="{{p.lang}}">
+                                </div>
+                                <div class="content">
+                                    <div class="lang">{{p.lang}}</div>
+                                    <div class="sentence">{{p.sentence}}</div>
+                                </div>
                             </div>
 
-                            <div class="btn-group" data-id="{{p.id}}" data-url="{% url 'postlike' %}" onclick="postLike(this)">
-                                <span class="like">
-                                    <i class="fa-regular fa-thumbs-up"></i>
-                                    <b>{{p.likes}}</b>
-                                </span> 
+                            <div class="description">
+                                <div div class="flag">
+                                    <img src="{% static 'images/az.png' %}" draggable="false" alt="AZ">
+                                </div>
+                                <div class="content">
+                                    <div class="lang">AZ</div>
+                                    <div class="sentence">
+                                        {{p.description}}
+                                    </div>
+                                </div>
                             </div>
                         </div>
- 
-                        <img src="{% static 'images/'|add:p.lang|lower|add:'.png' %}" draggable="false" class="flag" alt="{{p.lang}}">
-                    </div>
+                        <div class="like-created">
+                            <div class="like"> 
+                                {% if p.id in liked_posts %}
+                                    <i class="fa-solid fa-heart"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-heart" onclick="postLike(this)" data-id="{{p.id}}" data-url="{% url 'postlike' %}"></i>
+                                {% endif %}
+                                <span>{{p.likes}}</span>
+                            </div>
+                            <div class="dot"></div>
+                            <div class="created">
+                                {{p.created_at|smart_date}} paylaşılıb
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <a href="#"><i class="fa-brands fa-leanpub"></i> Ətraflı bax</a>
+                        </div>
+                    </div>  
                 {% endfor %}
-            </div> 
+            </div>
         </div>
-    </div>
     {% endif %}
 {% endblock %}
 
