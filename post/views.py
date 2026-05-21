@@ -96,7 +96,7 @@ def post_detail_view(request, slug):
         else:
             data["liked"] = False
         
-        return render(request, "post-detail.html", context=data)
+        return render(request, "post/post-detail.html", context=data)
     except:
         return redirect("dashboard")
 

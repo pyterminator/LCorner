@@ -157,6 +157,7 @@ form.post-create {
     .header {
         width: 100%;
         color: var(--light);
+
         h2 {
             font-size: 1.4rem;
             font-weight: 500;
@@ -274,6 +275,71 @@ form.post-create {
     }
 }
 
+
+@media only screen and (max-width: 1300px) {
+    .table {
+        .elements {
+            .row {
+                .col {
+                    width: calc((100% - 46rem) / 1); 
+                    &:nth-child(5){
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 1000px) {
+    .table {
+        .elements {
+            .row {
+                .col {
+                    width: calc((100% - 39rem) / 1); 
+                    &:nth-child(3) {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .table {
+        .elements {
+            .row {
+                .col {
+                    width: calc((100% - 27rem) / 1); 
+                    &:nth-child(6){
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .table {
+        .elements {
+            .row {
+                .col {
+                    width: calc(100% - 5rem);
+                    &:nth-child(2) {
+                        display: none;
+                    }
+                    &:nth-child(7) {
+                        display: none;
+                    }
+                    
+                }
+            }
+        }
+    }
+}
 
 @media only screen and (max-width: 405px) {
     form.post-create {

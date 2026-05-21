@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -56,6 +56,11 @@
                     <a href="{% url 'register' %}"><i class="fa-solid fa-user-plus"></i> Hesab yarat</a>
                 {% endif %}
                 <a href="{% url 'contact' %}"><i class="fa-regular fa-envelope"></i> Əlaqə</a>
+
+                <div class="theme-change">
+                    Ağ fon :
+                    <div class="switchery" onclick="toggleThemeSwitch(this)"></div>
+                </div>
             </div>
             <div class="carpet"></div>
         </div>
@@ -129,6 +134,38 @@
             }
 
         }, { passive:false }) 
+
+
+        // Themes
+        function toggleThemeSwitch(el) {
+            const html = document.documentElement;
+
+            const current = html.getAttribute("data-theme");
+            const next = current === "dark" ? "light" : "dark";
+
+            html.setAttribute("data-theme", next);
+            localStorage.setItem("theme", next);
+
+            el.classList.toggle("switchery-on");
+        }
+
+       
+
+        window.addEventListener("load", () => {
+            const saved = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", saved);
+
+            const switchery = document.querySelector(".menu .switchery");
+
+            if (switchery) {
+                if (saved === "light") {
+                    switchery.classList.add("switchery-on");
+                } else {
+                    switchery.classList.remove("switchery-on");
+                }
+            }
+        });
+
     </script>
 </body>
 

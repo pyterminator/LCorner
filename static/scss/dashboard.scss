@@ -73,11 +73,11 @@
 }
 
 .posts-container {
-    width: 100%;
-    background-color: var(--dark);
+    width: 100%; 
     box-shadow: 0 0 .1rem .005rem var(--dark);
     padding: 1rem;
     margin: .25rem 0;
+    border-radius: 1rem;
 
     h3.posts-header {
         font-size: 2.4rem;
@@ -91,6 +91,7 @@
         align-items: stretch;
         flex-wrap: wrap;
         gap: 1rem;
+        
 
         .post {
             width: calc((100% - 2rem) / 3);
@@ -360,8 +361,7 @@
 }
 
 @media only screen and (max-width: 900px) {
-    .posts-container {
-        background-color: transparent;
+    .posts-container { 
         padding: 0;
         h3.posts-header {
             font-size: 1.6rem; 

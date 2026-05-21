@@ -13,6 +13,7 @@
 html {
     font-family: "Space Grotesk", sans-serif;
     font-size: 10px;
+    transition: background-color .25s ease, color .25s ease;
 }
 
 body {
