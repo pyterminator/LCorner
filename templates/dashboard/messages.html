@@ -11,45 +11,52 @@
 
 
 {% block root %}
-<h1>Mesajlar</h1>
 
-<div class="table">
-    <div class="header">
-        <h2>Əlaqə formundan daxil edilən mesajlar</h2>
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb">
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>Mesajlar</span>
     </div>
 
-    {% if messages %}
-        <div class="elements">
-            <div class="row">
-                <div class="col">ID</div>
-                <div class="col">Ad</div>
-                <div class="col">Email</div> 
-                <div class="col">Oxundu</div> 
-                <div class="col">Saytda görünür</div> 
-            </div>
-            
-            {% for m in messages %}
-                <div class="row">
-                    <div class="col">{{m.id}}</div>
-                    <div class="col">{{m.name}}</div>
-                    <div class="col">{{m.email}} <a href="{% url 'contactmessagedetail' m.id %}"><i class="fa-solid fa-square-up-right"></i></a></div>
-                    <div class="col">
-                        <div class="switchery {% if m.is_read %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changemessageisread' m.id %}" data-type="changeMessageRead"></div> 
-                    </div>
-                    <div class="col">
-                        <div class="switchery {% if m.is_public %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changemessageispublic' m.id %}" data-type="changeMessagePublic"></div>  
-                    </div>
-                </div>  
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="no-content">
-            Göstəriləcək data yoxdur!
-        </div>
-    {% endif %}
+    <h1>Mesajlar</h1>
 
-   
-</div>
+    <div class="table">
+        <div class="header">
+            <h2>Əlaqə formundan daxil edilən mesajlar</h2>
+        </div>
+
+        {% if messages %}
+            <div class="elements">
+                <div class="row">
+                    <div class="col">ID</div>
+                    <div class="col">Ad</div>
+                    <div class="col">Email</div> 
+                    <div class="col">Oxundu</div> 
+                    <div class="col">Saytda görünür</div> 
+                </div>
+                
+                {% for m in messages %}
+                    <div class="row">
+                        <div class="col">{{m.id}}</div>
+                        <div class="col">{{m.name}}</div>
+                        <div class="col">{{m.email}} <a href="{% url 'contactmessagedetail' m.id %}"><i class="fa-solid fa-square-up-right"></i></a></div>
+                        <div class="col">
+                            <div class="switchery {% if m.is_read %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changemessageisread' m.id %}" data-type="changeMessageRead"></div> 
+                        </div>
+                        <div class="col">
+                            <div class="switchery {% if m.is_public %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="{% url 'changemessageispublic' m.id %}" data-type="changeMessagePublic"></div>  
+                        </div>
+                    </div>  
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-content">
+                Göstəriləcək data yoxdur!
+            </div>
+        {% endif %}
+
+    
+    </div>
 {% endblock %}
 
 <!-- Scripts -->

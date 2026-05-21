@@ -14,6 +14,13 @@
 {% endblock %}
 
 {% block root %}
+
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb">
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>İstifadəçilər</span>
+    </div>
+
     <h1>İstifadəçilər</h1>
     <div class="table">
         <div class="header">
@@ -34,7 +41,11 @@
                         <div class="col">{{account.id}}</div>
                         <div class="col">
                             <div class="account-avatar">
-                                <img src="{% static 'images/default-avatar.png' %}" alt="{{account.user.username}}" draggable="false">
+                                {% if account.avatar %}
+                                    <img src="{{account.avatar.url}}" alt="{{account.user.username}}" draggable="false">
+                                {% else %}
+                                    <img src="{% static 'images/default-avatar.png' %}" alt="{{account.user.username}}" draggable="false">
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col">{{account.user.username}} <a href="#"><i class="fa-solid fa-square-up-right"></i></a></div>

@@ -15,6 +15,12 @@
 
 {% block root %}
     
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb"> 
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>Əlaqə</span>
+    </div>
+
     {% if success %}
         <div class="alert alert-success">
             <i class="fa-regular fa-circle-check"></i>

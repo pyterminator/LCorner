@@ -17,6 +17,13 @@
 
 
 {% block root %}
+
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb"> 
+        <span><i class="fa-solid fa-home"></i> Ana səhifə</span>
+    </div>
+
+
     {% if not has_post %}
         <div class="post-create-cards">
             <div class="welcome">
@@ -132,7 +139,7 @@
                             </div>
                         </div>
                         <div class="btn-group">
-                            <a href="{% url 'postdetail' p.id %}"><i class="fa-brands fa-leanpub"></i> Ətraflı bax</a>
+                            <a href="{% url 'postdetail' p.slug %}"><i class="fa-brands fa-leanpub"></i> Ətraflı bax</a>
                         </div>
                     </div>  
                 {% endfor %}

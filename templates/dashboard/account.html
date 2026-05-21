@@ -15,6 +15,13 @@
 {% endblock %}
 
 {% block root %}
+
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb">
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>Hesabım</span>
+    </div>
+
     <h1>Hesabım</h1>
     <div class="user-profile">
         {% if account.avatar %}

@@ -17,6 +17,14 @@
 
 
 {% block root %}
+
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb">
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>{{post.slug|slice:"0:15"|add:"..."}}</span>
+    </div>
+
+
 <div class="post-detail">
     <div class="post">
         <div class="post-header">

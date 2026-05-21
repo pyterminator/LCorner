@@ -74,8 +74,8 @@ def post_approved_view(request, id):
 
 
 @login_required
-def post_detail_view(request, id):
-    post = Post.objects.filter(id=id).first()
+def post_detail_view(request, slug):
+    post = Post.objects.filter(slug=slug).first()
     if post:
 
         data = {

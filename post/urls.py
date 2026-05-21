@@ -5,5 +5,5 @@ urlpatterns = [
     path('create/', post_create_view, name="postcreate"),
     path('list/', posts_view, name="posts_admin"),
     path('change-approved/<int:id>', post_approved_view, name="changepostapproved"),
-    path('detail/<int:id>', post_detail_view, name="postdetail"),
+    path('<str:slug>', post_detail_view, name="postdetail"),
 ]

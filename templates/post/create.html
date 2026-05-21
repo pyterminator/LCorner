@@ -16,6 +16,13 @@
 
 
 {% block root %}
+
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb"> 
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>Post paylaş</span>
+    </div>
+
     <h1>Yeni post paylaş</h1>
     <form class="post-create" method="POST"> 
         {% csrf_token %}
