@@ -12,6 +12,7 @@
 <!-- Style -->
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/account.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
 {% endblock %}
 
 {% block root %}
@@ -23,69 +24,93 @@
     </div>
 
     <h1>Hesabım</h1>
-    <div class="user-profile">
-        {% if account.avatar %}
-            <div class="avatar-max">
-                <img src="" alt="avatar" draggable="false">
-                <i class="fa-solid fa-times" onclick="closeAvatar(this)"></i>
-            </div>
-        {% endif %}
-        <div class="avatar" data-default="{% static 'images/default-avatar.png' %}">
-            {% if account.avatar %}
-                <img src="{{account.avatar.url}}" alt="avatar" id="avatar" draggable="false">
-            {% else %}
-                <img src="{% static 'images/default-avatar.png' %}" draggable="false" alt="avatar" id="default-avatar">
-            {% endif %}
 
-            {% if account.avatar %}
-                <div class="expand" onclick="expandAvatar(this)">
-                    <i class="fa-solid fa-expand"></i>
+    <div class="account">
+        <div class="user-data">
+            <div class="cover" style="background-image: url({% static 'images/cover.png' %});">
+                <div class="img-container"> 
+                    {% if account.avatar %}
+                        <img src="{{account.avatar.url}}" draggable="false" alt="{{account.user.username}}">
+                    {% else %}
+                        <img src="{% static 'images/default-avatar.png' %}" draggable="false" id="default-img" alt="{{account.user.username}}">
+                    {% endif %}
+
+                    <label class="change-profile-photo" data-action="{% url 'changemyavatar' %}" for="xr78hgx">
+                        {% csrf_token %}
+
+                        <input type="file" accept="image/*" hidden onchange="changeUserProfile(this)" id="xr78hgx">
+                        <i class="fa-regular fa-camera"></i> Dəyiş
+                    </lab>
                 </div>
-                <div class="delete-avatar" onclick="deleteUserProfile(this)" data-url="{% url 'deletemyavatar' %}" >
-                    <i class="fa-solid fa-trash"></i>
+            </div>
+            <div class="data">
+                <div class="row">
+                    <div class="col">
+                        <div class="fullname">
+                            <div class="first-name">
+                                {% if account.user.first_name %}
+                                    {{account.user.first_name}}
+                                {% else %}
+                                    ---
+                                {% endif %}
+                            </div>
+                            <div class="last-name">
+                                {% if account.user.last_name %}
+                                    {{account.user.last_name}}
+                                {% else %}
+                                    ---
+                                {% endif %}
+                            </div>
+                            {% if account.user.is_staff %}
+                                <div class="badge">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path d="M500 999.2A213 213 0 0 0 331.7 916c-28 0-55.3 5.5-81.3 16.3A211.7 211.7 0 0 0 67.7 749.6c37-88.8 9.5-191.2-66.9-249.6a211.7 211.7 0 0 0 67-249.6A211.7 211.7 0 0 0 250.3 67.7c26 10.8 53.3 16.3 81.3 16.3A213 213 0 0 0 500 .8 213 213 0 0 0 668.3 84c28 0 55.4-5.5 81.3-16.3a211.7 211.7 0 0 0 182.7 182.7A211.7 211.7 0 0 0 999.2 500a211.7 211.7 0 0 0-67 249.6 211.7 211.7 0 0 0-182.6 182.7 210.4 210.4 0 0 0-81.3-16.3A213 213 0 0 0 500 999.2Z" fill="#2CA9BC"></path></svg>
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="username">
+                            @{{account.user.username}}
+                        </div>
+                        <div class="profession"> 
+                            PCAP™ – Certified Associate Python Programmer
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="bio-header">
+                            Bioqrafiya
+                        </div>
+                        <div class="bio-content">
+                            Tərəddüd daxili bir korroziyadır, insanı yavaş-yavaş yeyir, amma öyrənmək o pası təmizləyən yeganə proqramdır.
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="level-container">
+                            <div class="top">
+                                <div class="level-name">
+                                    <i class="fa-solid fa-web-awesome"></i> Level 3 
+                                </div>
+                                <div class="counter">
+                                    <div class="counter-left">420</div>
+                                    /
+                                    <div class="counter-right"> 500 xp </div>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="bar"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>70%</span> tamamlandı
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            {% endif %}
-
-
-            <form action="{% url 'changemyavatar' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" onchange="changeUserProfile(this)" name="avatar" id="change-user-profile" accept="image/*">
-                <label for="change-user-profile">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                </label>
-            </form>
-        </div>
-        <div class="fullname">
-            Şükürov Müşviq
-        </div>
-        <div class="profession">
-            PCAP sertifikatına sahib Jr Python developer
-        </div>
-        <div class="props">
-            <div class="prop">
-                <i class="fa-brands fa-buffer"></i>
-                <p>
-                    {{post_count}} post
-                </p>
             </div>
-             <div class="prop">
-                <i class="fa-solid fa-web-awesome"></i>
-                <p>level {{account.level}}</p>
-             </div>
-            <div class="prop">
-                <i class="fa-solid fa-star"></i>
-                <p>
-                    {{account.xp}} xal
-                </p>
-            </div>
-        </div>
-        <div class="follows">
-            <p>34 <a href="#">İzləyən</a></p>
-            <p>5 <a href="#">İzlədiyim</a></p>
         </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
     <script src="{% static 'scripts/user-profile.js' %}"></script>
 {% endblock %}
+
