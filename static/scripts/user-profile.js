@@ -18,6 +18,10 @@ async function changeUserProfile(input){
     const data = await response.json();
     if(data.success){
         changeUserProfileUI(input.closest(".img-container").querySelector("img"), file)
+        document.getElementById("avatar-errors").innerText = ""
+
+    } else {
+        document.getElementById("avatar-errors").innerText = data.error
     }
 
 }

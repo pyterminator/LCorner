@@ -1,11 +1,13 @@
 import re
-import os 
+import os  
+from PIL import Image
 from post.models import Post
+from django.db.models import F
 from django.conf import settings
 from member.models import Account
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
@@ -157,24 +159,56 @@ def ChangeMyAvatar(request):
     if request.method == "POST":
 
         avatar = request.FILES.get("avatar")
+        if not avatar:
+            return JsonResponse({"success": False, "error": "Fayl yoxdur"})
+
+        if not avatar.content_type.startswith("image/"):
+            return JsonResponse({"success": False, "error": "Şəkil deyil"})
+        
+        if avatar.size > 1 * 1024 * 1024:
+            return JsonResponse({
+                "success": False,
+                "error": "Şəklin həcmi maksiumum 1Mb ola bilər"
+            })
+
         try:
+            img = Image.open(avatar)
+            width, height = img.size
+            print(width, height)
+
+            if width != height or width != 250:
+                return JsonResponse({
+                    "success": False,
+                    "error": "Şəkil (250x250)px ölçüdə olmalıdır"
+                })
+
+
             account = Account.objects.filter(user=request.user).first()
             if not account:
                 return JsonResponse({
-                    "success":False
+                    "success":False,
+                    "error":"Yanlış cəhd, hesabınıza daxil olun"
                 })
             
+            if account.xp < 500 and not account.user.is_superuser:
+                return JsonResponse({
+                    "success":False,
+                    "error":"Şəkli dəyişmək üçün balansınızda minimum 500 xp olmalıdır"
+                })
 
             if account.avatar: 
                 old_avatar_path = account.avatar.path 
                 if os.path.isfile(old_avatar_path):
                     os.remove(old_avatar_path)
 
-            account.avatar = avatar 
-            account.save()
+            account.xp = F("xp") - 500
+            account.avatar = avatar  
+            account.save(update_fields=["xp", "avatar"]) 
+            account.refresh_from_db()
         except: 
             return JsonResponse({
-                "success":False
+                "success":False,
+                "error":"Xəta oldu"
             })
         else:
             return JsonResponse({
@@ -182,7 +216,8 @@ def ChangeMyAvatar(request):
             })
     
     return JsonResponse({
-        "success":False
+        "success":False,
+        "error":"İcazəsiz cəhd"
     })
 
 @login_required
