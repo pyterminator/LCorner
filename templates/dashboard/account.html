@@ -75,6 +75,39 @@
                         <div class="profession"> 
                             PCAP™ – Certified Associate Python Programmer
                         </div>
+
+                        <div class="edit-ba-data">
+                            <button onclick="editBaData(this)">
+                                <i class="fa-solid fa-square-pen"></i> Məlumatları güncəllə
+                            </button>
+                            <form action="{% url 'updatebasedata' %}" method="post" onsubmit="updateBaseData(event)">
+                                {% csrf_token %}
+                                <label for="form_data_first_name">
+                                    <p>Adınızı daxil edin <sup>*</sup></p>
+                                    <input type="text" id="form_data_first_name" name="first_name" autocomplete="off" placeholder="Adınız" {% if account.user.first_name %} value="{{account.user.first_name}}" {% endif %}>
+                                    <p class="form-input-alert"></p>
+                                </label>
+                                <label for="form_data_last_name">
+                                    <p>Soyadınızı daxil edin <sup>*</sup></p>
+                                    <input type="text" id="form_data_last_name" name="last_name" autocomplete="off" placeholder="Soyadınız" {% if account.user.last_name %} value="{{account.user.last_name}}" {% endif %}>
+                                    <p class="form-input-alert"></p>
+                                </label> 
+                                <label for="form_data_profession">
+                                    <p>İxtisasınızı daxil edin <sup>*</sup></p>
+                                    <input type="text" id="form_data_profession" name="profession" autocomplete="off" placeholder="İxtisasınız" {% if account.profession %} value="{{account.profession}}" {% endif %}>
+                                    <p class="form-input-alert"></p>
+                                </label>
+
+                                <div class="btn-group"> 
+                                    <button id="save-ba-data" type="submit">
+                                        <i class="fa-regular fa-floppy-disk"></i> Yadda saxla
+                                    </button>
+                                    <button id="ignore-ba-data" onclick="closeEditBaData(this)" type="button">
+                                        <i class="fa-regular fa-circle-xmark"></i> Ləğv et
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div class="col">
                         <div class="bio-header">

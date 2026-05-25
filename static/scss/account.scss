@@ -65,7 +65,7 @@
 
     }
 
-    #avatar-errors{ 
+    #avatar-errors {
         text-align: center;
         color: var(--danger);
         font-size: 1.2rem;
@@ -80,12 +80,17 @@
             display: flex;
             justify-content: space-between;
             align-items: stretch;
+            flex-wrap: wrap;
             gap: 1rem;
 
             .col {
-                width: calc((100% - 2rem) / 3);
+                width: calc((100% - 2rem) / 2);
+                overflow-x: hidden;
 
                 &:nth-child(1) {
+                    width: 100%;
+                    margin-bottom: 2rem;
+
                     .fullname {
                         display: flex;
                         justify-content: flex-start;
@@ -141,10 +146,93 @@
                         font-weight: 600;
                         color: var(--badge);
                     }
+
+                    .edit-ba-data {
+                        &>button {
+                            margin-top: 1.5rem;
+                        }
+
+                        button {
+                            font-size: 1.2rem;
+                            color: var(--light);
+                            background-color: var(--input-bg);
+                            padding: 0 .7rem;
+                            border-radius: 1rem;
+                            box-shadow: .3rem 0 0 .1rem var(--light);
+                            line-height: 3rem;
+
+                            i {
+                                font-size: 1.5rem;
+                            }
+
+                            &:active {
+                                transform: translate(.2rem, .2rem);
+                            }
+                        }
+
+                        form {
+                            padding: 1rem 0;
+                            display: none;
+
+                            label {
+                                display: block;
+                                margin-bottom: 1.5rem;
+
+                                p {
+                                    color: var(--light);
+                                    font-size: 1.4rem;
+                                    margin-bottom: .5rem;
+                                    padding-left: .5rem;
+
+                                    sup {
+                                        color: var(--danger);
+                                        font-size: 1.6rem;
+                                        margin-left: .5rem;
+                                    }
+                                }
+
+                                input {
+                                    font-size: 1.6rem;
+                                    background-color: var(--input-bg);
+                                    padding: 0 1rem;
+                                    border-radius: 1rem;
+                                    height: 4rem;
+                                    color: var(--light);
+                                    box-shadow: .3rem 0 .1rem .1rem var(--main-dark);
+                                    margin-bottom: .5rem;
+                                    width: 80%;
+                                }
+
+                                p.form-input-alert {
+                                    font-size: 1.2rem;
+                                    color: var(--danger);
+                                    margin-bottom: 0;
+                                }
+                            }
+
+                            .btn-group {
+                                display: flex;
+                                justify-content: flex-start;
+                                align-items: center;
+                                gap: 1rem;
+
+                                button {
+                                    font-weight: 600;
+                                }
+
+                                #save-ba-data {
+                                    background-color: var(--success);
+                                }
+
+                                #ignore-ba-data {
+                                    background-color: var(--danger);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 &:nth-child(2) {
-
                     .bio-header {
                         font-size: 1.6rem;
                         font-weight: 600;
@@ -160,6 +248,7 @@
                 }
 
                 &:nth-child(3) {
+
                     .level-container {
                         background-color: var(--light);
                         padding: 2rem;
@@ -241,28 +330,37 @@
                 .col {
                     width: 100%;
 
+                    &:nth-child(1) { 
+                        .fullname {
+                            .first-name{
+                                flex-wrap: wrap;
+                                width: 100%;
+                            }
+                        }
 
+                    }
                 }
             }
         }
     }
-}
 
-@media only screen and (max-width: 500px) {
-    .account {
-        .data {
-            padding: 1rem;
-            .row {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start;
-                gap: 1rem;
+    @media only screen and (max-width: 500px) {
+        .account {
+            .data {
+                padding: 1rem;
 
-                .col {
-                    width: 100%;
+                .row {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    gap: 1rem;
+
+                    .col {
+                        width: 100%;
 
 
+                    }
                 }
             }
         }

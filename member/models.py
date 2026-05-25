@@ -19,6 +19,7 @@ class Account(models.Model):
     avatar = models.ImageField(upload_to=get_random_avatar_name, blank=True, null=True)
     
     bio = models.CharField(max_length=255, blank=True, null=True)
+    profession = models.CharField(max_length=100, blank=True, null=True)
 
     xp = models.IntegerField(default=0)
     level = models.IntegerField(default=1)
