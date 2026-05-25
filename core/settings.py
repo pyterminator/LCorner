@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'member.apps.MemberConfig',
     'contact.apps.ContactConfig',
     'post.apps.PostConfig',
+    'notifications.apps.NotificationsConfig',
 ]
 
 MIDDLEWARE = [
@@ -137,6 +138,7 @@ PASSWORD_PATTERN = (
     r"^(?=.*[A-ZÜŞÇİĞÖƏ])"
     r"(?=.*[a-züçşıəöğ])"
     r"(?=.*\d)"
-    r"(?=.*\.)"
     r"[A-Za-z0-9.üçşıəöğÜŞÇİĞÖƏ]{8,}$"
 )
+
+BIO_PATTERN = r"^[A-Za-zƏəÖöÜüĞğÇçŞşİı0-9 .,;:!?'\"()\-\n]+$"

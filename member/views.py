@@ -8,6 +8,7 @@ from string import ascii_letters
 from django.conf import settings
 from member.models import Account
 from django.http import JsonResponse
+from django.utils.html import strip_tags
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect 
 from django.shortcuts import get_object_or_404
@@ -386,4 +387,42 @@ def UpdateBaseData(request):
             "success": False,
             "error":f"{e}"
         })
+
+@login_required
+def SaveBioData(request):
+
+    if request.method != "POST": return JsonResponse({"success":False, "error":"Yanlış cəhd!"})
+
+    try:
+        account = get_object_or_404(Account, user=request.user.id)
+        data = json.loads(request.body)
+
+        bio = strip_tags(data.get("bio", ""))
+
+        if len(bio) == 0 or bio == "":
+            return JsonResponse({"success":False, "error":"Bioqrafiya mətni daxil edin"})
+
+
+        if bio and len(bio) < 10:
+            return JsonResponse({"success":False, "error":"Bioqrafiya mətni minimum 10 simvoldan ibarət olmalıdır"})
+        
+        if bio and len(bio) > 150:
+            return JsonResponse({"success":False, "error":"Bioqrafiya mətni maksimum 150 simvoldan ibarət ola bilər"})
+        
+        if not re.match(settings.BIO_PATTERN, bio):
+            return JsonResponse({"success":False, "error":"Bioqrafiyada icazə verilməyən simvollar var"})
+
+        account.bio = bio 
+        account.save()
+
+        return JsonResponse({
+            "success": True,
+            "bio":bio
+        })
+
+    except Exception as e:
+        return JsonResponse({"success":False, "error":f"{e}"})
+
+
+
 

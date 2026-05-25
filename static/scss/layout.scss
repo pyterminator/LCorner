@@ -2,7 +2,7 @@
 
 #root {
     width: 100%;
-    min-height: 100vh;
+    min-height: 100dvh;
 
     display: flex;
     justify-content: flex-start;
@@ -12,6 +12,7 @@
         &:nth-child(1) {
             width: 25rem;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
             background-color: var(--dark);
             position: fixed;

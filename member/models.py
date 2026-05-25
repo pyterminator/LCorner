@@ -2,7 +2,7 @@ import random, string
 from django.db import models
 from django.dispatch import receiver
 from django.contrib.auth.models import User  
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 
 
 def get_random_avatar_name(instance, filename): 
@@ -18,7 +18,7 @@ class Account(models.Model):
 
     avatar = models.ImageField(upload_to=get_random_avatar_name, blank=True, null=True)
     
-    bio = models.CharField(max_length=255, blank=True, null=True)
+    bio = models.CharField(max_length=150, blank=True, null=True)
     profession = models.CharField(max_length=100, blank=True, null=True)
 
     xp = models.IntegerField(default=0)
@@ -31,6 +31,20 @@ class Account(models.Model):
     facebook = models.CharField(max_length=255, blank=True, null=True)
     tiktok = models.CharField(max_length=255, blank=True, null=True)
     x = models.CharField(max_length=255, blank=True, null=True)
+
+
+    def required_xp(self, level=None):
+        level = level or self.level
+        return int(100 + (50 * (level ** 2)))
+
+    def add_xp(self, gained_xp):
+        self.xp += gained_xp
+
+        while self.xp >= self.required_xp(self.level + 1):
+            self.level += 1
+            
+
+        self.save()
 
 
 

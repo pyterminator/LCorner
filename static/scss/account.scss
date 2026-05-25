@@ -148,13 +148,11 @@
                     }
 
                     .edit-ba-data {
-                        &>button {
-                            margin-top: 1.5rem;
-                        }
+                        padding-bottom: 1rem;
 
                         button {
                             font-size: 1.2rem;
-                            color: var(--light);
+                            color: var(--all-light);
                             background-color: var(--input-bg);
                             padding: 0 .7rem;
                             border-radius: 1rem;
@@ -168,6 +166,11 @@
                             &:active {
                                 transform: translate(.2rem, .2rem);
                             }
+                        }
+
+                        &>button {
+                            margin-top: 1.5rem;
+                            color: var(--light);
                         }
 
                         form {
@@ -240,10 +243,73 @@
                         color: var(--light);
                     }
 
+                    .bio-alert {
+                        color: var(--danger);
+                        font-size: 1.2rem;
+                        margin-bottom: .5rem;
+                    }
+
                     .bio-content {
                         font-size: 1.4rem;
                         font-weight: 400;
                         color: var(--main-dark);
+                    }
+
+                    .btn-group {
+                        margin-top: 2rem;
+                        padding-bottom: 1rem;
+
+                        &>button {
+                            display: inline-block;
+                            font-size: 1.2rem;
+                            color: var(--light);
+                            background-color: var(--input-bg);
+                            padding: 0 .7rem;
+                            border-radius: 1rem;
+                            box-shadow: .3rem 0 0 .1rem var(--light);
+                            line-height: 3rem;
+
+                            i {
+                                font-size: 1.5rem;
+                            }
+
+                            &:active {
+                                transform: translate(.2rem, .2rem);
+                            }
+                        }
+
+                        .next {
+                            display: none;
+                            justify-content: flex-start;
+                            align-items: center;
+                            gap: 1rem;
+
+                            button {
+                                font-weight: 600;
+                                font-size: 1.2rem;
+                                padding: 0 .7rem;
+                                border-radius: 1rem;
+                                box-shadow: .3rem 0 0 .1rem var(--light);
+                                line-height: 3rem;
+                                color: var(--all-light);
+
+                                i {
+                                    font-size: 1.5rem;
+                                }
+
+                                &:active {
+                                    transform: translate(.2rem, .2rem);
+                                }
+                            }
+
+                            button:nth-child(1) {
+                                background-color: var(--success);
+                            }
+
+                            button:nth-child(2) {
+                                background-color: var(--danger);
+                            }
+                        }
                     }
                 }
 
@@ -314,6 +380,66 @@
             }
         }
     }
+
+    .change-password {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        background-color: var(--main);
+        margin: 1rem 2rem;
+        padding: 1rem;
+        border-radius: 2rem;
+        box-shadow: .3rem 0 0 .1rem var(--light);
+
+        .col {
+            &:nth-child(1) {
+                width: 6rem;
+
+                svg {
+                    width: 6rem;
+                    height: 6rem;
+                    object-fit: contain;
+                    object-position: center;
+                }
+            }
+
+            &:nth-child(2) {
+                width: calc(100% - 18rem);
+                color: var(--light);
+
+                .header {
+                    font-size: 1.8rem;
+                    font-weight: 600;
+                }
+
+                p {
+                    font-size: 1.4rem;
+                }
+            }
+
+            &:nth-child(3) {
+                width: 10rem;
+
+                a {
+                    i {
+                        margin-right: .3rem;
+                        display: inline-block;
+                        transition: all .1s ease-in-out;
+                    }
+
+                    font-size: 1.2rem;
+                    color: var(--link);
+
+                    &:hover {
+                        i {
+                            transform: translate(.2rem, 0);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -330,12 +456,11 @@
                 .col {
                     width: 100%;
 
-                    &:nth-child(1) { 
+                    &:nth-child(1) {
                         .fullname {
-                            .first-name{
-                                flex-wrap: wrap;
-                                width: 100%;
-                            }
+                            flex-wrap: wrap;
+                            width: 100%;
+
                         }
 
                     }
@@ -343,24 +468,49 @@
             }
         }
     }
+}
 
-    @media only screen and (max-width: 500px) {
-        .account {
-            .data {
-                padding: 1rem;
+@media only screen and (max-width: 900px) {
+    .account {
+        .change-password {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem;
 
-                .row {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-start;
-                    align-items: flex-start;
-                    gap: 1rem;
+            .col {
+                 
+                &:nth-child(2) {
+                    width: 100%;
+                    text-align: center;
+                }
 
-                    .col {
-                        width: 100%;
+                &:nth-child(3) {
+                    width: 100%;
+                    text-align: center;
+                    margin-top: 1rem; 
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .account {
+        .data {
+            padding: 1rem;
+
+            .row {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 1rem;
+
+                .col {
+                    width: 100%;
 
 
-                    }
                 }
             }
         }

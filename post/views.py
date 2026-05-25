@@ -150,6 +150,3 @@ def PostLike(request):
 
     except:
         return JsonResponse({"success": False}) 
-
-
-

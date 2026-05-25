@@ -99,7 +99,7 @@ async function updateBaseData(e){
         f.last_name.value = data.data.last_name
         document.querySelector("div.col > .profession").innerText = data.data.profession
         f.profession.value = data.data.profession
-        f.previousElementSibling.style.display = "none"
+        // f.previousElementSibling.style.display = "none"
     } else if (data.f_n) {
         f.querySelector("#form_data_first_name + p").innerText = data.f_n
     } else if (data.l_n) {
@@ -109,4 +109,68 @@ async function updateBaseData(e){
     } else {
         f.querySelector("#form_data_profession + p").innerText = data.error
     }
+}
+
+function editBioData(btn){
+    const bio_content = btn.parentElement.previousElementSibling;
+
+    bio_content.setAttribute('contenteditable', true);
+    setCursorToEnd(bio_content);
+
+    btn.nextElementSibling.style.display = "flex";
+    btn.style.display = "none";
+}
+
+function setCursorToEnd(el) {
+    el.focus();
+
+    const range = document.createRange();
+    const selection = window.getSelection();
+
+    range.selectNodeContents(el);
+    range.collapse(false); // false = sonuna aparır
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
+
+function closeEditBioData(btn){
+    btn.parentElement.parentElement.previousElementSibling.setAttribute("contenteditable", false);
+    btn.parentElement.previousElementSibling.style.display = "inline-block";
+    
+    const txt = document.querySelector(".hidden-bio-text").innerText;
+    btn.parentElement.parentElement.previousElementSibling.innerText = txt;
+    btn.parentElement.style.display = "none";
+    const alert_box = btn.closest(".col").querySelector(".bio-alert");
+    alert_box.innerText = ""
+    alert_box.style.display = "none"; 
+}
+
+async function saveBioData(btn){
+    let bio_content = btn.closest(".col").querySelector(".bio-content")
+    let alert_box = bio_content.previousElementSibling.previousElementSibling
+    
+    const url = btn.dataset.url
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: JSON.stringify({
+            "bio": bio_content.innerText
+        })
+    });
+
+    const data = await response.json();
+
+    if (data.success){
+        bio_content.previousElementSibling.innerText = data.bio 
+        closeEditBioData(btn.nextElementSibling)
+    } else {
+        alert_box.style.display = "block"
+        alert_box.innerText = data.error
+    }
+
 }
