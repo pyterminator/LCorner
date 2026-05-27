@@ -8,11 +8,33 @@ from django.db.models.signals import post_save
 def create_user_account(sender, instance, created, **kwargs):
     if created:
         new_account = Account.objects.create(user=instance, xp=100)
-        Notification.objects.create(
-            account=new_account,
-            type="SYSTEM",
-            message=f"⭐ Qeydiyyatdan keçdiyiniz üçün sistem tərəfindən balansınıza +100 xal əlavə edildi."
+        notifications = []
+
+        notifications.append(
+            Notification(
+                account=new_account,
+                title = "Təbriklər!!!",
+                type="SYSTEM",
+                message="⭐ Qeydiyyatdan keçdiyiniz üçün sistem tərəfindən balansınıza +100 xal əlavə edildi."
+            )
         )
+
+        super_admins = Account.objects.filter(
+            user__is_superuser=True
+        ).select_related("user")
+
+        for admin in super_admins:
+            notifications.append(
+                Notification(
+                    title="Yeni istifadəçi",
+                    account=admin,
+                    actor=new_account,
+                    type="SYSTEM",
+                    message=f"Yeni istifadəçi qeydiyyatdan keçdi: {instance.username}"
+                )
+            )
+
+        Notification.objects.bulk_create(notifications)
 
 
 

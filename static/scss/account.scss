@@ -26,7 +26,28 @@
             align-items: center;
             border: .4rem solid var(--main);
 
-            img {
+            .loader{
+                display: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 11;
+                width: 9.2rem;
+                height: 9.2rem;
+                background-color: var(--post-bg);
+                border-radius: 50%;
+                justify-content: center;
+                align-items: center;
+
+                img{
+                    width: 7rem;
+                    height: 7rem;
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
+
+            &>img {
                 width: 9.2rem;
                 height: 9.2rem;
                 object-fit: cover;

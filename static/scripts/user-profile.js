@@ -1,6 +1,11 @@
 async function changeUserProfile(input){
+
+    const avatar_loader = input.closest(".img-container").querySelector(".loader")
+    avatar_loader.style.display = "flex"
+
     const file = input.files[0]
     const url = input.closest(".change-profile-photo").dataset.action
+
 
     if (!file) return;
 
@@ -16,14 +21,16 @@ async function changeUserProfile(input){
     });
 
     const data = await response.json();
-    if(data.success){
-        changeUserProfileUI(input.closest(".img-container").querySelector("img"), file)
-        document.getElementById("avatar-errors").innerText = ""
-
-    } else {
-        document.getElementById("avatar-errors").innerText = data.error
-    }
-
+    setTimeout(() => {
+        if(data.success){
+            changeUserProfileUI(input.closest(".img-container").querySelector(":scope > img"), file)
+            document.getElementById("avatar-errors").innerText = ""
+    
+        } else {
+            document.getElementById("avatar-errors").innerText = data.error
+        }
+        avatar_loader.style.display = "none";
+    }, 2000);
 }
 
 function changeUserProfileUI(img_element, file){

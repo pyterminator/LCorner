@@ -29,6 +29,9 @@
         <div class="user-data">
             <div class="cover" style="background-image: url({% static 'images/cover.png' %});">
                 <div class="img-container"> 
+                    <div class="loader">
+                        <img src="{% static 'images/loader.svg' %}" alt="loader">
+                    </div>
                     {% if account.avatar %}
                         <img src="{{account.avatar.url}}" draggable="false" alt="{{account.user.username}}">
                     {% else %}

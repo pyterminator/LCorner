@@ -40,7 +40,10 @@
                             </div>
                         </div>
                         <div class="created_at">
-                            {{n.created_at|smart_time}} <span class="is_read"></span>
+                            {{n.created_at|smart_time}} 
+                            {% if not n.is_read %}
+                                <span class="is_read"></span>
+                            {% endif %}
                         </div>
                     </a> 
                 {% else %}
@@ -54,7 +57,10 @@
                             </div>
                         </div>
                         <div class="created_at">
-                            {{n.created_at|smart_time}} <span class="is_read"></span>
+                            {{n.created_at|smart_time}}
+                            {% if not n.is_read %}
+                                <span class="is_read"></span>
+                            {% endif %}
                         </div>
                     </div> 
                 {% endif %}

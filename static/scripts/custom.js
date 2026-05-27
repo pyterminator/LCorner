@@ -206,6 +206,7 @@ window.getCookie = function(name) {
     return cookieValue;
 };
 
+// Bildirisleri yoxla
 async function GetUnreadNotificationCount(){
     const baseUrl = window.location.origin
     const url = baseUrl + "/notifications/get-unread-notification-count/"
@@ -226,9 +227,8 @@ async function GetUnreadNotificationCount(){
     }
 }
 
- 
-let interval = setInterval(GetUnreadNotificationCount, 10000);
 
+let interval = setInterval(GetUnreadNotificationCount, 10000);
 document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
         clearInterval(interval);
