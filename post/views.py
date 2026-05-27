@@ -4,6 +4,7 @@ from django.db.models import F
 from member.models import Account
 from dashboard.models import Like
 from django.http import JsonResponse
+from notifications.models import Notification
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test 
@@ -34,7 +35,8 @@ def post_create_view(request):
                 lang = foreign_lang,
                 sentence = sentence,
                 description = description,
-                is_public = True
+                is_public = True,
+                approved = True if request.user.is_superuser else False
             )
 
             return redirect("dashboard")
@@ -63,14 +65,27 @@ def post_approved_view(request, id):
     if request.method == "POST":
         p = Post.objects.filter(id=id).first()
         if p:
-            if p.approved:
-                p.approved = False 
+            try:
+                if p.approved:
+                    p.approved = False 
+                else:
+                    p.approved = True 
+                p.save()
+
+                Notification.objects.create(
+                    account=p.author,
+                    type="SYSTEM",
+                    message=f"🎉 Postunuz təsdiqləndi!"
+                )
+
+            except:
+                return JsonResponse({
+                    "success":False
+                })
             else:
-                p.approved = True 
-            p.save()
-            return JsonResponse({
-                "success":True
-            })
+                return JsonResponse({
+                    "success":True
+                })
         
     return JsonResponse({
         "success":False
@@ -139,6 +154,17 @@ def PostLike(request):
             if account.id != post.author.id:
                 Account.objects.filter(id=post.author_id).update(
                     xp=F("xp") + 10
+                )
+
+                Notification.objects.create(
+                    account=post.author,
+                    actor=account,
+                    title="Heyyy!",
+                    type="LIKE",
+                    message=f"🎉 10 xal qazandın! {account.user.username} sizin postunuzu bəyəndi!",
+                    data={
+                        "post_slug": post.slug
+                    }
                 )
             
 

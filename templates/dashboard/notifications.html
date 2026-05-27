@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load custom_filters %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - Bildirişlər
+    </title>
+{% endblock %}
+
+
+<!-- Style -->
+{% block styles %}
+     <link rel="stylesheet" href="{% static 'css/notifications.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb"> 
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>Bildirişlər</span>
+    </div>
+
+    <h1>Bildirişlər</h1>
+
+
+    <div class="notifications">
+            {% for n in notifications %}
+                {% if n.data %}
+                    <a href="{% url 'postdetail' n.data.post_slug %}" class="notification"> 
+                        <div class="notification-body">
+                            <div class="title">
+                                {{n.title}}
+                            </div>
+                            <div class="message">
+                                {{n.message}}
+                            </div>
+                        </div>
+                        <div class="created_at">
+                            {{n.created_at|smart_time}} <span class="is_read"></span>
+                        </div>
+                    </a> 
+                {% else %}
+                    <div class="notification"> 
+                        <div class="notification-body">
+                            <div class="title">
+                                {{n.title}}
+                            </div>
+                            <div class="message">
+                                {{n.message}}
+                            </div>
+                        </div>
+                        <div class="created_at">
+                            {{n.created_at|smart_time}} <span class="is_read"></span>
+                        </div>
+                    </div> 
+                {% endif %}
+            {% endfor %}
+        </div>
+ 
+{% endblock %}
+
+<!-- Scripts -->
+{% block scripts %}
+
+{% endblock %}

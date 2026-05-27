@@ -75,19 +75,24 @@
                         <i class="fa-solid fa-bars-staggered"></i>
                     </div>
 
+                    <a href="{% url 'mynotifications' %}" id="notify">
+                        <i class="fa-solid fa-bell"></i>
+                        <span id="has_notify"></span>
+                    </a>
+                    
                     
                 </div>
                 <div class="profile">
                     {% if request.user.is_authenticated %}
-                    <span onclick="openDropdownMenu(this)"><i class="fa-regular fa-user"></i></span>
-                    <div class="dropdown-menu">
-                        <a href="{% url 'myaccount' request.user.username %}"><i class="fa-solid fa-user"></i> Hesabım</a>
-                        <a href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Çıxış et</a>
-                    </div>
+                        <span onclick="openDropdownMenu(this)"><i class="fa-regular fa-user"></i></span>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'myaccount' request.user.username %}"><i class="fa-solid fa-user"></i> Hesabım</a>
+                            <a href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Çıxış et</a>
+                        </div>
                     {% else %}
-                    <a href="{% url 'login' %}">
-                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Daxil ol
-                    </a>
+                        <a href="{% url 'login' %}">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Daxil ol
+                        </a>
                     {% endif %}
 
                 </div>

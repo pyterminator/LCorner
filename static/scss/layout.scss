@@ -95,13 +95,9 @@
 
                 .links {
                     display: flex;
-                    gap: 2rem;
+                    gap: 2rem; 
 
-                    a {
-                        @extend %button-style;
-                    }
-
-                    span {
+                    &>span {
                         @extend %button-style;
                         cursor: pointer;
                     }
@@ -110,6 +106,23 @@
                         @extend %button-style;
                         cursor: pointer;
                         display: none;
+                    }
+                    #notify{
+                        @extend %button-style;
+                        position: relative;
+                        background-color: var(--bg);
+                        color: var(--light);
+                        cursor: pointer;
+                        span{
+                            width: 1rem;
+                            height: 1rem;
+                            border-radius: 50%;
+                            background-color: var(--star);
+                            position: absolute;
+                            top: -.5rem;
+                            right: -.5rem;
+                            display: none;
+                        }
                     }
                 }
 

@@ -1,8 +1,7 @@
 import random, string 
 from django.db import models
-from django.dispatch import receiver
 from django.contrib.auth.models import User  
-from django.db.models.signals import post_save, pre_save
+
 
 
 def get_random_avatar_name(instance, filename): 
@@ -42,22 +41,9 @@ class Account(models.Model):
 
         while self.xp >= self.required_xp(self.level + 1):
             self.level += 1
-            
 
         self.save()
 
 
 
 
-@receiver(post_save, sender=User)
-def create_user_account(sender, instance, created, **kwargs):
-    if created:  # Əgər user yeni yaradılıbsa (update edilməyibsə)
-        Account.objects.create(user=instance, xp=100)
-
-
-
-@receiver(post_save, sender=User)
-def save_user_account(sender, instance, **kwargs):
-    # Əgər hər hansı səbəbdən account yoxdursa, xəta verməməsi üçün hasattr yoxlanışı
-    if hasattr(instance, "account"):
-        instance.account.save()

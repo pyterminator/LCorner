@@ -171,7 +171,7 @@ function removeAlert(span) {
     span.parentElement.remove()
 }
 
-
+// Bütün şəkillərin sağ kliklenmesini kilidle
 const all_images = document.querySelectorAll("img")
 all_images.forEach(element => {
     element.addEventListener("contextmenu", function (event) {
@@ -180,7 +180,7 @@ all_images.forEach(element => {
     })
 });
 
-
+// CSRF generate et
 window.getCookie = function(name) {
 
     let cookieValue = null;
@@ -203,6 +203,36 @@ window.getCookie = function(name) {
             }
         }
     }
-
     return cookieValue;
 };
+
+async function GetUnreadNotificationCount(){
+    const baseUrl = window.location.origin
+    const url = baseUrl + "/notifications/get-unread-notification-count/"
+
+    const response = await fetch(url, {
+        method: "POST",
+
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+        }
+    })
+
+    const data = await response.json()
+    if (data.success && data.has_unread_notifications){
+        document.getElementById("has_notify").style.display = "inline-block"
+    } else {
+        document.getElementById("has_notify").style.display = "none"
+    }
+}
+
+ 
+let interval = setInterval(GetUnreadNotificationCount, 10000);
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        clearInterval(interval);
+    } else {
+        interval = setInterval(GetUnreadNotificationCount, 10000);
+    }
+});
