@@ -73,7 +73,17 @@
                             {% endif %}
                         </div>
                         <div class="username">
-                            @{{account.user.username}}
+                            <div>
+                                @<span contenteditable="false" data-url="{% url 'changemyusername' %}" data-name="{{account.user.username}}">{{account.user.username}}</span> 
+                                <button id="changeUsernameBtn"><i class="fa-solid fa-pencil"></i> İstifadəçi adını dəyiş</button>
+                                <div class="btn-group">
+                                    <button id="saveUsername"><i class="fa-regular fa-floppy-disk"></i></button>
+                                    <button id="closeEditUsername"><i class="fa-solid fa-xmark"></i></button>
+                                </div> 
+                            </div>
+                            <p class="username-alert">
+                                Bu istifadəçi adı istifadə olunmuşdur. 
+                            </p>
                         </div>
                         <div class="profession"> 
                             PCAP™ – Certified Associate Python Programmer
@@ -146,16 +156,16 @@
                         <div class="level-container">
                             <div class="top">
                                 <div class="level-name">
-                                    <i class="fa-solid fa-web-awesome"></i> Level 3 
+                                    <i class="fa-solid fa-web-awesome"></i> Level {{account.level}}
                                 </div>
                                 <div class="counter">
-                                    <div class="counter-left">420</div>
+                                    <div class="counter-left">{{account.xp}}</div>
                                     /
-                                    <div class="counter-right"> 500 xp </div>
+                                    <div class="counter-right"> {{account.required_xp}} xp </div>
                                 </div>
                             </div>
                             <div class="progress-bar">
-                                <div class="bar"></div>
+                                <div class="bar" style=""></div>
                             </div>
                             <div class="progress-info">
                                 <span>70%</span> tamamlandı

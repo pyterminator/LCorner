@@ -24,8 +24,8 @@ async function changeUserProfile(input){
     setTimeout(() => {
         if(data.success){
             changeUserProfileUI(input.closest(".img-container").querySelector(":scope > img"), file)
-            document.getElementById("avatar-errors").innerText = ""
-    
+            document.getElementById("avatar-errors").innerText = "" 
+            document.querySelector(".col .level-container .counter .counter-left").innerText = data.new_xp
         } else {
             document.getElementById("avatar-errors").innerText = data.error
         }
@@ -181,3 +181,75 @@ async function saveBioData(btn){
     }
 
 }
+
+// Change Username
+document.getElementById("changeUsernameBtn").addEventListener("click", function(e){
+    let b = e.target;
+    let s = e.target.previousElementSibling;
+    let b_group = b.nextElementSibling;
+    let a_box = b.parentElement.nextElementSibling;
+
+    s.setAttribute("contenteditable", true);
+    setCursorToEnd(s);
+    
+    b_group.style.display = "flex";
+    b.style.display = "none";
+
+    s.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("saveUsername").click()
+        }
+    });
+
+    s.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("saveUsername").click()
+        }
+        if (e.key === " ") {
+            e.preventDefault();
+        }
+    });
+
+    document.getElementById("closeEditUsername").addEventListener("click", function(event){
+        s.setAttribute("contenteditable", false);
+        s.innerText = s.dataset.name;
+        b_group.style.display = "none";
+        b.style.display = "inline-block";
+        a_box.style.display = "none";
+    });
+
+    document.getElementById("saveUsername").addEventListener("click", async function(event){
+        
+        
+        let val = s.innerText;
+        const url = s.dataset.url   
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: JSON.stringify({
+                "username": val
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success){
+            a_box.style.display = "none";
+            s.innerText = data.username;
+            s.setAttribute("contenteditable", false);
+            b_group.style.display = "none";
+            b.style.display = "inline-block";
+            s.dataset.name = data.username
+        } else {
+            a_box.style.display = "block"
+            a_box.innerText = data.error;
+            setCursorToEnd(s);
+        }
+        
+    });
+
+})

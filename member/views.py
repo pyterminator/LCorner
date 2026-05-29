@@ -67,6 +67,9 @@ def MemberRegistration(request):
         if len(username) < 3:
             invalid_data = True
             data["username_abc"] = "İstifadəçi adı minimum 3 simvoldan ibarət olmalıdır!"
+        if len(username) > 12:
+            invalid_data = True
+            data["username_abc"] = "İstifadəçi adı maksimum 12 simvoldan ibarət ola bilər!"
 
         # Email
         if not (re.match(settings.EMAIL_PATTERN, email) and isinstance(email, str)):
@@ -179,7 +182,6 @@ def ChangeMyAvatar(request):
         try:
             img = Image.open(avatar)
             width, height = img.size
-            print(width, height)
 
             if width != height or width != 250:
                 return JsonResponse({
@@ -205,8 +207,8 @@ def ChangeMyAvatar(request):
                 old_avatar_path = account.avatar.path 
                 if os.path.isfile(old_avatar_path):
                     os.remove(old_avatar_path)
-
-            account.xp = F("xp") - 500
+            if not account.user.is_superuser:
+                account.xp = F("xp") - 500
             account.avatar = avatar  
             account.save(update_fields=["xp", "avatar"]) 
             account.refresh_from_db()
@@ -217,7 +219,8 @@ def ChangeMyAvatar(request):
             })
         else:
             return JsonResponse({
-                "success":True
+                "success":True,
+                "new_xp": account.xp
             })
     
     return JsonResponse({
@@ -424,5 +427,55 @@ def SaveBioData(request):
         return JsonResponse({"success":False, "error":f"{e}"})
 
 
+@login_required
+def ChangeUsername(request):
+
+    if request.method != "POST": return JsonResponse({"success":False, "error":"Yanlış cəhd!"})
+
+    try:
+        account = get_object_or_404(Account, user=request.user.id)
+        data = json.loads(request.body)
+
+        u_name = strip_tags(data.get("username", ""))
+
+        if len(u_name) == 0 or u_name == "":
+            return JsonResponse({"success":False, "error":"İstifadəçi adı daxil edin"})
+
+
+        if u_name and len(u_name) < 3:
+            return JsonResponse({"success":False, "error":"İstifadəçi adı minimum 3 simvoldan ibarət olmalıdır"})
+        
+        if u_name and len(u_name) > 12:
+            return JsonResponse({"success":False, "error":"İstifadəçi adı maksimum 12 simvoldan ibarət ola bilər"})
+        
+        if not re.match(settings.USERNAME_PATTERN, u_name):
+            return JsonResponse({"success":False, "error": "İstifadəçi adında yalnız ingiliscə kiçik hərflər ola bilər"}) 
+        
+        if request.user.username == u_name:
+            return JsonResponse({"success":False, "error":"Hazırda istifadə edilən istifadəçi adıdır"})
+
+        if not request.user.is_superuser:
+            if account.xp < 200:
+                return JsonResponse({"success":False, "error":"İstifadəçi adını dəyişmək üçün 200 xal lazımdır"})
+
+
+
+        if User.objects.filter(username=u_name).first():
+            return JsonResponse({"success":False, "error":"İstifadəçi adı artıq istifadə edilir"}) 
+
+        account.user.username = u_name 
+        account.user.save()
+
+        if not request.user.is_superuser:
+            account.xp -= 200
+            account.save()
+
+        return JsonResponse({
+            "success": True,
+            "username":account.user.username
+        })
+
+    except Exception as e:
+        return JsonResponse({"success":False, "error":f"{e}"})
 
 
