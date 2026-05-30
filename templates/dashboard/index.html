@@ -22,6 +22,15 @@
     <div class="breadcrumb"> 
         <span><i class="fa-solid fa-home"></i> Ana səhifə</span>
     </div>
+    
+    {% if not posts %}
+        <div class="create-default-posts">
+            <a href="{% url 'createdefaultposts' %}">
+                Default postları əlavə et
+            </a>
+        </div>
+    {% endif %}
+
 
     {% if not has_post %}
         <div class="post-create-cards">

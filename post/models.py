@@ -15,7 +15,7 @@ class Post(models.Model):
     lang = models.CharField(choices=LANG_CHOICES , default=LANG_CHOICES [0][0], max_length=10)
     sentence = models.CharField(max_length=255)
     description = models.TextField()
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, max_length=100)
     likes = models.PositiveIntegerField(default=0)
 
     is_public = models.BooleanField(default=False)
