@@ -120,6 +120,7 @@ async function updateBaseData(e){
 
 function editBioData(btn){
     const bio_content = btn.parentElement.previousElementSibling;
+    bio_content.style.display = "block";
 
     bio_content.setAttribute('contenteditable', true);
     setCursorToEnd(bio_content);

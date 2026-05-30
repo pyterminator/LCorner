@@ -28,48 +28,16 @@
 
 
     <div class="notifications">
-            {% for n in notifications %}
-                {% if n.data %}
-                    <a href="{% url 'postdetail' n.data.post_slug %}" class="notification"> 
-                        <div class="notification-body">
-                            <div class="title">
-                                {{n.title}}
-                            </div>
-                            <div class="message">
-                                {{n.message}}
-                            </div>
-                        </div>
-                        <div class="created_at">
-                            {{n.created_at|smart_time}} 
-                            {% if not n.is_read %}
-                                <span class="is_read"></span>
-                            {% endif %}
-                        </div>
-                    </a> 
-                {% else %}
-                    <div class="notification"> 
-                        <div class="notification-body">
-                            <div class="title">
-                                {{n.title}}
-                            </div>
-                            <div class="message">
-                                {{n.message}}
-                            </div>
-                        </div>
-                        <div class="created_at">
-                            {{n.created_at|smart_time}}
-                            {% if not n.is_read %}
-                                <span class="is_read"></span>
-                            {% endif %}
-                        </div>
-                    </div> 
-                {% endif %}
-            {% endfor %}
-        </div>
+        {% for n in notifications %} 
+            <div class="notification"> 
+                {% include "partials/notification-body.html" %}
+            </div>  
+        {% endfor %}
+    </div>
  
 {% endblock %}
 
 <!-- Scripts -->
 {% block scripts %}
-
+        <script src="{% static 'scripts/notification.js' %}"></script>
 {% endblock %}

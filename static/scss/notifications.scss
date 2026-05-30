@@ -23,6 +23,54 @@
             }
             .message{
                 font-size: 1.4rem;
+                .links{
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    margin-top: .5rem;
+                    gap: 1rem;
+                    a{
+                        background-color: var(--bg);
+                        padding: .3rem .5rem;
+                        font-size: 1.2rem;
+                        color: var(--all-light); 
+                        border-radius: .5rem;
+                        box-shadow: .3rem 0 0 .1rem var(--light);
+                        display: inline-block;
+                    }
+                }
+            }
+            .check_as_read{
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                gap: .3rem;
+                font-size: 1.2rem;
+                font-weight: 500;
+                margin-top: .75rem;
+                cursor: pointer;
+                i{
+                    width: 2rem;
+                    height: 2rem;
+                    font-size: 1rem;
+                    border-radius: 50%;
+                    border: .1rem solid var(--light);
+                    line-height: 1.8rem; 
+                    background-color: var(--badge);
+                } 
+
+                &:hover{
+                    opacity: .75;
+                }
+            }
+            .checked_as_read{
+                cursor: default;
+                &:hover{
+                    opacity: 1;
+                }
+                i{
+                    background-color: var(--dark);
+                }
             }
         }
         .created_at{

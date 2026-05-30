@@ -1,0 +1,108 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - {{account.user.username}}
+    </title>
+{% endblock %}
+
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/account.min.css' %}">
+{% endblock %}
+
+{% block root %}
+
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb">
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>İstifadəçi profili</span>
+    </div>
+
+    <h1>@{{account.user.username}}</h1>
+
+    <div class="account">
+        <div class="user-data">
+            <div class="cover" style="background-image: url({% static 'images/cover.png' %});">
+                <div class="img-container">
+                    {% if account.avatar %}
+                        <img src="{{account.avatar.url}}" draggable="false" alt="{{account.user.username}}">
+                    {% else %}
+                        <img src="{% static 'images/default-avatar.png' %}" draggable="false" id="default-img" alt="{{account.user.username}}">
+                    {% endif %}
+                </div>
+            </div>
+            <div id="avatar-errors"></div>
+            <div class="data">
+                <div class="row">
+                    <div class="col">
+                        <div class="fullname">
+                            <div class="first-name">
+                                {% if account.user.first_name %}
+                                    {{account.user.first_name}}
+                                {% else %}
+                                    ---
+                                {% endif %}
+                            </div>
+                            <div class="last-name">
+                                {% if account.user.last_name %}
+                                    {{account.user.last_name}}
+                                {% else %}
+                                    ---
+                                {% endif %}
+                            </div>
+                            {% if account.user.is_staff %}
+                                <div class="badge">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path d="M500 999.2A213 213 0 0 0 331.7 916c-28 0-55.3 5.5-81.3 16.3A211.7 211.7 0 0 0 67.7 749.6c37-88.8 9.5-191.2-66.9-249.6a211.7 211.7 0 0 0 67-249.6A211.7 211.7 0 0 0 250.3 67.7c26 10.8 53.3 16.3 81.3 16.3A213 213 0 0 0 500 .8 213 213 0 0 0 668.3 84c28 0 55.4-5.5 81.3-16.3a211.7 211.7 0 0 0 182.7 182.7A211.7 211.7 0 0 0 999.2 500a211.7 211.7 0 0 0-67 249.6 211.7 211.7 0 0 0-182.6 182.7 210.4 210.4 0 0 0-81.3-16.3A213 213 0 0 0 500 999.2Z" fill="#2CA9BC"></path></svg>
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="username">
+                            <div>
+                                @<span contenteditable="false">{{account.user.username}}</span> 
+                            </div>
+                            <p class="username-alert">
+                                Bu istifadəçi adı istifadə olunmuşdur. 
+                            </p>
+                        </div>
+                        <div class="profession"> 
+                            {% if account.profession %}
+                                {{account.profession}}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="bio-header">
+                            Bioqrafiya
+                        </div> 
+                        <div class="bio-content" contenteditable="false"> {% if account.bio %}{{account.bio}}{% else %}Daxil edilməyib{% endif %} </div>
+                    </div>
+                    <div class="col">
+                        <div class="level-container">
+                            <div class="top">
+                                <div class="level-name">
+                                    <i class="fa-solid fa-web-awesome"></i> Level {{account.level}}
+                                </div>
+                                <div class="counter">
+                                    <div class="counter-left">{{account.xp}}</div>
+                                    /
+                                    <div class="counter-right"> {{account.required_xp}} xp </div>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="bar" style="width:{{account.xp_percent}}%;"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>{{account.xp_percent}} %</span> tamamlandı
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+{% endblock %}

@@ -122,7 +122,11 @@ def UserAccount(request, username):
                 "posts":posts,
                 "post_count": post_count,
             }
-            return render(request, "dashboard/account.html", context=data)
+            if request.user == user: 
+                return render(request, "dashboard/account.html", context=data)
+            else:
+                return render(request, "public_account.html", context=data)
+
         
     
     return redirect("dashboard")

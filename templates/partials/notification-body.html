@@ -1,0 +1,34 @@
+
+{% load custom_filters %}
+<div class="notification-body">
+    <div class="title">
+        {{n.title}}
+    </div>
+    <div class="message">
+        {{n.message}}
+        <div class="links">
+            {% if n.data and n.data.post_slug %}
+                <a href="{% url 'postdetail' n.data.post_slug %}">Posta bax</a>
+            {% endif %}
+            {% if n.actor %}
+                <a href="{% url 'myaccount' n.actor.user.username  %}">@{{n.actor.user.username}}</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="check_as_read {% if n.is_read %}checked_as_read{% endif %}" {% if not n.is_read %}onclick="checkAsRead(this)"{% endif %} data-id="{{n.id}}" data-url="{% url 'checkasread' %}">
+        {% if n.is_read %}
+            <i class="fa-solid fa-check-double"></i>
+        {% else %}
+            <i class="fa-solid fa-check"></i>
+        {% endif %} 
+        <span> 
+            Oxundu kimi {% if n.is_read %}işarələndi{% else %}işarələ{% endif %}
+        </span>
+    </div>
+</div>
+<div class="created_at">
+    {{n.created_at|smart_time}} 
+    {% if not n.is_read %}
+        <span class="is_read"></span>
+    {% endif %}
+</div>

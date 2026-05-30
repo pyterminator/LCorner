@@ -12,7 +12,6 @@
 <!-- Style -->
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/account.min.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
 {% endblock %}
 
 {% block root %}
@@ -86,7 +85,9 @@
                             </p>
                         </div>
                         <div class="profession"> 
-                            PCAP™ – Certified Associate Python Programmer
+                            {% if account.profession %}
+                                {{account.profession}}
+                            {% endif %}
                         </div>
 
                         <div class="edit-ba-data">
@@ -128,9 +129,7 @@
                         </div>
                         <div class="bio-alert"></div>
                         <div class="hidden-bio-text" style="display: none;" hidden>{% if account.bio %}{{account.bio}}{% endif %}</div>
-                        <div class="bio-content" contenteditable="false">
-                            {% if account.bio %}{{account.bio}}{% endif %}
-                        </div>
+                        <div class="bio-content" contenteditable="false" {% if not account.bio %}style="display:none;"{% endif %}> {% if account.bio %}{{account.bio}}{% endif %} </div>
                         <div class="btn-group">
                             <button onclick="editBioData(this)">
                                 <i class="fa-solid fa-square-pen"></i>
@@ -165,10 +164,10 @@
                                 </div>
                             </div>
                             <div class="progress-bar">
-                                <div class="bar" style=""></div>
+                                <div class="bar" style="width:{{account.xp_percent}}%;"></div>
                             </div>
                             <div class="progress-info">
-                                <span>70%</span> tamamlandı
+                                <span>{{account.xp_percent}} %</span> tamamlandı
                             </div>
                         </div>
                     </div>
@@ -191,7 +190,6 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
     <script src="{% static 'scripts/user-profile.js' %}"></script>
 {% endblock %}
 

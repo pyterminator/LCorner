@@ -1,7 +1,9 @@
-from django.shortcuts import render
-from notifications.models import Notification
-from django.contrib.auth.decorators import login_required
+import json
+from member.models import Account
 from django.http import JsonResponse
+from notifications.models import Notification
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 @login_required 
 def MyNotifications(request):
@@ -30,4 +32,28 @@ def GetUnreadNotificationCount(request):
         })
     except:
         return JsonResponse({"success": False})
-    
+
+@login_required
+def CheckAsRead(request):
+    if request.method != "POST": return JsonResponse({"success": False})
+
+    try:
+        account = get_object_or_404(Account, user=request.user)
+        data = json.loads(request.body)
+        id = data.get("id", "")
+        n = get_object_or_404(Notification, id=id)
+
+        if n and account:
+            if n.account == account: 
+                if n.is_read:
+                    return JsonResponse({"success": False})
+                
+                n.is_read = True 
+                n.save()
+
+                return JsonResponse({
+                    "success": n.is_read
+                })
+        return JsonResponse({"success": False})
+    except:
+        return JsonResponse({"success": False})

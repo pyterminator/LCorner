@@ -35,6 +35,9 @@ class Account(models.Model):
     def required_xp(self, level=None):
         level = level or self.level
         return int(100 + (50 * (level ** 2)))
+    
+    def xp_percent(self):
+        return int((self.xp / self.required_xp()) * 100)
 
     def add_xp(self, gained_xp):
         self.xp += gained_xp

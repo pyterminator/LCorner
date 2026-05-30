@@ -5,8 +5,7 @@ from member.models import Account
 from dashboard.models import Like
 from django.http import JsonResponse
 from notifications.models import Notification
-from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test 
 
 @login_required
