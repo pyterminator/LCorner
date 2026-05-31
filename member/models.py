@@ -39,11 +39,13 @@ class Account(models.Model):
     def xp_percent(self):
         return int((self.xp / self.required_xp()) * 100)
 
-    def add_xp(self, gained_xp):
-        self.xp += gained_xp
+    def add_xp(self, gained_xp): 
 
-        while self.xp >= self.required_xp(self.level + 1):
+        self.xp += gained_xp 
+
+        while self.xp >= self.required_xp(self.level):
             self.level += 1
+
 
         self.save()
 

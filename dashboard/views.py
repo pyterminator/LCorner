@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 def Dashboard(request):
      
     
-    posts = Post.objects.filter(approved=True).filter(is_public=True).all().order_by('-id')
+    posts = Post.objects.filter(approved=True).filter(is_public=True).order_by('-id')[:12]
     my_account = Account.objects.filter(user=request.user).first()
 
     liked_posts = set(

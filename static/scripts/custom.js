@@ -76,6 +76,12 @@ function validatePassword(inp) {
         alert_box.innerText = "Şifrənizi daxil edin!"
     } else if (password.length <= 7) {
         alert_box.innerText = "Şifrə minimum 8 simvoldan ibarət olmalıdır"
+    } else if (!/[A-Z]/.test(password)) {
+        alert_box.innerText = "Şifrədə böyük hərf də olmalıdır!";
+    } else if (!/[a-z]/.test(password)) {
+        alert_box.innerText = "Şifrədə kiçik hərf də olmalıdır!";
+    } else if (!/[0-9]/.test(password)) {
+        alert_box.innerText = "Şifrədə rəqəm də olmalıdır!";
     } else {
         alert_box.innerText = ""
     }

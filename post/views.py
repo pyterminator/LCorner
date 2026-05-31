@@ -151,16 +151,18 @@ def PostLike(request):
             post.refresh_from_db()
             
             if account.id != post.author.id:
-                Account.objects.filter(id=post.author_id).update(
-                    xp=F("xp") + 10
-                )
+                # Account.objects.filter(id=post.author_id).update(
+                #     xp=F("xp") + 10
+                # )
+
+                Account.objects.filter(id=post.author_id).first().add_xp(10)
 
                 Notification.objects.create(
                     account=post.author,
                     actor=account,
                     title="Heyyy!",
                     type="LIKE",
-                    message=f"🎉 10 xal qazandın! {account.user.username} sizin postunuzu bəyəndi!",
+                    message=f"🎉 10 xal qazandın! {account.user.username} postunu bəyəndi!",
                     data={
                         "post_slug": post.slug
                     }
