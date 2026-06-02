@@ -10,6 +10,7 @@ from member.models import Account
 from django.http import JsonResponse
 from django.utils.html import strip_tags
 from django.contrib.auth.models import User
+from notifications.models import Notification
 from django.shortcuts import render, redirect 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -50,6 +51,8 @@ def MemberRegistration(request):
     data = {}
 
     if request.method == "POST":
+        ref_code = request.GET.get("ref", None)
+
         invalid_data = False
 
         username = request.POST.get("username", "").strip()
@@ -95,8 +98,29 @@ def MemberRegistration(request):
                 email=email
             )
 
+
             new_user.set_password(password)
             new_user.save()
+
+            account = new_user.account
+            if ref_code:
+                try:
+                    ref_user = Account.objects.get(referral_code=ref_code)
+
+                    account.referred_by = ref_user
+                    account.save()
+
+                    ref_user.add_xp(50)
+
+                    Notification.objects.create(
+                        title="Uğurlu dəvət",
+                        account=ref_user,
+                        actor=new_user,
+                        type="SYSTEM",
+                        message=f"Dəvətinlə yeni istifadəçi qeydiyyatdan keçdiyi üçün sistem balansına 50xp əlavə etdi."
+                    )
+
+                except: ...
 
             return redirect('login')
         

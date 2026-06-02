@@ -242,3 +242,20 @@ document.addEventListener("visibilitychange", () => {
         interval = setInterval(GetUnreadNotificationCount, 10000);
     }
 });
+
+
+function copyLinkWithRC(btn){
+    const url = btn.dataset.url;
+    const ref = btn.dataset.ref;
+
+    const fullUrl = new URL(url, window.location.origin);
+    fullUrl.searchParams.set("ref", ref);
+
+    navigator.clipboard.writeText(fullUrl.toString());
+
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı';
+    
+    setTimeout(() => {
+        btn.innerHTML = '<i class="fa-regular fa-copy"></i> Linki kopyala';
+    }, 3000);
+}

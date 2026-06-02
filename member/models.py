@@ -3,6 +3,12 @@ from django.db import models
 from django.contrib.auth.models import User  
 
 
+def generate_unique_code():
+    while True:
+        code = str(random.randint(10000000, 99999999))
+        if not Account.objects.filter(referral_code=code).exists():
+            return code
+
 
 def get_random_avatar_name(instance, filename): 
     ext = filename.split(".")[-1] 
@@ -14,6 +20,14 @@ def get_random_avatar_name(instance, filename):
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    referral_code = models.CharField(max_length=8, unique=True, blank=True, null=True)
+    referred_by = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="referrals"
+    )
 
     avatar = models.ImageField(upload_to=get_random_avatar_name, blank=True, null=True)
     
@@ -48,6 +62,11 @@ class Account(models.Model):
 
 
         self.save()
+
+    def save(self, *args, **kwargs):
+        if not self.referral_code:
+            self.referral_code = generate_unique_code()
+        super().save(*args, **kwargs)
 
 
 

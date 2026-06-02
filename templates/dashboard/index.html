@@ -31,6 +31,11 @@
         </div>
     {% endif %}
 
+    <div class="share-site">
+        <p>Bu linki paylaşın və sizin referans kodunuzla qeydiyyatdan keçən hər istifadəçi üçün 50xp qazanın.</p>
+        <button onclick="copyLinkWithRC(this)" data-url="{% url 'register' %}" data-ref="{{request.user.account.referral_code}}"><i class="fa-regular fa-copy"></i> Linki kopyala</button>
+    </div>
+
 
     {% if not has_post %}
         <div class="post-create-cards">
