@@ -17,6 +17,7 @@ class Post(models.Model):
     description = models.TextField()
     slug = models.SlugField(unique=True, blank=True, max_length=100)
     likes = models.PositiveIntegerField(default=0)
+    view = models.PositiveBigIntegerField(default=0)
 
     is_public = models.BooleanField(default=False)
     approved = models.BooleanField(default=False)

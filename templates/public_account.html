@@ -105,4 +105,31 @@
             </div>
         </div>
     </div> 
+
+    <div class="account-posts">
+        <div class="header">
+            <button class="active">
+                <i class="fa-classic fa-solid fa-grip"></i> Postlarım
+            </button>
+
+            <div class="separator"></div>
+            
+            <button>
+                <i class="fa-regular fa-heart"></i> Bəyəndiklərim
+            </button>
+        </div>
+        <div class="posts-container">
+            <div class="my-posts">
+                {% if posts %}
+                    Salam postlar
+                {% else %}
+                    <div class="no-content-for-others">
+                        <i class="fa-solid fa-face-frown"></i>
+                    </div>
+                {% endif %}
+                
+            </div>
+            <div class="my-likes"></div>
+        </div>
+    </div>
 {% endblock %}

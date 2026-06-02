@@ -17,6 +17,10 @@ async function postLike(i){
 
     if (data.liked){
         i.className = "fa-solid fa-heart"
-        i.nextElementSibling.innerText = data.new_like_count
+        if(i.nextElementSibling.tagName === "DIV"){
+            i.nextElementSibling.querySelector("span:nth-child(1)").innerText = data.new_like_count
+        } else {
+            i.nextElementSibling.innerText = data.new_like_count
+        }
     }
 }

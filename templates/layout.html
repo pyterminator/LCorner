@@ -85,7 +85,7 @@
                 </div>
                 <div class="profile">
                     {% if request.user.is_authenticated %}
-                        <span onclick="openDropdownMenu(this)"><i class="fa-regular fa-user"></i></span>
+                        <span onclick="openDropdownMenu(this)"> @{{request.user.username}}</span>
                         <div class="dropdown-menu">
                             <a href="{% url 'myaccount' request.user.username %}"><i class="fa-solid fa-user"></i> Hesabım</a>
                             <a href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Çıxış et</a>

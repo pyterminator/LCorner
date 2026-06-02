@@ -95,6 +95,23 @@ def post_detail_view(request, slug):
     try:
         post = get_object_or_404(Post, slug=slug)
         
+        
+
+        if request.user != post.author.user:
+            account = get_object_or_404(Account, user=request.user)
+            post.view += 1
+            post.save()
+            Notification.objects.create(
+                account=post.author,
+                actor=account,
+                title="Postun cəlb edir!",
+                type="SYSTEM",
+                message=f"{account.user.username} postuna baxdı.",
+                data={
+                    "post_slug": post.slug
+                }
+            )
+
         data = {
             "post": post
         }
@@ -109,6 +126,7 @@ def post_detail_view(request, slug):
             data["liked"] = True 
         else:
             data["liked"] = False
+        
         
         return render(request, "post/post-detail.html", context=data)
     except:
@@ -147,13 +165,11 @@ def PostLike(request):
             liked = True
 
             post.likes = F("likes") + 1
-            post.save(update_fields=["likes"])
+            post.view = F("view") + 1
+            post.save(update_fields=["likes", "view"])
             post.refresh_from_db()
             
             if account.id != post.author.id:
-                # Account.objects.filter(id=post.author_id).update(
-                #     xp=F("xp") + 10
-                # )
 
                 Account.objects.filter(id=post.author_id).first().add_xp(10)
 

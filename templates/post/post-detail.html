@@ -38,7 +38,7 @@
                     </div>
                     <div class="account-info"> 
                         <h2>
-                            <a href="#">@{{post.author.user.username}}</a>
+                            <a href="{% url 'myaccount' post.author.user.username %}">@{{post.author.user.username}}</a>
                         </h2>
                         {% if post.author.user.first_name or post.author.user.last_name %}
                             <h3>{{post.author.user.last_name}} {{post.author.user.first_name}}</h3>

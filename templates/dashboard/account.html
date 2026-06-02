@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% load static %}
+{% load custom_filters %}
 
 <!-- Page Title -->
 {% block title %}
@@ -187,9 +188,96 @@
             </div>
         </div>
     </div> 
+
+    <div class="account-posts">
+        <div class="header">
+            <button class="active">
+                <i class="fa-classic fa-solid fa-grip"></i> Postlarım
+            </button>
+
+            <div class="separator"></div>
+            
+            <button>
+                <i class="fa-regular fa-heart"></i> Bəyəndiklərim
+            </button>
+        </div>
+        <div class="posts-container">
+            <div class="my-posts">
+                {% if posts %}
+                    {% for p in posts %}
+                        <div class="post">
+                            <div class="left">
+                                <div class="content">
+                                    <a href="{% url 'postdetail' p.slug %}" class="foreign-lang">
+                                        {% if p.sentence|length > 30 %}
+                                            {{p.sentence|slice:"0:27"|add:'...'}}
+                                        {% else %}
+                                            {{p.sentence}}
+                                        {% endif %}
+                                    </a>
+                                    <div class="native">
+                                        {% if p.description|length > 35 %}
+                                            {{p.description|slice:"0:32"|add:'...'}}
+                                        {% else %}
+                                            {{p.description}}
+                                        {% endif %} 
+                                    </div>
+                                </div>
+                                <div class="badge">
+                                    {% if p.approved %}
+                                        <div class="approved">
+                                            <i class="fa-solid fa-check"></i> Təsdiqlənib
+                                        </div>
+                                    {% else %}
+                                        <div class="pending">
+                                            <i class="fa-regular fa-clock"></i> Yoxlanmada
+                                        </div>
+                                    {% endif %}
+                                    
+                                </div>
+                            </div>
+                            <div class="right"> 
+                                <div class="like-count-container">
+                                    {% if p.id in liked_posts %}
+                                        <i class="fa-solid fa-heart"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-heart" onclick="postLike(this)" data-id="{{p.id}}" data-url="{% url 'postlike' %}"></i>
+                                    {% endif %}
+                                    <div class="like-count">
+                                        <span>{{p.likes}}</span>
+                                        <span>Bəyənmə</span>
+                                    </div>
+                                </div>
+                                <div class="view-count-container">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <div class="view-count">
+                                        <span>{{p.view}}</span>
+                                        <span>Görüldü</span>
+                                    </div>
+                                </div>  
+                                <div class="published_datetime_container">
+                                    <i class="fa-solid fa-clock"></i>
+                                    <div class="published_datetime">
+                                        <span>{{p.created_at|date:"d m, Y"}}</span>
+                                        <span>Paylaşıldı</span>
+                                    </div>
+                                </div>                         
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-content-for-me">
+                        <a href="{% url 'postcreate' %}" class="fa-solid fa-plus"></a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="my-likes"></div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
     <script src="{% static 'scripts/user-profile.js' %}"></script>
+    <script src="{% static 'scripts/postlike.js' %}"></script>
 {% endblock %}
 

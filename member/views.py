@@ -110,17 +110,27 @@ def MemberLogout(request):
 
 @login_required
 def UserAccount(request, username):
+    # Sehifesi acilacaq user
     user = User.objects.filter(username=username).first()
 
     if user:
+        # Sehifesi acilacaq olan account
         user_account = Account.objects.filter(user=user).first()
         if user_account:
-            posts = Post.objects.filter(author=user_account).all()
+            # Sehifeni acan user
+            my_account = Account.objects.filter(user=request.user).first()
+            # Sehifeni acan userin beyendikleri
+            liked_posts = set(
+                my_account.likes.values_list("post_id", flat=True)
+            )
+
+            posts = Post.objects.filter(author=user_account).all().order_by("-id")
             post_count = posts.count()
             data = {
                 "account":user_account,
                 "posts":posts,
                 "post_count": post_count,
+                "liked_posts":liked_posts
             }
             if request.user == user: 
                 return render(request, "dashboard/account.html", context=data)
