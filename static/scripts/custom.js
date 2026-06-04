@@ -259,3 +259,35 @@ function copyLinkWithRC(btn){
         btn.innerHTML = '<i class="fa-regular fa-copy"></i> Linki kopyala';
     }, 3000);
 }
+
+function shareSite(btn) {
+    const text = "ECorner ilə hər gün yeni postlar və testlər üzərindən xarici dilini daha sürətli öyrən.";
+
+    const url = btn.dataset.url;
+    const ref = btn.dataset.ref;
+    const fullUrl = new URL(url, window.location.origin);
+    fullUrl.searchParams.set("ref", ref);
+
+    if (navigator.share) {
+        navigator.share({
+            title: "ECorner - Gündəlik praktik dil öyrənmə platforması",
+            text: text,
+            url: fullUrl.toString()
+        })
+    }
+}
+
+function shareSiteWithWP(btn) {
+    const text = "ECorner ilə hər gün yeni postlar və testlər üzərindən xarici dilini daha sürətli öyrən.";
+
+    const url = btn.dataset.url;
+    const ref = btn.dataset.ref;
+    const fullUrl = new URL(url, window.location.origin);
+    fullUrl.searchParams.set("ref", ref);
+
+    const message = encodeURIComponent(`${text} ${fullUrl.toString()}`);
+
+    const waUrl = `https://wa.me/?text=${message}`;
+
+    window.open(waUrl, "_blank");
+}

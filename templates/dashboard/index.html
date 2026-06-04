@@ -32,8 +32,12 @@
     {% endif %}
 
     <div class="share-site">
-        <p>Bu linki paylaşın və sizin referans kodunuzla qeydiyyatdan keçən hər istifadəçi üçün 50xp qazanın.</p>
-        <button onclick="copyLinkWithRC(this)" data-url="{% url 'register' %}" data-ref="{{request.user.account.referral_code}}"><i class="fa-regular fa-copy"></i> Linki kopyala</button>
+        <div class="container">
+            <p>Bu linki paylaşın. Referans kodunuz vasitəsilə qeydiyyatdan keçən hər istifadəçi üçün 50 XP qazanırsınız. Eyni zamanda paylaşdığınız linklə gələn hər baxış üçün 5 XP əldə edirsiniz.</p>
+            <button onclick="copyLinkWithRC(this)" data-url="{% url 'register' %}" data-ref="{{request.user.account.referral_code}}"><i class="fa-regular fa-copy"></i> Linki kopyala</button>
+            <button onclick="shareSite(this)" data-url="{% url 'register' %}" data-ref="{{request.user.account.referral_code}}"><i class="fa-solid fa-share"></i> Paylaş</button>
+            <button onclick="shareSiteWithWP(this)" data-url="{% url 'register' %}" data-ref="{{request.user.account.referral_code}}"><i class="fa-brands fa-whatsapp"></i> ilə paylaş</button>
+        </div>
     </div>
 
 

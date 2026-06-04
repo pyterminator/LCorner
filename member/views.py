@@ -1,6 +1,7 @@
 import re
 import os  
 import json
+import time
 from PIL import Image
 from post.models import Post
 from django.db.models import F
@@ -43,15 +44,17 @@ def MemberLogin(request):
 
     return render(request, 'login.html', context=data)
 
-def MemberRegistration(request):
+def MemberRegistration(request): 
+
     # Login olubsa dashboarda qaytar
     if request.user.is_authenticated:
         return redirect("dashboard")
 
+    ref_code = request.GET.get("ref", None)
+    
     data = {}
 
     if request.method == "POST":
-        ref_code = request.GET.get("ref", None)
 
         invalid_data = False
 
@@ -106,7 +109,6 @@ def MemberRegistration(request):
             if ref_code:
                 try:
                     ref_user = Account.objects.get(referral_code=ref_code)
-
                     account.referred_by = ref_user
                     account.save()
 
@@ -123,7 +125,31 @@ def MemberRegistration(request):
                 except: ...
 
             return redirect('login')
-        
+
+    if ref_code:
+        session_key = f"ref_xp_{ref_code}"
+        last_time = request.session.get(session_key)
+
+        one_month = 60 * 60 * 24 * 30
+
+        if not last_time or (time.time() - last_time) > one_month:
+            try:
+                ref_user = Account.objects.get(referral_code=ref_code)
+
+                ref_user.add_xp(5)
+
+                Notification.objects.create(
+                    title="Referans linkdən",
+                    account=ref_user,
+                    type="SYSTEM",
+                    message="Referans linkə klik gəldiyi üçün balansına 5xp əlavə edildi."
+                )
+
+                request.session[session_key] = time.time()
+
+            except Account.DoesNotExist:
+                pass
+
 
     return render(request, "register.html", context=data)
 
