@@ -542,4 +542,45 @@ def ChangeUsername(request):
     except Exception as e:
         return JsonResponse({"success":False, "error":f"{e}"})
 
+@user_passes_test(lambda u: u.is_superuser)
+def ChangeUserStaff(request):
+
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            is_staff = data.get("is_staff", None)
+            id = data.get("id", None)
+            user = get_object_or_404(User, id=id)
+
+            if is_staff == None:
+                return JsonResponse({"success": False, "error":'Yanlış data formatı'})
+            
+            user.is_staff = is_staff 
+            user.save()
+            return JsonResponse({
+                "success": True
+            })
+
+            
+        except:
+            return JsonResponse({"success": False, "error":'İstənilməyən xəta!'})
+
+    
+    return JsonResponse({"success": False, "error":'Yanlış cəhd!'})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

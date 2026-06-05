@@ -16,5 +16,10 @@ async function switcheryToggle(div) {
         if (changed) {
             div.classList.toggle("switchery-on")
         }
+    } else if (div.dataset.type == "changeUserStaff") {
+        const changed = await changeUserStaff(div)
+        if (changed) {
+            div.classList.toggle("switchery-on")
+        }
     }
 }

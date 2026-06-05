@@ -26,6 +26,7 @@
     --pending-bg:#ffff001c;
     --pending-text:#fdf957;
     --pending-border:rgb(152, 152, 0);
+    --all-dark:#000;
 }
 
 html[data-theme="dark"]{
@@ -56,6 +57,7 @@ html[data-theme="dark"]{
     --pending-bg:#ffff001c;
     --pending-text:#fdf957;
     --pending-border:rgb(152, 152, 0);
+    --all-dark:#000;
 }
 
 html[data-theme="light"]{
@@ -88,4 +90,5 @@ html[data-theme="light"]{
     --pending-bg:#ffff005e;
     --pending-text:#917903;
     --pending-border:rgb(152, 152, 0);
+    --all-dark:#000;
 }

@@ -53,7 +53,7 @@
                             <div class="switchery {% if account.user.is_active %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="" data-type=""></div>    
                         </div>
                         <div class="col">
-                            <div class="switchery {% if account.user.is_staff %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="" data-type=""></div>    
+                            <div class="switchery {% if account.user.is_staff %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-id="{{account.user.id}}" data-url="{% url 'changeuserstaff' %}" data-type="changeUserStaff"></div>    
                         </div>
                         <div class="col">
                             <div class="switchery {% if account.user.is_superuser %}switchery-on{% endif %}" onclick="switcheryToggle(this)" data-url="" data-type=""></div>    
@@ -67,4 +67,12 @@
                 </div>
             {% endif %}
     </div>
+{% endblock %}
+
+
+<!-- Scripts -->
+{% block scripts %}
+    <!-- Switchery -->
+    <script src="{% static 'scripts/change-user-status.js' %}"></script>
+    <script src="{% static 'scripts/switchery.js' %}"></script>
 {% endblock %}
