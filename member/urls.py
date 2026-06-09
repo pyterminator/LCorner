@@ -2,7 +2,8 @@ from django.urls import path
 from member.views import (
     MemberLogin, MemberRegistration, MemberLogout, 
     UserAccount, ChangeMyPassword, ChangeMyAvatar, DeleteMyAvatar,
-    AccountList, UpdateBaseData, SaveBioData, ChangeUsername, ChangeUserStaff
+    AccountList, UpdateBaseData, SaveBioData, ChangeUsername, ChangeUserStaff,
+    GetPostsAjax
 )
 
 
@@ -18,4 +19,5 @@ urlpatterns = [
     path('accounts', AccountList, name="accounts"),
     path('@<str:username>', UserAccount, name="myaccount"),
     path('change-user-staff', ChangeUserStaff, name="changeuserstaff"),
+    path('get-posts-ax', GetPostsAjax, name="getpostsajax"),
 ]

@@ -10,6 +10,7 @@ from django.conf import settings
 from member.models import Account
 from django.http import JsonResponse
 from django.utils.html import strip_tags
+from django.utils.timezone import localtime
 from django.contrib.auth.models import User
 from notifications.models import Notification
 from django.shortcuts import render, redirect 
@@ -158,38 +159,113 @@ def MemberLogout(request):
     logout(request)
     return redirect("login")
 
+
+def GetUserPosts(request, user, page=1):
+    try: 
+        account = user.account
+
+        # Sehifeye gelen user
+        my_account = Account.objects.filter(user=request.user).first()
+
+        # Sehifeni acan userin beyendikleri
+        liked_posts = set(
+            my_account.likes.values_list("post_id", flat=True)
+        )
+
+
+        my_query = Post.objects.filter(author=account).all().order_by("-id") 
+        post_count = my_query.count()
+        page_count = (post_count // 10)+ 1
+        pagination_data = page
+
+        if pagination_data > page_count or pagination_data < 0:
+            pagination_data = 1
+        
+        if pagination_data == page_count:
+            next_page = pagination_data
+        else:
+            next_page = pagination_data+1
+        
+
+        sdmax = pagination_data * 10
+        sdmin = (pagination_data - 1) * 10
+
+
+        data = {
+            "account": account,
+            "posts": my_query.order_by("-id")[sdmin:sdmax],
+            "post_count": post_count,
+            "liked_posts": liked_posts,
+            "next_page":next_page,
+            "showing": sdmax
+        }
+
+        return data
+
+    except:
+        return None
+
+
+@login_required
+def GetPostsAjax(request):
+    try:
+        page = int(request.GET.get("page", 0))
+
+        username = request.GET.get("username", None)
+
+        if (not page) or (not username):
+            return JsonResponse({
+                "success": False
+            })
+ 
+        user = User.objects.filter(username=username).first()
+
+        data = GetUserPosts(request, user, page) 
+
+        posts = data.get("posts").values(
+            "id",
+            "author",
+            "lang",
+            "sentence",
+            "description",
+            "slug",
+            "likes",
+            "view",
+            "is_public",
+            "created_at",
+            "updated_at",
+            "approved",
+        )
+
+ 
+
+        return JsonResponse({
+            "success":True,
+            "posts": list(posts),
+            "next_page": data.get("next_page"),
+            "showing":data.get("showing"),
+            "liked_posts": list(data.get("liked_posts")),
+            "post_count":data.get("post_count")
+        })
+    except:
+        return JsonResponse({"success":False})
+
+
 @login_required
 def UserAccount(request, username):
-    # Sehifesi acilacaq user
     user = User.objects.filter(username=username).first()
 
-    if user:
-        # Sehifesi acilacaq olan account
-        user_account = Account.objects.filter(user=user).first()
-        if user_account:
-            # Sehifeni acan user
-            my_account = Account.objects.filter(user=request.user).first()
-            # Sehifeni acan userin beyendikleri
-            liked_posts = set(
-                my_account.likes.values_list("post_id", flat=True)
-            )
+    data = GetUserPosts(request, user)
 
-            posts = Post.objects.filter(author=user_account).all().order_by("-id")
-            post_count = posts.count()
-            data = {
-                "account":user_account,
-                "posts":posts,
-                "post_count": post_count,
-                "liked_posts":liked_posts
-            }
-            if request.user == user: 
-                return render(request, "dashboard/account.html", context=data)
-            else:
-                return render(request, "public_account.html", context=data)
+    if request.user == user: 
+        return render(request, "dashboard/account.html", context=data)
+    
+    
+    return render(request, "public_account.html", context=data)
 
         
     
-    return redirect("dashboard")
+    
 
 @login_required
 def ChangeMyPassword(request):
@@ -292,6 +368,7 @@ def ChangeMyAvatar(request):
         "error":"İcazəsiz cəhd"
     })
 
+# Boshdadir
 @login_required
 def DeleteMyAvatar(request):
     if request.method == "POST": 

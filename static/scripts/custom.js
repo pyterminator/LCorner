@@ -291,3 +291,119 @@ function shareSiteWithWP(btn) {
 
     window.open(waUrl, "_blank");
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+async function GetPostsAjax(btn){
+    const page = btn.dataset.npid
+    const url  = btn.dataset.url
+    const unam = btn.dataset.unam
+
+    let fullUrl = new URL(url, window.location.origin);
+    fullUrl.searchParams.set("page", page);
+    fullUrl.searchParams.set("username", unam);
+
+ 
+    const response = await fetch(fullUrl.toString()) 
+
+    const data = await response.json()
+
+    if (data.success) { 
+        let posts = data.posts 
+
+        for (let element of posts) {
+            let post = CreatePostElement(element, data.liked_posts, btn.dataset.lu);
+            let btn_parent = btn.parentElement;
+
+            btn_parent.insertAdjacentElement("beforebegin", post) 
+            await sleep(50);
+        }
+        
+    }
+}
+
+
+
+function CreatePostElement(data, liked_posts, lu){
+    // Post
+    let post = document.createElement("div")
+    post.className = "post"
+
+    // Left
+    let left = document.createElement("div")
+    left.className = "left"
+
+    let content = `
+        <div class="content">
+            <a href="#" class="foreign-lang">${data.sentence}</a>
+            <div class="native">${data.description}</div>
+        </div>
+    `
+
+    let approved_badge = `
+        <div class="badge"> 
+            <div class="approved">
+                <i class="fa-solid fa-check"></i> Təsdiqlənib
+            </div>  
+        </div>
+    `
+    let pending_badge = `
+        <div class="badge"> 
+            <div class="pending">
+                <i class="fa-regular fa-clock"></i> Yoxlanmada
+            </div> 
+        </div>
+    `
+
+
+    left.innerHTML += content
+    if (data.approved){
+        left.innerHTML += approved_badge
+    } else {
+        left.innerHTML += pending_badge
+    }
+
+
+
+    // Right
+    let right = document.createElement("div")
+    right.className = "right"
+
+    let like_count_container = document.createElement("div")
+    like_count_container.className = "like-count-container";
+    if (liked_posts.includes(data.id)){
+        like_count_container.innerHTML += '<i class="fa-solid fa-heart"></i>'
+    } else {
+        like_count_container.innerHTML += `<i class="fa-regular fa-heart" onclick="postLike(this)" data-id='${data.id}' data-url='${lu}'></i>`
+    }
+    like_count_container.innerHTML += `
+        <div class="like-count">
+            <span>${data.likes}</span>
+            <span>Bəyənmə</span>
+        </div>
+    `
+
+    let view_count_container = document.createElement("div")
+    view_count_container.className = "view-count-container";
+
+    view_count_container.innerHTML = ` 
+        <i class="fa-solid fa-eye"></i>
+        <div class="view-count">
+            <span>${data.view}</span>
+            <span>Görüldü</span>
+        </div> 
+    `
+
+
+
+    right.appendChild(like_count_container)
+    right.appendChild(view_count_container)
+
+    post.appendChild(left)
+    post.appendChild(right) 
+
+    return post
+}

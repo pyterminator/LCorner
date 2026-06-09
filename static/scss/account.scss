@@ -727,11 +727,34 @@
                     border-radius: 50%;
                 }
             }
+
+            .post-loader{
+                width: 100%;
+                margin-top: 2rem;
+                button{
+                    display: block;
+                    border: .2rem dashed var(--success);
+                    color: var(--light);
+                    background-color: var(--dark);
+                    width: 100%;
+                    border-radius: .5rem;
+                    padding: 1rem;
+                    font-size: 1.2rem;
+                }
+            }
+            .posts-legenda{
+                font-size: 1.2rem;
+                color: var(--light);
+                text-align: center;
+                display: block;
+                width: 100%;
+                margin-top: 1rem;
+            }
         }
 
         .my-likes {
             display: none;
-        }
+        } 
     }
 }
 
