@@ -4,7 +4,7 @@
 <!-- Page Title -->
 {% block title %}
     <title>
-        ECorner - {{account.user.username}}
+        ECorner - @{{account.user.username}}
     </title>
 {% endblock %}
 
@@ -121,15 +121,91 @@
         <div class="posts-container">
             <div class="my-posts">
                 {% if posts %}
-                    Salam postlar
+                    {% for p in posts %}
+                        <div class="post">
+                            <div class="left">
+                                <div class="content">
+                                    <a href="{% url 'postdetail' p.slug %}" class="foreign-lang">
+                                        {% if p.sentence|length > 30 %}
+                                            {{p.sentence|slice:"0:27"|add:'...'}}
+                                        {% else %}
+                                            {{p.sentence}}
+                                        {% endif %}
+                                    </a>
+                                    <div class="native">
+                                        {% if p.description|length > 35 %}
+                                            {{p.description|slice:"0:32"|add:'...'}}
+                                        {% else %}
+                                            {{p.description}}
+                                        {% endif %} 
+                                    </div>
+                                </div>
+                                <div class="badge">
+                                    {% if p.approved %}
+                                        <div class="approved">
+                                            <i class="fa-solid fa-check"></i> Təsdiqlənib
+                                        </div>
+                                    {% else %}
+                                        <div class="pending">
+                                            <i class="fa-regular fa-clock"></i> Yoxlanmada
+                                        </div>
+                                    {% endif %}
+                                    
+                                </div>
+                            </div>
+                            <div class="right"> 
+                                <div class="like-count-container">
+                                    {% if p.id in liked_posts %}
+                                        <i class="fa-solid fa-heart"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-heart" onclick="postLike(this)" data-id="{{p.id}}" data-url="{% url 'postlike' %}"></i>
+                                    {% endif %}
+                                    <div class="like-count">
+                                        <span>{{p.likes}}</span>
+                                        <span>Bəyənmə</span>
+                                    </div>
+                                </div>
+                                <div class="view-count-container">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <div class="view-count">
+                                        <span>{{p.view}}</span>
+                                        <span>Görüldü</span>
+                                    </div>
+                                </div>  
+                                <div class="published_datetime_container">
+                                    <i class="fa-solid fa-clock"></i>
+                                    <div class="published_datetime">
+                                        <span>{{p.created_at|date:"d m, Y"}}</span>
+                                        <span>Paylaşıldı</span>
+                                    </div>
+                                </div>                         
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="post-loader">
+                        <button onclick="GetPostsAjax(this)" data-lu="{% url 'postlike' %}" data-npid="{{next_page}}" data-url="{% url 'getpostsajax' %}" data-unam="{{account.user.username}}">
+                            <i class="fa-solid fa-arrows-rotate"></i> Daha çox göstər
+                        </button>
+                    </div>
+
+                    <div class="posts-legenda">
+                        {{post_count}} postdan göstərilir : {{showing}}
+                    </div>
                 {% else %}
                     <div class="no-content-for-others">
                         <i class="fa-solid fa-face-frown"></i>
                     </div>
                 {% endif %}
-                
             </div>
             <div class="my-likes"></div>
         </div>
     </div>
 {% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static 'scripts/user-profile.js' %}"></script>
+    <script src="{% static 'scripts/postlike.js' %}"></script>
+{% endblock %}
+

@@ -349,9 +349,29 @@
 
                     i {
                         margin-right: .1rem;
-                        font-size: 2rem;
+                        font-size: 1.4rem;
                         cursor: pointer;
                         color: var(--danger);
+                    }
+
+                    i.fa-solid {
+                        cursor: default;
+                    }
+
+                    span {
+                        font-size: 1.2rem;
+                    }
+                }
+
+                .view{
+                    line-height: 5rem;
+                    text-align: center;
+
+                    i {
+                        margin-right: .1rem;
+                        font-size: 1.4rem;
+                        cursor: pointer;
+                        color: var(--star);
                     }
 
                     i.fa-solid {

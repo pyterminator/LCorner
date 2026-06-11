@@ -296,8 +296,19 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${day} ${month}, ${year}`;
+}
+
 
 async function GetPostsAjax(btn){
+    const icon = btn.querySelector("i.fa-arrows-rotate");
     const page = btn.dataset.npid
     const url  = btn.dataset.url
     const unam = btn.dataset.unam
@@ -308,10 +319,15 @@ async function GetPostsAjax(btn){
 
  
     const response = await fetch(fullUrl.toString()) 
-
     const data = await response.json()
 
+    if (icon){
+        icon.classList.add("fa-spin")
+        await sleep(1000) 
+    }
+
     if (data.success) { 
+        icon.classList.remove("fa-spin")
         let posts = data.posts 
 
         for (let element of posts) {
@@ -322,12 +338,25 @@ async function GetPostsAjax(btn){
             await sleep(50);
         }
         
+        if (btn.dataset.npid == data.next_page){
+            btn.parentElement.style.display = "none"
+        } else {
+            btn.dataset.npid = data.next_page
+        }
+
+        btn.parentElement.nextElementSibling.innerHTML = `${data.post_count} postdan göstərilir : ${data.showing}`
+
     }
+
 }
 
 
 
 function CreatePostElement(data, liked_posts, lu){
+
+    const sentence = data.sentence.length > 35 ? data.sentence.slice(0, 32) + "..." : data.sentence;
+    const description = data.description.length > 35 ? data.description.slice(0, 32) + "..." : data.description;
+    
     // Post
     let post = document.createElement("div")
     post.className = "post"
@@ -338,8 +367,8 @@ function CreatePostElement(data, liked_posts, lu){
 
     let content = `
         <div class="content">
-            <a href="#" class="foreign-lang">${data.sentence}</a>
-            <div class="native">${data.description}</div>
+            <a href="${window.location.origin}/post/${data.slug}" class="foreign-lang">${sentence}</a>
+            <div class="native">${description}</div>
         </div>
     `
 
@@ -397,10 +426,24 @@ function CreatePostElement(data, liked_posts, lu){
         </div> 
     `
 
+    let published_datetime_container = document.createElement("div")
+    published_datetime_container.className = "published_datetime_container";
+
+    published_datetime_container.innerHTML = `
+        <div class="published_datetime_container">
+            <i class="fa-solid fa-clock"></i>
+            <div class="published_datetime">
+                <span>${formatDate(data.created_at)}</span>
+                <span>Paylaşıldı</span>
+            </div>
+        </div>
+    `
+
 
 
     right.appendChild(like_count_container)
     right.appendChild(view_count_container)
+    right.appendChild(published_datetime_container)
 
     post.appendChild(left)
     post.appendChild(right) 

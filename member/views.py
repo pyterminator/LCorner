@@ -190,6 +190,7 @@ def GetUserPosts(request, user, page=1):
         sdmax = pagination_data * 10
         sdmin = (pagination_data - 1) * 10
 
+        if (sdmax - post_count) < 10 and sdmax > post_count: sdmax = post_count
 
         data = {
             "account": account,
@@ -254,12 +255,13 @@ def GetPostsAjax(request):
 @login_required
 def UserAccount(request, username):
     user = User.objects.filter(username=username).first()
+    if not user: return redirect("dashboard")
 
+    
     data = GetUserPosts(request, user)
-
+ 
     if request.user == user: 
         return render(request, "dashboard/account.html", context=data)
-    
     
     return render(request, "public_account.html", context=data)
 

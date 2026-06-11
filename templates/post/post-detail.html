@@ -76,13 +76,18 @@
                 </div>
             </div>
             <div class="like-created">
-                <div class="like"> 
-                    {% if liked %} 
-                        <i class="fa-solid fa-heart"></i> 
+                <div class="like">
+                    {% if liked %}
+                        <i class="fa-solid fa-heart"></i>
                     {% else %}
-                        <i class="fa-regular fa-heart" onclick="postLike(this)" data-id="{{post.id}}" data-url="{% url 'postlike' %}"></i> 
-                    {% endif %} 
+                        <i class="fa-regular fa-heart" onclick="postLike(this)" data-id="{{post.id}}" data-url="{% url 'postlike' %}"></i>
+                    {% endif %}
                     <span>{{post.likes}}</span>
+                </div>
+                <div class="dot"></div>
+                <div class="view">
+                    <i class="fa-solid fa-eye"></i>
+                    <span>{{post.view}}</span>
                 </div>
                 <div class="dot"></div>
                 <div class="created">
@@ -92,12 +97,11 @@
             <div class="btn-group">
                 <button onclick="takeScreenShot(this)" data-name="{{post.sentence|slice:'0:20'}}"><i class="fa-solid fa-download"></i> Screenshot götür</button>
             </div>
-        </div> 
+        </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'scripts/home.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="{% static 'scripts/take-screenshot.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="{% static 'scripts/take-screenshot.js' %}"></script>
 {% endblock %}
