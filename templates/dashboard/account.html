@@ -265,16 +265,18 @@
                             </div>
                         </div>
                     {% endfor %}
+                    
+                    {% if post_count > 10 %}
+                        <div class="post-loader">
+                            <button onclick="GetPostsAjax(this)" data-lu="{% url 'postlike' %}" data-npid="{{next_page}}" data-url="{% url 'getpostsajax' %}" data-unam="{{account.user.username}}">
+                                <i class="fa-solid fa-arrows-rotate"></i> Daha çox göstər
+                            </button>
+                        </div>
 
-                    <div class="post-loader">
-                        <button onclick="GetPostsAjax(this)" data-lu="{% url 'postlike' %}" data-npid="{{next_page}}" data-url="{% url 'getpostsajax' %}" data-unam="{{account.user.username}}">
-                            <i class="fa-solid fa-arrows-rotate"></i> Daha çox göstər
-                        </button>
-                    </div>
-
-                    <div class="posts-legenda">
-                        {{post_count}} postdan göstərilir : {{showing}}
-                    </div>
+                        <div class="posts-legenda">
+                            {{post_count}} postdan göstərilir : {{showing}}
+                        </div>
+                    {% endif %}
                 {% else %}
                     <div class="no-content-for-me">
                         <a href="{% url 'postcreate' %}" class="fa-solid fa-plus"></a>
