@@ -72,6 +72,23 @@
                     font-weight: bold;
                     gap: 1rem;
                 }
+
+                .line{
+                    width: 70%;
+                    height: .3rem;
+                    background-color: var(--main-dark);
+                    border-radius: 50%; 
+                    opacity: .3;
+                    margin: 2.5rem auto 1rem auto;
+                }
+                .for-staffs{
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    margin-top: 2rem;
+                    margin-bottom: 1rem;
+                    text-transform: uppercase;
+                    color: var(--light);
+                }
             }
         }
 
