@@ -54,7 +54,7 @@
 
                     {% if request.user.is_staff  %}
                         <div class="for-staffs">Admin üçün</div>
-                        <a href=""><i class="fa-solid fa-list"></i> İmtahanlarım</a>
+                        <a href="{% url 'myexams' %}"><i class="fa-solid fa-list"></i> İmtahanlarım</a>
                     {% endif %}
 
                 {% else %}

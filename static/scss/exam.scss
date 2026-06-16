@@ -1,0 +1,267 @@
+.my-exams {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    .exam {
+        width: calc((100% - 4rem) / 3);
+        color: var(--light);
+        background-color: var(--dark);
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: 0 .1rem 0 .1rem var(--input-bg);
+
+        .title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: .5rem;
+        }
+
+        .author {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+
+            .avatar {
+                width: 6rem;
+                height: 6rem;
+                border-radius: 50%;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
+
+            .author-info {
+                width: calc(100% - 7rem);
+
+                h3 {
+                    margin-bottom: .25rem;
+                    font-size: 1.2rem;
+                    color: var(--link);
+                }
+            }
+        }
+
+        .addons {
+
+            .time-and-raiting-count {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-items: stretch;
+                gap: 1rem;
+
+                .time {
+                    margin-bottom: 1rem;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    font-size: 1.4rem;
+
+                    i {
+                        margin-right: .5rem;
+                        color: var(--star);
+                    }
+                }
+
+                .raiting {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    margin-bottom: 1rem;
+
+                    &>i {
+                        font-size: 1.4rem;
+                        font-weight: bold;
+                        margin-right: .3rem;
+                    }
+
+                    b {
+                        font-size: 1.4rem;
+                        margin-right: .5rem;
+                    }
+
+                    span {
+                        i {
+                            color: var(--star);
+                        }
+                    }
+                }
+
+                .question-count {
+                    width: 100%;
+                    display: flex;
+                    background-color: var(--light);
+                    color: var(--dark);
+                    border-radius: .3rem;
+                    overflow: hidden;
+                    flex-wrap: wrap;
+
+                    .progress {
+                        width: 100%;
+                        height: .3rem;
+                        background-color: var(--input-bg);
+                        overflow: hidden;
+                        margin-bottom: .3rem;
+
+                        .bar {
+                            background-color: var(--bg);
+                            display: block;
+                            height: .3rem;
+                            border-top-left-radius: .3rem;
+                            border-top-right-radius: .3rem;
+                        }
+                    }
+
+                    .counter {
+                        font-size: 1.2rem;
+                        font-weight: 500;
+                        padding: 0 .3rem .3rem .3rem;
+
+                        span {
+                            font-size: 1.4rem;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+
+            .tags {
+                margin-top: 1rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+                flex-wrap: wrap;
+                gap: 1rem;
+
+                .tag {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: stretch;
+
+                    span {
+                        font-size: 1.2rem;
+                        height: 2rem;
+                        text-align: center;
+
+                        &:nth-child(1) {
+                            line-height: 2rem;
+                            width: 2rem;
+                            border-top-left-radius: .3rem;
+                            border-bottom-left-radius: .3rem;
+                            background-color: var(--input-bg);
+                            color: var(--light);
+                        }
+
+                        &:nth-child(2) {
+                            border-bottom-right-radius: .3rem;
+                            border-top-right-radius: .3rem;
+                            border: .1rem dotted var(--input-bg);
+                            padding: 0 .3rem;
+                            line-height: 1.8rem;
+                            font-size: 1rem;
+                            transition: all .1s ease-in-out;
+                        }
+                    }
+
+                    &:hover {
+                        span {
+                            &:nth-child(2) {
+                                background-color: var(--input-bg);
+                                color: var(--light);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+                background-color: var(--star);
+                color: var(--all-dark);
+                margin-top: 1rem;
+                border-radius: 1rem;
+                font-size: 1.4rem;
+                font-weight: 600;
+                text-align: center;
+                box-shadow: 0 .2rem 0 .1rem var(--light);
+                transition: all .1s ease-in-out;
+
+                &:hover {
+                    box-shadow: none;
+                    transform: translateY(.2rem);
+                }
+            }
+
+            a.activate{
+                background-color: var(--bg);
+                color: var(--light);
+            }
+            a.deactivate{
+                background-color: var(--danger);
+                color: var(--light);
+            }
+        }
+    }
+
+    .active-exam {
+        border-left: .3rem solid var(--bg);
+    }
+
+    .pending-exam {
+        border-left: .3rem solid var(--star);
+    }
+}
+
+
+.my-exams-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    .addons{
+        width: calc(100% - 13rem);
+    }
+    .create-exam{
+        width: 13rem; 
+        a{
+            display: block;
+            height: 4rem;
+            width: 100%;
+            background-color: var(--bg);
+            color: var(--all-light);
+            border-radius: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 4rem;
+            text-align: center;
+            box-shadow: 0 .2rem 0 .1rem var(--light);
+            transition: all .1s ease-in-out;
+
+            &:hover {
+                box-shadow: none;
+                transform: translateY(.2rem);
+            }
+        }
+    }
+}

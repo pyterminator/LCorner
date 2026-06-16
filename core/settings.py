@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'contact.apps.ContactConfig',
     'post.apps.PostConfig',
     'notifications.apps.NotificationsConfig',
+    'exam.apps.ExamConfig',
 ]
 
 MIDDLEWARE = [
