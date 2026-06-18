@@ -25,6 +25,7 @@
 
     <!-- Layout style -->
     <link rel="stylesheet" href="{% static 'css/layout.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout-loader.min.css' %}">
     
     <!-- Colors -->
     <link rel="stylesheet" href="{% static 'css/colors.min.css' %}">
@@ -34,7 +35,13 @@
     {% block styles %}{% endblock %}
 </head>
 
-<body>
+<body style="height: 100dvh; overflow: hidden;">
+
+    <div class="layout-loader">
+        <span></span>
+        <p>ecorner.az</p>
+    </div>
+
     <div id="root">
         <div>
             <h1 id="logo">
@@ -177,6 +184,16 @@
                     switchery.classList.remove("switchery-on");
                 }
             }
+        });
+
+
+
+        // Load
+        window.addEventListener("load", function () {
+            setTimeout(() => {
+                document.querySelector(".layout-loader").style.display = "none";
+                document.body.removeAttribute("style")
+            }, 300);
         });
 
     </script>
