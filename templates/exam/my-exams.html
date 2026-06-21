@@ -25,7 +25,30 @@
     
     <div class="my-exams-header">
         <div class="addons">
-            <!-- Empty -->
+            <div class="left">
+                <h1>İmtahanlarım <span>14</span></h1>
+                <p>
+                    Yaratdığınız imtahanları buradan idarə edə bilərsiniz.
+                </p>
+            </div>
+            <div class="right">
+                <div class="card">  
+                    <div class="text">Aktiv imtahanlar</div>
+                    <p>8</p> 
+                </div>
+                <div class="card">  
+                    <div class="text">Deaktiv imtahanlar</div>
+                    <p>2</p> 
+                </div>
+                <div class="card">  
+                    <div class="text">Cəmi iştirakçı</div>
+                    <p>240</p> 
+                </div>
+                <div class="card">  
+                    <div class="text">Paylanmış XP</div>
+                    <p>245, 750 </p> 
+                </div>
+            </div>
         </div>
         <div class="create-exam">
             <a href="#"><i class="fa-solid fa-plus"></i> İmtahan yarat</a>
@@ -33,7 +56,11 @@
     </div>
 
     <div class="my-exams">
-        <div class="exam active-exam">
+        <div class="exam active-exam infinite">
+            <div class="level easy-level">
+                <span></span>
+                <p>Asan</p>
+            </div>
             <div class="title">MİQ-İnformatika (2026-2027)</div>
             <div class="author">
                 <div class="avatar">
@@ -49,6 +76,113 @@
             <div class="addons">
 
                 <div class="time-and-raiting-count">
+
+                    <div class="earn">
+                        <i class="fa-solid fa-trophy"></i>
+                        <b>+0.1 XP / doğru</b>
+                    </div> 
+
+                    <div class="raiting">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <b>4.7</b>
+                        <span>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half"></i>
+                        </span> 
+                    </div>
+
+                    <div class="constant-q-count infinite">
+                        <i class="fa-solid fa-infinity"></i>
+                        <b>Limitsiz sual</b>
+                    </div>
+
+                    <div class="question-count">
+                        <div class="progress">
+                            <div class="bar" style="width:0%;"></div>
+                        </div>
+                        <div class="counter">
+                            Sual sayı : 
+                            <span>25</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="details">
+                    <div class="detail">
+                        <i class="fa-solid fa-users"></i>
+                        <p>
+                            <span>325</span>
+                            İştirakçı
+                        </p>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-solid fa-trophy"></i>
+                        <p>
+                            <span>14, 350</span>
+                            XP Paylanıb
+                        </p>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <p>
+                            <span>6/21/2026</span>
+                            Yaradılıb
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tags">
+                    <a class="tag" href="#">
+                        <span>#</span>
+                        <span>html</span>
+                    </a>
+                    <a class="tag" href="#">
+                        <span>#</span>
+                        <span>css</span>
+                    </a>
+                    <a class="tag" href="#">
+                        <span>#</span>
+                        <span>javascript</span>
+                    </a>
+                    <a class="tag" href="#">
+                        <span>#</span>
+                        <span>python</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a href="#"><i class="fa-regular fa-pen-to-square"></i> Düzəlt</a>
+                <a href="#" class="activate"><i class="fa-solid fa-plug"></i> Aktiv et</a>
+            </div>
+        </div>
+        <div class="exam active-exam">
+            <div class="level hard-level">
+                <span></span>
+                <p>Çətin</p>
+            </div>
+            <div class="title">MİQ-İnformatika (2026-2027)</div>
+            <div class="author">
+                <div class="avatar">
+                    <img src="{% static 'images/cat.png' %}" alt="avatar" draggable="false">
+                </div>
+                <div class="author-info">
+                    <h3>
+                        <a href="{% url 'myaccount' 'mushvig' %}">@mushvig</a>
+                    </h3>
+                    <p>Shukurov Mushvig</p>
+                </div>
+            </div>
+            <div class="addons">
+
+                <div class="time-and-raiting-count">
+                    <div class="earn">
+                        <i class="fa-solid fa-trophy"></i>
+                        <b>+50 XP</b>
+                    </div>
                     <div class="time">
                         <i class="fa-solid fa-stopwatch"></i>
                         <span>5 dəq</span>
@@ -66,6 +200,11 @@
                         </span> 
                     </div>
 
+                    <div class="constant-q-count">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <b>25 Sual</b>
+                    </div>
+
                     <div class="question-count">
                         <div class="progress">
                             <div class="bar" style="width: 100%;"></div>
@@ -79,6 +218,29 @@
                     </div>
                 </div>
 
+                <div class="details">
+                    <div class="detail">
+                        <i class="fa-solid fa-users"></i>
+                        <p>
+                            <span>325</span>
+                            İştirakçı
+                        </p>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-solid fa-trophy"></i>
+                        <p>
+                            <span>14, 350</span>
+                            XP Paylanıb
+                        </p>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <p>
+                            <span>6/21/2026</span>
+                            Yaradılıb
+                        </p>
+                    </div>
+                </div>
                 
 
                 <div class="tags">
@@ -107,6 +269,10 @@
             </div>
         </div>
         <div class="exam pending-exam">
+            <div class="level medium-level">
+                <span></span>
+                <p>Orta</p>
+            </div>
             <div class="title">MİQ-İnformatika (2026-2027)</div>
             <div class="author">
                 <div class="avatar">
@@ -122,6 +288,12 @@
             <div class="addons">
 
                 <div class="time-and-raiting-count">
+
+                    <div class="earn">
+                        <i class="fa-solid fa-trophy"></i>
+                        <b>+50 XP</b>
+                    </div>
+
                     <div class="time">
                         <i class="fa-solid fa-stopwatch"></i>
                         <span>5 dəq</span>
@@ -139,6 +311,11 @@
                         </span> 
                     </div>
 
+                    <div class="constant-q-count">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <b>25 Sual</b>
+                    </div>
+
                     <div class="question-count">
                         <div class="progress">
                             <div class="bar" style="width:40%;"></div>
@@ -152,7 +329,29 @@
                     </div>
                 </div>
 
-                
+                 <div class="details">
+                    <div class="detail">
+                        <i class="fa-solid fa-users"></i>
+                        <p>
+                            <span>325</span>
+                            İştirakçı
+                        </p>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-solid fa-trophy"></i>
+                        <p>
+                            <span>14, 350</span>
+                            XP Paylanıb
+                        </p>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <p>
+                            <span>6/21/2026</span>
+                            Yaradılıb
+                        </p>
+                    </div>
+                </div>
 
                 <div class="tags">
                     <a class="tag" href="#">
@@ -179,6 +378,117 @@
                 <a href="#" class="activate"><i class="fa-solid fa-plug"></i> Aktiv et</a>
             </div>
         </div>
+        <div class="exam pending-exam">
+            <div class="level easy-level">
+                <span></span>
+                <p>Asan</p>
+            </div>
+            <div class="title">MİQ-İnformatika (2026-2027)</div>
+            <div class="author">
+                <div class="avatar">
+                    <img src="{% static 'images/cat.png' %}" alt="avatar" draggable="false">
+                </div>
+                <div class="author-info">
+                    <h3>
+                        <a href="{% url 'myaccount' 'mushvig' %}">@mushvig</a>
+                    </h3>
+                    <p>Shukurov Mushvig</p>
+                </div>
+            </div>
+            <div class="addons">
+
+                <div class="time-and-raiting-count">
+
+                    <div class="earn">
+                        <i class="fa-solid fa-trophy"></i>
+                        <b>+50 XP</b>
+                    </div>
+
+                    <div class="time">
+                        <i class="fa-solid fa-stopwatch"></i>
+                        <span>5 dəq</span>
+                    </div>
+
+                    <div class="raiting">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <b>4.7</b>
+                        <span>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half"></i>
+                        </span> 
+                    </div>
+
+                    <div class="constant-q-count">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <b>25 Sual</b>
+                    </div>
+
+                    <div class="question-count">
+                        <div class="progress">
+                            <div class="bar" style="width:40%;"></div>
+                        </div>
+                        <div class="counter">
+                            Sual sayı :
+                            <span>10</span> 
+                            <span>|</span>
+                            <span>25</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="details">
+                    <div class="detail">
+                        <i class="fa-solid fa-users"></i>
+                        <p>
+                            <span>325</span>
+                            İştirakçı
+                        </p>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-solid fa-trophy"></i>
+                        <p>
+                            <span>14, 350</span>
+                            XP Paylanıb
+                        </p>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <p>
+                            <span>6/21/2026</span>
+                            Yaradılıb
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tags">
+                    <a class="tag" href="#">
+                        <span>#</span>
+                        <span>html</span>
+                    </a>
+                    <a class="tag" href="#">
+                        <span>#</span>
+                        <span>css</span>
+                    </a>
+                    <a class="tag" href="#">
+                        <span>#</span>
+                        <span>javascript</span>
+                    </a>
+                    <a class="tag" href="#">
+                        <span>#</span>
+                        <span>python</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a href="#"><i class="fa-regular fa-pen-to-square"></i> Düzəlt</a>
+                <a href="#" class="activate"><i class="fa-solid fa-plug"></i> Aktiv et</a>
+            </div>
+        </div>
+       
     </div>
 
     
