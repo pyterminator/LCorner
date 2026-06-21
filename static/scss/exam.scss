@@ -15,22 +15,26 @@
         box-shadow: 0 .1rem 0 .1rem var(--input-bg);
 
         position: relative;
-        .level{
+
+        .level {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            span{
+
+            span {
                 width: 2rem;
                 height: 2rem;
                 border-radius: 50%;
                 cursor: pointer;
                 background-color: var(--light);
                 display: inline-block;
-                &:hover+p{
+
+                &:hover+p {
                     display: block;
                 }
             }
-            p{
+
+            p {
                 display: none;
                 width: 5rem;
                 position: absolute;
@@ -41,8 +45,9 @@
                 text-align: center;
                 font-size: 1rem;
                 background-color: var(--input-bg);
-                border-radius: 3rem; 
-                &::after{
+                border-radius: 3rem;
+
+                &::after {
                     content: "";
                     position: absolute;
                     top: 50%;
@@ -56,18 +61,20 @@
             }
         }
 
-        .hard-level{
-            span{
+        .hard-level {
+            span {
                 background-color: var(--danger);
             }
         }
-        .medium-level{
-            span{
+
+        .medium-level {
+            span {
                 background-color: var(--star);
             }
         }
-        .easy-level{
-            span{
+
+        .easy-level {
+            span {
                 background-color: var(--success);
             }
         }
@@ -182,8 +189,8 @@
                     }
                 }
 
-                .constant-q-count.infinite{
-                    i{
+                .constant-q-count.infinite {
+                    i {
                         color: rebeccapurple;
                     }
                 }
@@ -373,11 +380,11 @@
         border-left: .3rem solid var(--star);
     }
 
-    .exam.infinite{
-        .addons{
-            .time-and-raiting-count{
-                .question-count{
-                    .progress{
+    .exam.infinite {
+        .addons {
+            .time-and-raiting-count {
+                .question-count {
+                    .progress {
                         background-color: rebeccapurple;
                     }
                 }
@@ -474,6 +481,123 @@
             &:hover {
                 box-shadow: none;
                 transform: translateY(.2rem);
+            }
+        }
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    width: 100%;
+    margin-top: 2rem;
+
+    .page {
+        width: 4.4rem;
+        height: 4.4rem;
+        line-height: 4rem;
+        text-align: center;
+        background-color: var(--input-bg);
+        color: var(--light);
+        border-radius: 1rem;
+        border: .2rem solid var(--main-dark);
+        font-size: 1.2rem;
+    }
+
+    .active-page {
+        background-color: var(--bg);
+        border: .2rem solid var(--bg);
+
+    }
+}
+
+@media only screen and (max-width: 1300px) {
+    .my-exams {
+        align-items: stretch;
+
+        .exam {
+            width: calc((100% - 2rem) / 2);
+        }
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .my-exams {
+        .exam {
+            width: 100%;
+        }
+    }
+
+    .my-exams-header {
+        flex-wrap: wrap;
+
+        .addons {
+            width: 100%;
+        }
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .my-exams-header {
+
+
+        .addons {
+            flex-wrap: wrap;
+            gap: 2rem;
+
+            .left {
+                width: 100%;
+
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .my-exams-header {
+        .addons {
+            .right {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-items: stretch;
+            }
+        }
+    }
+
+    .my-exams {
+        .exam {
+
+
+            .addons {
+
+                .time-and-raiting-count {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+                    align-items: stretch;
+                    flex-direction: column;
+                    gap: .6rem;
+
+                    .time {
+                        margin-bottom: 0;
+                    }
+
+                    .raiting {
+                        margin-bottom: 0;
+                    }
+                }
+
+                .details {
+                    gap: 1rem;
+
+                    .detail {
+                        gap: .6rem;
+                    }
+                }
+
+
             }
         }
     }
