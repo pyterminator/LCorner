@@ -191,13 +191,13 @@
 
     <div class="account-posts">
         <div class="header">
-            <button class="active">
+            <button class="active" onclick="openMyPosts(this)">
                 <i class="fa-classic fa-solid fa-grip"></i> Postlarım
             </button>
 
             <div class="separator"></div>
             
-            <button>
+            <button onclick="openMyLikes(this)">
                 <i class="fa-regular fa-heart"></i> Bəyəndiklərim
             </button>
         </div>
@@ -283,7 +283,11 @@
                     </div>
                 {% endif %} 
             </div>
-            <div class="my-likes"></div>
+            <div class="my-likes">
+                <div class="post">
+                    <a href="#" class="foreign">What is ypur name ? ...</a> 
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -291,5 +295,31 @@
 {% block scripts %}
     <script src="{% static 'scripts/user-profile.js' %}"></script>
     <script src="{% static 'scripts/postlike.js' %}"></script>
+
+    <script>
+
+        let posts_container = document.querySelector(".posts-container > .my-posts")
+        let likes_container = document.querySelector(".posts-container > .my-likes")
+
+        function openMyLikes(btn){
+            
+            if (! btn.classList.contains("active")){
+                btn.classList.add("active")
+                btn.previousElementSibling.previousElementSibling.classList.remove("active")
+                posts_container.style.display = "none"
+                likes_container.style.display = "flex"
+            }
+        }
+
+        function openMyPosts(btn){
+            if (! btn.classList.contains("active")){
+                btn.classList.add("active")
+                btn.nextElementSibling.nextElementSibling.classList.remove("active")
+                posts_container.style.display = "flex"
+                likes_container.style.display = "none"
+            }
+        }
+
+    </script>
 {% endblock %}
 

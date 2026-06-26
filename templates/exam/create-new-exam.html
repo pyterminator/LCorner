@@ -1,0 +1,173 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load custom_filters %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - Yeni imtahan yarat
+    </title>
+{% endblock %}
+
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/create-exam.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb"> 
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <a href="{% url 'myexams' %}">İmtahanlarım</a>
+        <span>Yarat</span>
+    </div>
+
+    
+
+    <div class="create-exam-structure">
+        <div class="header">
+            <svg width="256px" height="256px" viewBox="-12 -12 72.00 72.00" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff" stroke-width="1.6799999999999997" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><path transform="translate(-12, -12), scale(4.5)" fill="#30975cfc" d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.8240000000000003"><defs><style>.a{fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;}</style></defs><path class="a" d="M39.6,18.79V6.45a2,2,0,0,0-2-1.95H10.35a2,2,0,0,0-1.95,2v35.1a2,2,0,0,0,1.95,2h27.3a2,2,0,0,0,2-2V24.49"></path><line class="a" x1="15.22" y1="12.7" x2="32.77" y2="12.7"></line><line class="a" x1="32.77" y1="20.23" x2="15.22" y2="20.23"></line><line class="a" x1="15.22" y1="27.77" x2="24.97" y2="27.77"></line><line class="a" x1="15.22" y1="35.3" x2="21.07" y2="35.3"></line><path class="a" d="M26,32.84V35.3H28.4a1,1,0,0,0,.68-.29L44.59,19.5l-2.85-2.85L26.23,32.16A1,1,0,0,0,26,32.84Z"></path><path class="a" d="M46.78,17.29a.75.75,0,0,0,0-1.06h0l-1.73-1.77a.75.75,0,0,0-1.06,0l-2.25,2.2,2.85,2.85Z"></path></g><g id="SVGRepo_iconCarrier"><defs><style>.a{fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;}</style></defs><path class="a" d="M39.6,18.79V6.45a2,2,0,0,0-2-1.95H10.35a2,2,0,0,0-1.95,2v35.1a2,2,0,0,0,1.95,2h27.3a2,2,0,0,0,2-2V24.49"></path><line class="a" x1="15.22" y1="12.7" x2="32.77" y2="12.7"></line><line class="a" x1="32.77" y1="20.23" x2="15.22" y2="20.23"></line><line class="a" x1="15.22" y1="27.77" x2="24.97" y2="27.77"></line><line class="a" x1="15.22" y1="35.3" x2="21.07" y2="35.3"></line><path class="a" d="M26,32.84V35.3H28.4a1,1,0,0,0,.68-.29L44.59,19.5l-2.85-2.85L26.23,32.16A1,1,0,0,0,26,32.84Z"></path><path class="a" d="M46.78,17.29a.75.75,0,0,0,0-1.06h0l-1.73-1.77a.75.75,0,0,0-1.06,0l-2.25,2.2,2.85,2.85Z"></path></g></svg>
+            <div>
+                <h1>Yeni imtahan yarat</h1>
+                <p>İmtahan məlumatlarını daxil edin və sualları əlavə edin</p>
+            </div>
+        </div>
+
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <label for="exam-title">
+                <p>İmtahan üçün ad təyin edin <span>*</span></p>
+                <input type="text" id="exam-title" autocomplete="off" name="title" placeholder="Məsələn : İnformatika - Periferiya qurğuları">
+                <div class="form-alert">
+                    Yalnız hərflər daxil edilməlidir!
+                </div>
+            </label>
+
+            <div class="double-panel">
+                <div class="label">
+                    <p>İmtahan tipi <span>*</span></p>
+                    <div>
+                        <div class="selected">
+                            <p>Limitsiz</p>
+                            <i class="fa-solid fa-angle-down" data-val="off" onclick="openSelectOption(this)"></i>
+                        </div>
+                        <div class="options">
+                            <label class="option" for="exam-type-endless">
+                                <input type="radio" id="exam-type-endless" value="Limitsiz" name="exam_type" checked>
+                                <span></span>
+                                <p>Limitsiz</p> 
+                            </label>
+                            <label class="option" for="exam-type-limited">
+                                <input type="radio" id="exam-type-limited" value="Limitli" name="exam_type">
+                                <span></span>
+                                <p>Limitli</p> 
+                            </label>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="label">
+                    <p>Səviyyə <span>*</span></p>
+                    <div>
+                        <div class="selected">
+                            <p>Asan</p>
+                            <i class="fa-solid fa-angle-down" data-val="off" onclick="openSelectOption(this)"></i>
+                        </div>
+                        <div class="options">
+                            <label class="option" for="difficulty-easy">
+                                <input type="radio" id="difficulty-easy" value="Asan" name="difficulty" checked>
+                                <span></span>
+                                <p>Asan</p> 
+                            </label>
+                            <label class="option" for="difficulty-medium">
+                                <input type="radio" id="difficulty-medium" value="Orta" name="difficulty">
+                                <span></span>
+                                <p>Orta</p> 
+                            </label>
+                            <label class="option" for="difficulty-hard">
+                                <input type="radio" id="difficulty-hard" value="Çətin" name="difficulty">
+                                <span></span>
+                                <p>Çətin</p> 
+                            </label>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="label">
+                    <p>Qiymət <span>*</span></p>
+                    <div>
+                        <div class="selected">
+                            <p>Pulsuz</p>
+                            <i class="fa-solid fa-angle-down" data-val="off" onclick="openSelectOption(this)"></i>
+                        </div>
+                        <div class="options">
+                            <label class="option" for="price-free">
+                                <input type="radio" id="price-free" value="Pulsuz" name="price" checked>
+                                <span></span>
+                                <p>Pulsuz</p> 
+                            </label> 
+                        </div> 
+                    </div>
+                </div>
+ 
+            </div>
+
+            <label for="exam-description">
+                <p>İmtahan üçün açıqlama yazın <span>*</span></p> 
+                <textarea name="description" id="exam-description" placeholder="Məsələn : İmtahan əsasən 11-ci sinif şagirdləri üçün nəzərdə tutulub..."></textarea>
+                <div class="form-alert">
+                    Yalnız hərflər daxil edilməlidir!
+                </div>
+            </label>
+
+        </form>
+    </div>
+    
+    
+
+     
+
+     
+
+    
+
+{% endblock %}
+
+{% block scripts %}
+    <!-- Scriptlərim -->
+    <script>
+        function openSelectOption(icon){
+            let opts = icon.parentElement.nextElementSibling 
+            opts.querySelectorAll("input[type=radio]").forEach(item=>{
+                item.addEventListener("change", function(e){
+                    icon.previousElementSibling.innerText = item.value
+                    icon.click()
+                })
+            })
+            if (icon.dataset.val == "off"){
+                icon.classList.remove("fa-angle-down")
+                icon.classList.add("fa-angle-up")
+                icon.dataset.val = "on"
+                opts.style.display = "block" 
+            } else {
+                icon.classList.remove("fa-angle-up")
+                icon.classList.add("fa-angle-down")
+                icon.dataset.val = "off"
+                opts.style.display = "none"
+            }
+
+
+            opts.parentElement.addEventListener("mouseleave", function(e){
+                icon.click()
+            })
+
+            
+        }
+
+
+        
+    </script>
+{% endblock %}

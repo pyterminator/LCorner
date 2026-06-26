@@ -28,7 +28,9 @@ a {
     outline: none;
 }
 
-ul, ol, li{
+ul,
+ol,
+li {
     list-style-type: none;
     list-style: none;
 }
@@ -43,7 +45,8 @@ button {
 }
 
 input,
-button {
+button,
+textarea {
     outline: none;
     border: none;
     background-color: transparent;
@@ -141,3 +144,8 @@ button {
     }
 }
 
+select {
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
