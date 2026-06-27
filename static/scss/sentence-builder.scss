@@ -1,0 +1,77 @@
+@use "_extends";
+
+.sentence-builder{
+    &>h1{
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: var(--light);
+    }
+    &>h1+p{
+        font-size: 1.2rem;
+        color: var(--main-dark);
+        margin-bottom: 2rem;
+        a{
+            color: var(--link);
+        }
+    }
+
+    .btns{
+        display: flex;
+        width: 100%;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+
+        button{
+            @extend %button-style;
+            background-color: var(--star);
+            color: var(--dark);
+            &:disabled{
+                background-color: var(--btn-bg);
+                color: var(--light);
+            }
+        }
+    }
+
+    .game-title{
+        text-align: center;
+        font-size: 1.4rem;
+        color: var(--light);
+        margin-bottom: 3rem;
+        span{
+            color: var(--danger);
+        }
+    }
+
+
+    .box{
+        width: 100%; 
+        min-height: 5.2rem;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 1rem;
+        border-radius: 1rem;
+        gap: .5rem;
+        background-color: var(--main-dark);
+        button{
+            @extend %button-style;
+        }
+    }
+
+    .check{
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        button{
+            @extend %button-style;
+            width: 25rem;
+            height: 6rem;
+            background-color: var(--link);
+        }
+    }
+}

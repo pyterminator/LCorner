@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - Cümlə qurma oyunu
+    </title>
+{% endblock %}
+
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/sentence-builder.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb"> 
+        <a href="{% url 'myaccount' request.user.username %}"><i class="fa-solid fa-user"></i> Hesabım</a>
+        <span>SentenceBuilder</span>
+    </div>
+
+    <div class="sentence-builder">
+        <h1>Cümlə qurma [Sistem oyunu]</h1>
+        <p>Bu oyun sizin bəyəndiyiniz postlara əsasən sistem tərəfindən generasiya olunur. Suallarda səhv aşkar etdikdə bizə <a href="{% url 'contact' %}">Əlaqə formundan</a> bildirə bilərsiniz.</p>
+
+        <div class="btns">
+            {% for word in words %}
+                <button>{{word}}</button>
+            {% endfor %}
+        </div>
+
+        <div class="game-title">
+            {{title}} <span>(Sarı butonlara ardıcıllıqla kliklə)</span>
+        </div>
+
+        <div class="box">
+            {% for _ in words %}
+                <button></button>
+            {% endfor %}
+        </div>
+
+        <div class="check">
+            <button data-ans="{{answer}}" onclick="checkAnswer(this)">
+                <i class="fa-regular fa-square-check"></i> Cavabı yoxla
+            </button>
+        </div>
+
+    </div>
+
+     
+{% endblock %}
+
+{% block scripts %}
+
+    <script>
+        const wordButtons = document.querySelectorAll(".btns button");
+        const answerButtons = document.querySelectorAll(".box button");
+
+        let index = 0;
+
+        wordButtons.forEach(btn => {
+            btn.addEventListener("click", function () {
+
+                if (index >= answerButtons.length) return;
+
+                answerButtons[index].textContent = this.textContent;
+                index++;
+
+                // Eyni sözü iki dəfə seçməmək üçün
+                this.disabled = true;
+            });
+        });
+
+
+        function checkAnswer(btn){
+            let ans = btn.dataset.ans.trim().toLowerCase();
+
+            let my_ans = []
+
+            for (const element of answerButtons) {
+                my_ans.push(element.innerText.trim().toLowerCase())
+            }
+
+            const userAnswer = my_ans.join(" ");
+
+            if (userAnswer === ans) {
+                alert("✅ Doğru cavab");
+            } else {
+                alert("❌ Səhv cavab");
+            }
+
+        }
+    </script>
+
+{% endblock %}
