@@ -197,6 +197,7 @@ def GetUserPosts(request, user, page=1):
             "posts": my_query.order_by("-id")[sdmin:sdmax],
             "post_count": post_count,
             "liked_posts": liked_posts,
+            "my_likes": Post.objects.filter(likes_set__account=my_account).order_by("-id")[:10],
             "next_page":next_page,
             "showing": sdmax
         }

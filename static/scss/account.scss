@@ -541,12 +541,30 @@
             border-bottom: .2rem solid var(--main);
             font-weight: 600;
             transition: all .1s ease-in-out;
-
+            position: relative;
+            a{
+                display: none;
+                position: absolute;
+                top: 50%;
+                right: 1rem;
+                transform: translateY(-50%);
+                background-color: var(--bg);
+                color: var(--all-dark);
+                padding: .3rem .5rem;
+                font-size: 1.2rem;
+                border-radius: .5rem;
+                i{
+                    margin-right: .3rem;
+                }
+            }
         }
 
         button.active {
             border-bottom: .2rem solid var(--bg);
             color: var(--bg);
+            a{
+                display: inline-block;
+            }
         }
 
         div {
@@ -756,6 +774,55 @@
 
         .my-likes {
             display: none;
+            flex-direction: column;
+
+            background-color: var(--main);
+            padding: 1rem;
+            border-radius: 1rem;
+
+            .post{
+                color: var(--link);
+                font-size: 1.4rem;
+                margin-bottom: .5rem;
+                font-weight: 600;
+            }
+
+            .no-content-for-me,
+            .no-content-for-others {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                min-height: 20rem;
+
+                a {
+                    width: 5rem;
+                    height: 5rem;
+                    border: .1rem solid var(--link);
+                    color: var(--link);
+                    font-size: 1.6rem;
+                    line-height: 5rem;
+                    text-align: center;
+                    border-radius: 50%;
+                    transition: all .1s ease-in-out;
+
+                    &:hover {
+                        background-color: var(--link);
+                        color: var(--light);
+                    }
+                }
+
+                i {
+                    width: 5rem;
+                    height: 5rem;
+                    border: .1rem solid var(--star);
+                    color: var(--star);
+                    font-size: 1.6rem;
+                    line-height: 5rem;
+                    text-align: center;
+                    border-radius: 50%;
+                }
+            }
         }
     }
 }

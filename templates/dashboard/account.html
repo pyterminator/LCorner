@@ -199,6 +199,8 @@
             
             <button onclick="openMyLikes(this)">
                 <i class="fa-regular fa-heart"></i> Bəyəndiklərim
+
+                <a href="#"><i class="fa-solid fa-square-poll-horizontal"></i> Oyuna keç</a>
             </button>
         </div>
         <div class="posts-container">
@@ -284,9 +286,17 @@
                 {% endif %} 
             </div>
             <div class="my-likes">
-                <div class="post">
-                    <a href="#" class="foreign">What is ypur name ? ...</a> 
-                </div>
+                {% if my_likes %}
+                    {% for m_l in my_likes %}
+                        <div class="post">
+                            <a href="{% url 'postdetail' m_l.slug %}" class="foreign">{{m_l.sentence}}</a> 
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-content-for-others">
+                        <i class="fa-solid fa-face-frown"></i>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
