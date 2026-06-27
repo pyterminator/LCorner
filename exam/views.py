@@ -81,7 +81,8 @@ def PrepareQuizForSentenceBuilder(post:Post):
         "words": words,
         "title": "Sözləri düzgün ardıcıllıqla yerləşdir",
         "description": post.description,
-        "id": post.id
+        "id": post.id,
+        "answer": sentence
     }
 
 

@@ -11,6 +11,7 @@
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/sentence-builder.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 {% endblock %}
 
 
@@ -26,7 +27,23 @@
         <h1>Cümlə qurma [Sistem oyunu]</h1>
         <p>Bu oyun sizin bəyəndiyiniz postlara əsasən sistem tərəfindən generasiya olunur. Suallarda səhv aşkar etdikdə bizə <a href="{% url 'contact' %}">Əlaqə formundan</a> bildirə bilərsiniz.</p>
 
+        <div class="links">
+            <button onclick="nextGame(this)" id="next" data-ans="{{answer}}" data-url="{% url 'sentencebuilder' %}" data-id="{{id}}">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
+            <button onclick="openSentenceBuilderModal(this)" data-val="off" id="open-close-sentence-builder-modal">
+                <i class="fa-solid fa-circle-question"></i>
+            </button>
+        </div>
         
+        <div class="modal animate__animated">
+            <i class="fa-solid fa-xmark" onclick="closeSentenceBuilderModal(this)"></i>
+            <p>
+                {{answer}}
+                <span class="hr"></span>
+                {{description}}
+            </p>
+        </div>
 
         <div class="btns">
             {% for word in words %}
@@ -59,6 +76,34 @@
 {% block scripts %}
 
     <script>
+        // Modal
+        function openSentenceBuilderModal(btn){
+            let modal = document.querySelector(".sentence-builder .modal")
+
+            if(btn.dataset.val == "off"){
+                btn.dataset.val = "on"
+                modal.style.display = "flex"
+                modal.classList.add("animate__backInDown")
+            } else {
+                btn.dataset.val = "off"
+                modal.classList.remove("animate__backInDown")
+                modal.classList.add("animate__backOutDown")
+                setTimeout(() => {
+                    modal.style.display = "none"
+                    modal.classList.remove("animate__backOutDown")
+                }, 250);
+            }
+        }
+
+
+        function closeSentenceBuilderModal(btn){
+            let b = document.getElementById("open-close-sentence-builder-modal")
+            b.click()
+        }
+        // Modal
+
+
+
         let box = document.querySelector(".box");
         function initButtons() {
         
@@ -108,7 +153,14 @@
         initButtons();
 
         
+        async function nextGame(btn){
+            let ans = btn.dataset.ans.trim()
+            const url = btn.dataset.url 
+            const id = btn.dataset.id
 
+
+            await getNextGame(id, ans, url, btn)
+        }
 
         async function checkAnswer(btn){ 
             wordButtons = document.querySelectorAll(".btns button");
@@ -133,7 +185,12 @@
             const userAnswer = my_ans.join(" ");
 
 
+            await getNextGame(id, userAnswer, url, btn)
+            
+        } 
 
+
+        async function getNextGame(id, userAnswer, url, btn){
             const response = await fetch(url, {
                 method: "POST",
 
@@ -161,16 +218,20 @@
 
                 initButtons();
 
-                btn.dataset.id = data.id
-
+                document.querySelector(".sentence-builder .check button").dataset.id = data.id 
+                document.querySelector(".sentence-builder .links #next").dataset.id = data.id 
+                document.querySelector(".sentence-builder .links #next").dataset.ans = data.answer
+                document.querySelector(".game-title p.alert").innerText = ""
+                
+                let modal_p = document.querySelector(".sentence-builder .modal p") 
+                modal_p.innerHTML = `${data.answer}<span class="hr"></span>${data.description}`
             } else { 
                 document.querySelector(".game-title p.alert").innerText = data.message
                 answerButtons.forEach(element => {
                     element.click()
                 });
             }
-
-        } 
+        }
     </script>
 
 {% endblock %}

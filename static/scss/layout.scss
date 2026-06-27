@@ -29,7 +29,14 @@
                 line-height: 6rem;
                 color: var(--light);
                 border-left: 1rem solid var(--bg);
-
+                span{
+                    &:nth-child(1){
+                        color: var(--all-dark);
+                    }
+                    &:nth-child(1){
+                        color: var(--all-light);
+                    }
+                }
                 i {
                     display: none;
                 }
@@ -128,7 +135,7 @@
                         @extend %button-style;
                         position: relative;
                         background-color: var(--bg);
-                        color: var(--light);
+                        color: var(--all-light);
                         cursor: pointer;
                         span{
                             width: 1rem;
