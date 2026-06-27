@@ -43,6 +43,13 @@
         span{
             color: var(--danger);
         }
+        p{
+            font-size: 1.2rem;
+            color: var(--danger);
+            width: 100%; 
+            text-align: center;
+            display: block;
+        }
     }
 
 
@@ -59,6 +66,15 @@
         background-color: var(--main-dark);
         button{
             @extend %button-style;
+            &:disabled{
+                &:hover{
+                    cursor: default;
+                }
+                &:active{
+                    transform: none;
+                    box-shadow: none;
+                }
+            }
         }
     }
 
@@ -72,6 +88,7 @@
             width: 25rem;
             height: 6rem;
             background-color: var(--link);
+            color: var(--all-dark); 
         }
     }
 }

@@ -198,9 +198,11 @@
             <div class="separator"></div>
             
             <button onclick="openMyLikes(this)">
-                <i class="fa-regular fa-heart"></i> Bəyəndiklərim
+                <i class="fa-regular fa-heart"></i> <span>Bəyəndiklərim</span>
 
-                <a href="{% url 'sentencebuilder' %}"><i class="fa-solid fa-square-poll-horizontal"></i> Oyuna keç</a>
+                {% if my_likes|length >= 3 %}
+                    <a href="{% url 'sentencebuilder' %}"><i class="fa-solid fa-square-poll-horizontal"></i> <span>Oyuna keç</span></a>
+                {% endif %}
             </button>
         </div>
         <div class="posts-container">

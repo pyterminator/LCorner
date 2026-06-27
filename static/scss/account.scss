@@ -880,6 +880,17 @@
     }
 
     .account-posts {
+
+        .header{
+            button{
+                a{
+                    span{
+                        display: none;
+                    }
+                }
+            }
+        }
+
         .posts-container {
             .my-posts {
 
@@ -918,6 +929,17 @@
                     width: 100%;
 
 
+                }
+            }
+        }
+    }
+
+     .account-posts {
+
+        .header{
+            button{
+                span{
+                    display: none;
                 }
             }
         }

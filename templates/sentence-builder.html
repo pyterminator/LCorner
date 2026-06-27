@@ -26,6 +26,8 @@
         <h1>Cümlə qurma [Sistem oyunu]</h1>
         <p>Bu oyun sizin bəyəndiyiniz postlara əsasən sistem tərəfindən generasiya olunur. Suallarda səhv aşkar etdikdə bizə <a href="{% url 'contact' %}">Əlaqə formundan</a> bildirə bilərsiniz.</p>
 
+        
+
         <div class="btns">
             {% for word in words %}
                 <button>{{word}}</button>
@@ -34,16 +36,17 @@
 
         <div class="game-title">
             {{title}} <span>(Sarı butonlara ardıcıllıqla kliklə)</span>
+            <p class="alert"></p>
         </div>
 
         <div class="box">
             {% for _ in words %}
-                <button></button>
+                <button disabled></button>
             {% endfor %}
         </div>
 
         <div class="check">
-            <button data-ans="{{answer}}" onclick="checkAnswer(this)">
+            <button onclick="checkAnswer(this)" data-url="{% url 'sentencebuilder' %}" data-id="{{id}}">
                 <i class="fa-regular fa-square-check"></i> Cavabı yoxla
             </button>
         </div>
@@ -56,27 +59,70 @@
 {% block scripts %}
 
     <script>
-        const wordButtons = document.querySelectorAll(".btns button");
-        const answerButtons = document.querySelectorAll(".box button");
+        let box = document.querySelector(".box");
+        function initButtons() {
+        
 
-        let index = 0;
+            wordButtons = document.querySelectorAll(".btns button");
+            answerButtons = document.querySelectorAll(".box button");
+            let index = 0;
 
-        wordButtons.forEach(btn => {
-            btn.addEventListener("click", function () {
 
-                if (index >= answerButtons.length) return;
+            wordButtons.forEach(btn => {
+                btn.addEventListener("click", function () {
 
-                answerButtons[index].textContent = this.textContent;
-                index++;
+                    if (index >= answerButtons.length) return;
 
-                // Eyni sözü iki dəfə seçməmək üçün
-                this.disabled = true;
+                    answerButtons[index].textContent = this.textContent;
+                    answerButtons[index].removeAttribute("disabled")
+                    index++;
+
+                    // Eyni sözü iki dəfə seçməmək üçün
+                    this.disabled = true;
+                });
             });
-        });
+
+            answerButtons.forEach(btn => {
+                btn.addEventListener("click", function () {
 
 
-        function checkAnswer(btn){
-            let ans = btn.dataset.ans.trim().toLowerCase();
+                    if (this.textContent === "") return;
+
+                    wordButtons.forEach(element => {
+                        if(element.textContent === this.textContent){
+                            element.removeAttribute("disabled")
+                        }
+                    });
+
+                    this.textContent = "";
+                    this.setAttribute("disabled", true);
+                    box.appendChild(this);
+                    answerButtons = document.querySelectorAll(".box button");
+                    
+
+                    index--;
+                });
+            });
+        }
+
+        initButtons();
+
+        
+
+
+        async function checkAnswer(btn){ 
+            wordButtons = document.querySelectorAll(".btns button");
+            
+            const hasEnabledButton = [...wordButtons].some(btn => !btn.disabled);
+
+            if (hasEnabledButton) {
+                return;
+            }
+
+
+            const url = btn.dataset.url 
+            const id = btn.dataset.id
+
 
             let my_ans = []
 
@@ -86,13 +132,45 @@
 
             const userAnswer = my_ans.join(" ");
 
-            if (userAnswer === ans) {
-                alert("✅ Doğru cavab");
-            } else {
-                alert("❌ Səhv cavab");
+
+
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                body: JSON.stringify({
+                    "id": id, 
+                    "user_answer": userAnswer
+                })
+            })
+
+            const data = await response.json()
+
+            if (data.success){  
+                let btns = document.querySelector(".btns")
+                box.innerHTML = ""
+                btns.innerHTML = ""
+                for (const w of data.words) {
+                    btns.innerHTML += `<button>${w}</button>`
+                    box.innerHTML += "<button disabled></button>"
+                }
+
+                initButtons();
+
+                btn.dataset.id = data.id
+
+            } else { 
+                document.querySelector(".game-title p.alert").innerText = data.message
+                answerButtons.forEach(element => {
+                    element.click()
+                });
             }
 
-        }
+        } 
     </script>
 
 {% endblock %}
