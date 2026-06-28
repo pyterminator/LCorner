@@ -188,7 +188,7 @@
             
 
 
-            if (e.key == "," && e.keyCode == 188 && e.code == "Comma"){
+            if (e.key == "," || e.keyCode == 188 || e.code == "Comma"){
                 let teq = e.target.value 
                 if (teq.length < 3){
                     e.preventDefault()
