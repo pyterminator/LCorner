@@ -154,7 +154,7 @@
         function openSelectOption(icon){
             let opts = icon.parentElement.nextElementSibling 
             opts.querySelectorAll("input[type=radio]").forEach(item=>{
-                item.addEventListener("change", function(e){
+                item.addEventListener("input", function(e){
                     icon.previousElementSibling.innerText = item.value
                     icon.click()
                 })
@@ -218,7 +218,7 @@
         }
 
 
-        document.getElementById("exam-type-limited").addEventListener("change", function(e){
+        document.getElementById("exam-type-limited").addEventListener("input", function(e){
             let exam_type_limited_number_input = document.getElementById("exam-type-limited-number")
             if(e.target.checked){
                 let openExamTypeSelection = document.getElementById("openExamTypeSelection")
@@ -247,7 +247,7 @@
             }
         })
 
-        document.getElementById("exam-type-endless").addEventListener("change", function(e){
+        document.getElementById("exam-type-endless").addEventListener("input", function(e){
             let exam_type_limited_number_input = document.getElementById("exam-type-limited-number")
             if(e.target.checked && exam_type_limited_number_input){
                 exam_type_limited_number_input.value = ""
@@ -256,7 +256,7 @@
         })
         
 
-        document.getElementById("exam-title").addEventListener("change", function(e){
+        document.getElementById("exam-title").addEventListener("input", function(e){
             const textRegex = /^[A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]+$/;
             if(!textRegex.test(e.target.value) && e.target.value.length > 0){
                 const invalidChar = e.target.value.match(/[^A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]/)[0];
