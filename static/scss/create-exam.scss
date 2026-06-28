@@ -1,8 +1,8 @@
 .create-exam-structure {
     width: 100%;
-    min-height: 50dvh; 
+    min-height: 50dvh;
     border-radius: 1rem;
-    padding-bottom: 2rem; 
+    padding-bottom: 2rem;
 
     .header {
         padding: 3rem;
@@ -71,7 +71,7 @@
                 padding: 0 1rem;
             }
 
-            textarea{
+            textarea {
                 width: 100%;
                 height: 15rem;
                 background-color: var(--input-bg);
@@ -147,32 +147,34 @@
                             border-radius: 1rem;
                             border: .2rem solid var(--input-bg);
                             transition: all .1s ease-in-out;
-
+                            z-index: 10;
                             &:hover {
                                 border-color: var(--light);
                             }
                         }
-                        
+
 
                     }
 
                     .options {
                         display: none;
-                        width: 100%; 
+                        width: 100%;
                         background-color: var(--input-bg);
                         position: absolute;
                         top: 4.2rem;
                         left: 0;
-                        border-bottom-left-radius: 1rem; 
-                        border-bottom-right-radius: 1rem;
-                        box-shadow: 0 .1rem 0 .1rem var(--light);
-                        padding-bottom: 1rem;
+                        border-bottom-left-radius: 1rem;
+                        border-bottom-right-radius: 1rem; 
+                        box-shadow: 0 .3rem 0 0 var(--light);
+                        padding-bottom: 1rem; 
+                        z-index: 5;
 
-                        .option{
-                            input{
+                        .option {
+                            input[type=radio] {
                                 display: none;
-                                &:checked+span{
-                                    &::after{
+
+                                &:checked+span {
+                                    &::after {
                                         content: "";
                                         width: .75rem;
                                         height: .75rem;
@@ -186,31 +188,142 @@
                                 }
                             }
 
+                            input[type=text] {
+                                width: 100%;
+                                height: 4rem;
+                                background-color: var(--input-bg);
+                                padding: 0 1rem;
+                                border-radius: 1rem;
+                                color: var(--light);
+                                border: .2rem solid var(--main-dark);
+                                line-height: 3.6rem;
+                            }
+
+
                             display: flex;
                             justify-content: flex-start;
                             align-items: center;
                             gap: .5rem;
                             padding: .3rem 1rem;
                             cursor: pointer;
-                            span{
+
+                            span {
                                 width: 1rem;
                                 height: 1rem;
                                 background-color: var(--light);
                                 position: relative;
                                 border-radius: 50%;
                             }
-                            p{
+
+                            p {
                                 font-size: 1.4rem;
                             }
 
-                            &:hover{
+                            &:hover {
                                 background-color: var(--main-dark);
                                 color: var(--dark);
                             }
                         }
+
+                        .option-limited {
+                            display: none;
+                        }
                     }
                 }
             }
+        }
+
+
+        .tags-header {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            color: var(--light);
+
+            span {
+                color: var(--danger);
+            }
+
+            em {
+                color: var(--star);
+            }
+        }
+
+        .tags-box {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: stretch;
+            gap: 1rem;
+
+            button {
+                border-radius: .3rem;
+                overflow: hidden;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                span {
+                    &:nth-child(1) {
+                        width: 2rem;
+                        text-align: center;
+                        height: 2.5rem;
+                        line-height: 2.5rem;
+                        font-size: 1.2rem;
+                        background-color: var(--main-dark);
+                        color: var(--all-dark);
+                    }
+
+                    &:nth-child(2) {
+                        background-color: var(--main);
+                        color: var(--light);
+                        border: .1rem solid var(--main-dark);
+                        height: 2.5rem;
+                        line-height: 2.3rem;
+                        border-left: none;
+                        padding: 0 .5rem;
+                        border-top-right-radius: .3rem;
+                        border-bottom-right-radius: .3rem;
+                        font-size: 1.3rem;
+                    }
+                }
+            }
+        }
+
+        .add-tag {
+            width: 100%;
+            margin-top: 1rem;
+
+            input {
+                width: 100%;
+                height: 5rem;
+                background-color: var(--input-bg);
+                padding: 0 1rem;
+                border-radius: 1rem;
+                color: var(--light);
+                font-size: 1.4rem;
+                font-weight: bold;
+            }
+        }
+
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    .create-exam-structure {
+         
+
+        form {
+             
+
+            .double-panel {
+                flex-direction: column;
+
+                div.label {
+                    width: 100%; 
+                }
+            } 
         }
     }
 }

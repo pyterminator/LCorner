@@ -41,9 +41,7 @@
             <label for="exam-title">
                 <p>İmtahan üçün ad təyin edin <span>*</span></p>
                 <input type="text" id="exam-title" autocomplete="off" name="title" placeholder="Məsələn : İnformatika - Periferiya qurğuları">
-                <div class="form-alert">
-                    Yalnız hərflər daxil edilməlidir!
-                </div>
+                <div class="form-alert"></div>
             </label>
 
             <div class="double-panel">
@@ -52,7 +50,7 @@
                     <div>
                         <div class="selected">
                             <p>Limitsiz</p>
-                            <i class="fa-solid fa-angle-down" data-val="off" onclick="openSelectOption(this)"></i>
+                            <i class="fa-solid fa-angle-down" data-val="off" id="openExamTypeSelection" onclick="openSelectOption(this)"></i>
                         </div>
                         <div class="options">
                             <label class="option" for="exam-type-endless">
@@ -64,6 +62,9 @@
                                 <input type="radio" id="exam-type-limited" value="Limitli" name="exam_type">
                                 <span></span>
                                 <p>Limitli</p> 
+                            </label>
+                            <label class="option option-limited" for="exam-type-limited-number">
+                                <input type="text" placeholder="Sual sayı daxil edin (min:3, max: 50)" id="exam-type-limited-number" name="question_count">
                             </label>
                         </div> 
                     </div>
@@ -123,6 +124,17 @@
                 </div>
             </label>
 
+
+            <div class="tags-header">
+                Etiket əlavə edin <em>(max etiket sayı: 3; etiketi yazdıqdan sonra əlavə etmək üçün vergül qoyun)</em> <span> *</span>
+            </div>
+            <div class="tags-box"></div>
+
+
+            <div class="add-tag">
+                <input type="text" id="addTagToBox" placeholder="Etiketi yazdıqdan sonra vergül qoyun">
+            </div>
+
         </form>
     </div>
     
@@ -163,11 +175,102 @@
             opts.parentElement.addEventListener("mouseleave", function(e){
                 icon.click()
             })
-
-            
         }
 
 
+        document.getElementById("addTagToBox").addEventListener("keydown", function(e){
+            const my_reg = /^[A-Za-zƏəĞğİıÖöŞşÜüÇçА-Яа-яЁё,]+$/; 
+
+            if (!my_reg.test(e.key)){
+                e.preventDefault()
+            }
+
+            
+
+
+            if (e.key == "," && e.keyCode == 188 && e.code == "Comma"){
+                let teq = e.target.value 
+                if (teq.length < 3){
+                    e.preventDefault()
+                    return false
+                }
+                
+                let tags_box = document.querySelector("form .tags-box")
+
+                tags_box.innerHTML += `<button onclick='removeTag(this)'><span>#</span> <span>${teq.toLowerCase()}</span> </button>`
+                e.target.value = ""
+
+                e.preventDefault()
+
+                if (tags_box.querySelectorAll("button").length == 3){
+                    e.target.disabled = true
+                    e.target.setAttribute("placeholder", "Maksimum 3 etiket əlavə edə bilərsiniz")
+                }
+            } 
+        })  
+
+
+        function removeTag(btn){
+            btn.remove()
+            document.getElementById("addTagToBox").disabled = false
+            document.getElementById("addTagToBox").focus()
+            document.getElementById("addTagToBox").setAttribute("placeholder", "Etiketi yazdıqdan sonra vergül qoyun")
+        }
+
+
+        document.getElementById("exam-type-limited").addEventListener("change", function(e){
+            let exam_type_limited_number_input = document.getElementById("exam-type-limited-number")
+            if(e.target.checked){
+                let openExamTypeSelection = document.getElementById("openExamTypeSelection")
+                openExamTypeSelection.click()
+
+                exam_type_limited_number_input.parentElement.style.display = "block"
+                setTimeout(() => {
+                    exam_type_limited_number_input.focus()
+                }, 100);
+
+                exam_type_limited_number_input.addEventListener("keydown", function(ie){
+                    const my_reg_for_num = /^[0-9]+$/; 
+                    if (!my_reg_for_num.test(ie.key) && ie.key !== "Backspace" && ie.key !== "Delete"){
+                        ie.preventDefault()
+                    } else {
+                        if (ie.key === "Delete" || ie.key === "Backspace") {
+                            ie.target.closest(".label").querySelector(".selected p").innerText = `Limitli - ${ie.target.value.slice(0,-1)} sual`
+                        } else {
+                            ie.target.closest(".label").querySelector(".selected p").innerText = `Limitli - ${ie.target.value}${ie.key} sual`
+                        }
+                    }
+                })
+            } else { 
+                exam_type_limited_number_input.value = ""
+                exam_type_limited_number_input.parentElement.style.display = "none"
+            }
+        })
+
+        document.getElementById("exam-type-endless").addEventListener("change", function(e){
+            let exam_type_limited_number_input = document.getElementById("exam-type-limited-number")
+            if(e.target.checked && exam_type_limited_number_input){
+                exam_type_limited_number_input.value = ""
+                exam_type_limited_number_input.parentElement.style.display = "none"
+            }
+        })
         
+
+        document.getElementById("exam-title").addEventListener("change", function(e){
+            const textRegex = /^[A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]+$/;
+            if(!textRegex.test(e.target.value) && e.target.value.length > 0){
+                const invalidChar = e.target.value.match(/[^A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]/)[0];
+                e.target.previousElementSibling.querySelector("span").style.color = "var(--danger)"
+                e.target.nextElementSibling.innerText = `Başlıqda icazə verilməyən ${invalidChar} simvolundan istifadə edilib!`
+            } else {
+                e.target.nextElementSibling.innerText = "" 
+                if (e.target.value.length == 0){
+                    e.target.previousElementSibling.querySelector("span").style.color = "var(--danger)"
+                } else {
+                    e.target.previousElementSibling.querySelector("span").style.color = "var(--success)"
+                }
+            }
+        })
+
     </script>
 {% endblock %}

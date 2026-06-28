@@ -9,6 +9,7 @@ class Exam(models.Model):
     description = models.TextField()
     duration = models.PositiveIntegerField()
     earn_xp = models.FloatField(default=0)
+    question_count = models.PositiveIntegerField(default=0)
 
     rating_total = models.PositiveIntegerField(default=0)
     rating_count = models.PositiveIntegerField(default=0)
