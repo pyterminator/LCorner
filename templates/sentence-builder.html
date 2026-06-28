@@ -75,7 +75,14 @@
 
 {% block scripts %}
 
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@4.3.0/tsparticles.confetti.bundle.min.js"></script>
+
     <script>
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        } 
+
         // Modal
         function openSentenceBuilderModal(btn){
             let modal = document.querySelector(".sentence-builder .modal")
@@ -185,7 +192,20 @@
             const userAnswer = my_ans.join(" ");
 
 
-            await getNextGame(id, userAnswer, url, btn)
+            let res = await getNextGame(id, userAnswer, url, btn)
+            if (res){
+                confetti({
+                    angle: randomInRange(55, 125),
+                    spread: randomInRange(50, 70),
+                    particleCount: randomInRange(50, 100),
+                    origin: { y: .6 }
+                });
+
+                let xplcxp = document.querySelector("#xplcxp > span")
+                let xplcl = document.querySelector("#xplcl > span")
+                xplcxp.innerHTML = res.xp 
+                xplcl.innerHTML = res.level 
+            }
             
         } 
 
@@ -208,6 +228,8 @@
             const data = await response.json()
 
             if (data.success){  
+
+                
                 let btns = document.querySelector(".btns")
                 box.innerHTML = ""
                 btns.innerHTML = ""
@@ -225,13 +247,22 @@
                 
                 let modal_p = document.querySelector(".sentence-builder .modal p") 
                 modal_p.innerHTML = `${data.answer}<span class="hr"></span>${data.description}`
+                return {
+                    "xp": data.xp,
+                    "level": data.level
+                }
             } else { 
                 document.querySelector(".game-title p.alert").innerText = data.message
                 answerButtons.forEach(element => {
                     element.click()
                 });
+                return false
             }
         }
     </script>
+
+
+    
+    
 
 {% endblock %}

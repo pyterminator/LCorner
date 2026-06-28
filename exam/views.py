@@ -37,10 +37,13 @@ def SentenceBuilder(request):
             new_post = GetPostForSentenceBuilder(request, my_account, get_post)
             data = PrepareQuizForSentenceBuilder(new_post)
             data["success"] = True
+            
 
             # 1 xal ver
             my_account.add_xp(1)
 
+            data["xp"] = my_account.xp 
+            data["level"] = my_account.level
  
             return JsonResponse(data)
         else: 

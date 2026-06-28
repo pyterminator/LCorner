@@ -103,7 +103,7 @@
             width: 100%;
             min-height: 100vh;
             margin-left: 0;
-            transition: all .1s ease;
+            transition: all .1s ease; 
 
             nav {
                 width: 100%;
@@ -186,6 +186,38 @@
                             i {
                                 margin-right: .2rem;
                             }
+                        }
+                    }
+                }
+            }
+
+            #xp-level{
+                display: flex;
+                justify-content: flex-end;
+                margin-top: .5rem;
+                padding: 1rem 2rem;
+                
+                .container{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: .6rem;
+                    p{ 
+                        font-size: 1rem; 
+                        padding: .3rem 1rem;
+                        border-radius: 2rem;
+                        text-transform: uppercase;
+                        span{
+                            font-weight: 600;
+                            font-size: 1.4rem;
+                        }
+                        &:nth-child(1){
+                            background-color: var(--star); 
+                            color: var(--all-dark);
+                        }
+                        &:nth-child(2){
+                            background-color: var(--badge); 
+                            color: var(--all-light);
                         }
                     }
                 }

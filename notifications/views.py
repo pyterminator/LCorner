@@ -28,9 +28,12 @@ def GetUnreadNotificationCount(request):
         return JsonResponse({
             "count_of_unread_notifications": count_of_unread_notifications,
             "success": True,
-            "has_unread_notifications": count_of_unread_notifications > 0
+            "has_unread_notifications": count_of_unread_notifications > 0,
+            "xp":request.user.account.xp,
+            "level": request.user.account.level
         })
     except:
+
         return JsonResponse({"success": False})
 
 @login_required

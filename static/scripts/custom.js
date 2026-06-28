@@ -226,6 +226,15 @@ async function GetUnreadNotificationCount(){
     })
 
     const data = await response.json()
+    
+    if (data.success){
+        let xplcxp = document.querySelector("#xplcxp > span")
+        let xplcl = document.querySelector("#xplcl > span")
+        xplcxp.innerHTML = data.xp 
+        xplcl.innerHTML = data.level
+
+    }
+
     if (data.success && data.has_unread_notifications){
         document.getElementById("has_notify").style.display = "inline-block"
     } else {
@@ -233,15 +242,20 @@ async function GetUnreadNotificationCount(){
     }
 }
 
+// Birinci tez calisdir
+setTimeout(() => {
+    GetUnreadNotificationCount()
+    // Sonra intervalla
+    let interval = setInterval(GetUnreadNotificationCount, 10000);
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            clearInterval(interval);
+        } else {
+            interval = setInterval(GetUnreadNotificationCount, 10000);
+        }
+    });
+}, 2000);
 
-let interval = setInterval(GetUnreadNotificationCount, 10000);
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-        clearInterval(interval);
-    } else {
-        interval = setInterval(GetUnreadNotificationCount, 10000);
-    }
-});
 
 
 function copyLinkWithRC(btn){
