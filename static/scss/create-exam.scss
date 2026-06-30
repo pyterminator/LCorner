@@ -146,8 +146,7 @@
                             cursor: pointer;
                             border-radius: 1rem;
                             border: .2rem solid var(--input-bg);
-                            transition: all .1s ease-in-out;
-                            z-index: 10;
+                            transition: all .1s ease-in-out; 
                             &:hover {
                                 border-color: var(--light);
                             }

@@ -15,6 +15,39 @@ def MyExams(request):
 def CreateNewExam(request):
     return render(request, "exam/create-new-exam.html") 
 
+def PublicSentenceBuilder(request):
+    if request.method == "POST": 
+        body = json.loads(request.body)
+        
+        post_id = body.get("id", None) 
+        user_answer = body.get("user_answer", None)
+
+        get_post = Post.objects.filter(id=post_id).first() 
+
+        answer = get_post.sentence.lower()
+        # answer = re.sub(r"[^a-zA-Z0-9'\s]", "", answer)
+        answer = re.sub(r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]", "", answer)
+
+
+        answer = " ".join([w.strip() for w in answer.split()]) 
+        
+        if answer == user_answer:
+            new_post = GetPostForPublicSentenceBuilder(request, get_post)
+            data = PrepareQuizForSentenceBuilder(new_post)
+            data["success"] = True
+
+            return JsonResponse(data)
+        else: 
+            return JsonResponse({
+                "success": False,
+                "message":"Cavab yanlışdır!"
+            })
+         
+
+    post = GetPostForPublicSentenceBuilder(request)
+    if not post: return redirect("dashboard")
+    data = PrepareQuizForSentenceBuilder(post)
+    return render(request, "public-sentence-builder.html", context=data)
 
 @login_required
 def SentenceBuilder(request):
@@ -31,8 +64,12 @@ def SentenceBuilder(request):
         get_post = Post.objects.filter(id=post_id).first() 
 
         answer = get_post.sentence.lower()
-        answer = re.sub(r"[^a-zA-Z0-9'\s]", "", answer)
+        # answer = re.sub(r"[^a-zA-Z0-9'\s]", "", answer)
+        answer = re.sub(r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]", "", answer)
 
+
+        answer = " ".join([w.strip() for w in answer.split()]) 
+        
         if answer == user_answer:
             new_post = GetPostForSentenceBuilder(request, my_account, get_post)
             data = PrepareQuizForSentenceBuilder(new_post)
@@ -59,6 +96,7 @@ def SentenceBuilder(request):
     return render(request, "sentence-builder.html", context=data)
 
 
+
 def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
     
 
@@ -72,10 +110,21 @@ def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
 
     return post
 
+def GetPostForPublicSentenceBuilder(request, p:Post|None=None):
+    posts = Post.objects.filter(approved=True, is_public=True).all()
+    post = random.choice(posts) if posts else None
+    
+    if p:
+        while post.id == p.id:
+            post = random.choice(posts) if posts else None
+
+    return post
+
 def PrepareQuizForSentenceBuilder(post:Post):
     sentence = post.sentence.lower()
  
-    sentence = re.sub(r"[^a-zA-Z0-9'\s]", "", sentence)
+    # sentence = re.sub(r"[^a-zA-Z0-9'\s]", "", sentence)
+    sentence = re.sub(r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]", "", sentence)
 
     words = sentence.split()
     random.shuffle(words)
@@ -87,6 +136,8 @@ def PrepareQuizForSentenceBuilder(post:Post):
         "id": post.id,
         "answer": sentence
     }
+
+
 
 
 
