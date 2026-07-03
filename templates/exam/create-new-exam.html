@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <form action="" method="post">
+        <form action="{% url 'createnewexam' %}" method="post">
             {% csrf_token %}
 
             <label for="exam-title">
@@ -135,6 +135,13 @@
                 <input type="text" id="addTagToBox" placeholder="Etiketi yazdıqdan sonra vergül qoyun">
             </div>
 
+
+            <div class="submit-btn">
+                <button>
+                    Yarat
+                </button>
+            </div>
+
         </form>
     </div>
     
@@ -176,38 +183,39 @@
                 icon.click()
             })
         }
+       
+        document.getElementById("addTagToBox").addEventListener("input", function(e){
 
+            // Yalnız hərf və vergülə icazə ver
+            e.target.value = e.target.value.replace(/[^A-Za-zƏəĞğİıÖöŞşÜüÇçА-Яа-яЁё,]/g, "");
 
-        document.getElementById("addTagToBox").addEventListener("keydown", function(e){
-            const my_reg = /^[A-Za-zƏəĞğİıÖöŞşÜüÇçА-Яа-яЁё,]+$/; 
+            // Əgər son simvol vergüldürsə
+            if (e.target.value.endsWith(",")) {
 
-            if (!my_reg.test(e.key)){
-                e.preventDefault()
-            }
+                let teq = e.target.value.slice(0, -1).trim();
 
-            
-
-
-            if (e.key == "," || e.keyCode == 188 || e.code == "Comma"){
-                let teq = e.target.value 
                 if (teq.length < 3){
-                    e.preventDefault()
-                    return false
+                    e.target.value = teq;
+                    return;
                 }
-                
-                let tags_box = document.querySelector("form .tags-box")
 
-                tags_box.innerHTML += `<button onclick='removeTag(this)'><span>#</span> <span>${teq.toLowerCase()}</span> </button>`
-                e.target.value = ""
+                let tags_box = document.querySelector("form .tags-box");
 
-                e.preventDefault()
+                tags_box.innerHTML += `
+                    <button onclick="removeTag(this)">
+                        <span>#</span>
+                        <span>${teq.toLowerCase()}</span>
+                    </button>
+                `;
 
-                if (tags_box.querySelectorAll("button").length == 3){
-                    e.target.disabled = true
-                    e.target.setAttribute("placeholder", "Maksimum 3 etiket əlavə edə bilərsiniz")
+                e.target.value = "";
+
+                if(tags_box.querySelectorAll("button").length == 3){
+                    e.target.disabled = true;
+                    e.target.placeholder = "Maksimum 3 etiket əlavə edə bilərsiniz";
                 }
-            } 
-        })  
+            }
+        }); 
 
 
         function removeTag(btn){
@@ -229,18 +237,6 @@
                     exam_type_limited_number_input.focus()
                 }, 100);
 
-                exam_type_limited_number_input.addEventListener("keydown", function(ie){
-                    const my_reg_for_num = /^[0-9]+$/; 
-                    if (!my_reg_for_num.test(ie.key) && ie.key !== "Backspace" && ie.key !== "Delete"){
-                        ie.preventDefault()
-                    } else {
-                        if (ie.key === "Delete" || ie.key === "Backspace") {
-                            ie.target.closest(".label").querySelector(".selected p").innerText = `Limitli - ${ie.target.value.slice(0,-1)} sual`
-                        } else {
-                            ie.target.closest(".label").querySelector(".selected p").innerText = `Limitli - ${ie.target.value}${ie.key} sual`
-                        }
-                    }
-                })
             } else { 
                 exam_type_limited_number_input.value = ""
                 exam_type_limited_number_input.parentElement.style.display = "none"
@@ -272,5 +268,13 @@
             }
         })
 
+        const exam_type_limited_number_input = document.getElementById("exam-type-limited-number");
+        exam_type_limited_number_input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/\D/g, "");
+
+            e.target.closest(".label")
+                .querySelector(".selected p")
+                .innerText = `Limitli - ${e.target.value} sual`;
+        });
     </script>
 {% endblock %}

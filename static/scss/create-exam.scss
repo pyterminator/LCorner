@@ -1,3 +1,5 @@
+@use '_extends';
+
 .create-exam-structure {
     width: 100%;
     min-height: 50dvh;
@@ -303,6 +305,20 @@
                 color: var(--light);
                 font-size: 1.4rem;
                 font-weight: bold;
+            }
+        }
+
+        .submit-btn{
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            margin: 2rem 0;
+
+            button{
+                @extend %button-style;
+                width: 15rem;
+                height: 5rem;
+                background-color: var(--bg);
             }
         }
 

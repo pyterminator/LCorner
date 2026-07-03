@@ -13,6 +13,10 @@ def MyExams(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def CreateNewExam(request):
+
+    if request.method == "POST":
+        print("Sorğu gəldi!")
+
     return render(request, "exam/create-new-exam.html") 
 
 def PublicSentenceBuilder(request):
@@ -94,8 +98,6 @@ def SentenceBuilder(request):
     if not post: return redirect("dashboard")
     data = PrepareQuizForSentenceBuilder(post)
     return render(request, "sentence-builder.html", context=data)
-
-
 
 def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
     
