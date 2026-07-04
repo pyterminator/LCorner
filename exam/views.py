@@ -1,10 +1,10 @@
 import json, random, re
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
-from member.models import Account
 from post.models import Post
+from member.models import Account
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 @user_passes_test(lambda u: u.is_staff)
@@ -39,6 +39,8 @@ def PublicSentenceBuilder(request):
             new_post = GetPostForPublicSentenceBuilder(request, get_post)
             data = PrepareQuizForSentenceBuilder(new_post)
             data["success"] = True
+            data["xp"] = None
+            data["level"] = None
 
             return JsonResponse(data)
         else: 
@@ -104,6 +106,14 @@ def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
 
     my_likes = list(Post.objects.filter(likes_set__account=my_account))
 
+    if lang := request.GET.get("lang", ""):
+        lang: str = lang.upper()
+        if lang not in ["EN", "RU", "GE"]:
+            lang = "EN"
+        my_likes = [ml for ml in my_likes if ml.lang == lang]
+
+
+
     post = random.choice(my_likes) if my_likes else None
     
     if p:
@@ -113,7 +123,16 @@ def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
     return post
 
 def GetPostForPublicSentenceBuilder(request, p:Post|None=None):
-    posts = Post.objects.filter(approved=True, is_public=True).all()
+
+    if lang := request.GET.get("lang", ""):
+        lang: str = lang.upper()
+        if lang not in ["EN", "RU", "GE"]:
+            lang = "EN"
+        posts = Post.objects.filter(approved=True, is_public=True, lang=lang).all()
+    else:
+        posts = Post.objects.filter(approved=True, is_public=True).all()
+
+
     post = random.choice(posts) if posts else None
     
     if p:

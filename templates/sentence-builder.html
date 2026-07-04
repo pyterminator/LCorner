@@ -19,7 +19,7 @@
 
     <!-- Breadcrumb --> 
     <div class="breadcrumb"> 
-        <a href="{% url 'myaccount' request.user.username %}"><i class="fa-solid fa-user"></i> Hesabım</a>
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
         <span>SentenceBuilder</span>
     </div>
 
@@ -74,195 +74,16 @@
 {% endblock %}
 
 {% block scripts %}
-
-    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@4.3.0/tsparticles.confetti.bundle.min.js"></script>
-
-    <script>
-
-        function randomInRange(min, max) {
-            return Math.random() * (max - min) + min;
-        } 
-
-        // Modal
-        function openSentenceBuilderModal(btn){
-            let modal = document.querySelector(".sentence-builder .modal")
-
-            if(btn.dataset.val == "off"){
-                btn.dataset.val = "on"
-                modal.style.display = "flex"
-                modal.classList.add("animate__backInDown")
-            } else {
-                btn.dataset.val = "off"
-                modal.classList.remove("animate__backInDown")
-                modal.classList.add("animate__backOutDown")
-                setTimeout(() => {
-                    modal.style.display = "none"
-                    modal.classList.remove("animate__backOutDown")
-                }, 250);
-            }
-        }
-
-
-        function closeSentenceBuilderModal(btn){
-            let b = document.getElementById("open-close-sentence-builder-modal")
-            b.click()
-        }
-        // Modal
-
-
-
+    <script> 
         let box = document.querySelector(".box");
-        function initButtons() {
-        
-
-            wordButtons = document.querySelectorAll(".btns button");
-            answerButtons = document.querySelectorAll(".box button");
-            let index = 0;
-
-
-            wordButtons.forEach(btn => {
-                btn.addEventListener("click", function () {
-
-                    if (index >= answerButtons.length) return;
-
-                    answerButtons[index].textContent = this.textContent;
-                    answerButtons[index].removeAttribute("disabled")
-                    index++;
-
-                    // Eyni sözü iki dəfə seçməmək üçün
-                    this.disabled = true;
-                });
-            });
-
-            answerButtons.forEach(btn => {
-                btn.addEventListener("click", function () {
-
-
-                    if (this.textContent === "") return;
-
-                    wordButtons.forEach(element => {
-                        if(element.textContent === this.textContent){
-                            element.removeAttribute("disabled")
-                        }
-                    });
-
-                    this.textContent = "";
-                    this.setAttribute("disabled", true);
-                    box.appendChild(this);
-                    answerButtons = document.querySelectorAll(".box button");
-                    
-
-                    index--;
-                });
-            });
-        }
-
-        initButtons();
-
-        
-        async function nextGame(btn){
-            let ans = btn.dataset.ans.trim()
-            const url = btn.dataset.url 
-            const id = btn.dataset.id
-
-
-            await getNextGame(id, ans, url, btn)
-        }
-
-        async function checkAnswer(btn){ 
-            wordButtons = document.querySelectorAll(".btns button");
-            
-            const hasEnabledButton = [...wordButtons].some(btn => !btn.disabled);
-
-            if (hasEnabledButton) {
-                return;
-            }
-
-
-            const url = btn.dataset.url 
-            const id = btn.dataset.id
-
-
-            let my_ans = []
-
-            for (const element of answerButtons) {
-                my_ans.push(element.innerText.trim().toLowerCase())
-            }
-
-            const userAnswer = my_ans.join(" ");
-
-
-            let res = await getNextGame(id, userAnswer, url, btn)
-            if (res){
-                confetti({
-                    angle: randomInRange(55, 125),
-                    spread: randomInRange(50, 70),
-                    particleCount: randomInRange(50, 100),
-                    origin: { y: .6 }
-                });
-
-                let xplcxp = document.querySelector("#xplcxp > span")
-                let xplcl = document.querySelector("#xplcl > span")
-                xplcxp.innerHTML = res.xp 
-                xplcl.innerHTML = res.level 
-            }
-            
-        } 
-
-
-        async function getNextGame(id, userAnswer, url, btn){
-            const response = await fetch(url, {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": getCookie("csrftoken"),
-                },
-
-                body: JSON.stringify({
-                    "id": id, 
-                    "user_answer": userAnswer
-                })
-            })
-
-            const data = await response.json()
-
-            if (data.success){  
-
-                
-                let btns = document.querySelector(".btns")
-                box.innerHTML = ""
-                btns.innerHTML = ""
-                for (const w of data.words) {
-                    btns.innerHTML += `<button>${w}</button>`
-                    box.innerHTML += "<button disabled></button>"
-                }
-
-                initButtons();
-
-                document.querySelector(".sentence-builder .check button").dataset.id = data.id 
-                document.querySelector(".sentence-builder .links #next").dataset.id = data.id 
-                document.querySelector(".sentence-builder .links #next").dataset.ans = data.answer
-                document.querySelector(".game-title p.alert").innerText = ""
-                
-                let modal_p = document.querySelector(".sentence-builder .modal p") 
-                modal_p.innerHTML = `${data.answer}<span class="hr"></span>${data.description}`
-                return {
-                    "xp": data.xp,
-                    "level": data.level
-                }
-            } else { 
-                document.querySelector(".game-title p.alert").innerText = data.message
-                answerButtons.forEach(element => {
-                    element.click()
-                });
-                return false
-            }
-        }
     </script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@4.3.0/tsparticles.confetti.bundle.min.js"></script>
+    <script src="{% static 'scripts/sb_game/randomInRange.js' %}"></script>
+    <script src="{% static 'scripts/sb_game/modal.js' %}"></script>
+    <script src="{% static 'scripts/sb_game/init_buttons.js' %}"></script>
+    <script src="{% static 'scripts/sb_game/next_game.js' %}"></script>
+    <script src="{% static 'scripts/sb_game/get_next_game.js' %}"></script>
+    <script src="{% static 'scripts/sb_game/check_answer.js' %}"></script>
     
     
-
 {% endblock %}
