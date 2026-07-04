@@ -218,6 +218,23 @@
             }, 300);
         });
 
+
+        // Socket
+        const socket = new WebSocket("ws://" + window.location.host + "/ws/notifications/");
+
+        socket.onopen = () => {
+            console.log("WebSocket connected");
+        };
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log(data);
+        };
+
+        socket.onclose = () => {
+            console.log("WebSocket closed");
+        };
+
     </script>
 </body>
 

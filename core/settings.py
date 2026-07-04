@@ -24,6 +24,12 @@ LOGIN_URL = "login"
 # Application definition
 
 INSTALLED_APPS = [
+    # Downloads
+    'daphne',
+    'channels',
+
+
+    # Default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,6 +43,8 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'notifications.apps.NotificationsConfig',
     'exam.apps.ExamConfig',
+
+   
 ]
 
 MIDDLEWARE = [
@@ -67,7 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
+ASGI_APPLICATION = "core.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -162,3 +170,10 @@ PASSWORD_PATTERN = (
 )
 
 BIO_PATTERN = r"^[A-Za-zƏəÖöÜüĞğÇçŞşİı0-9 .,;:!?'\"()\-\n]+$"
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
