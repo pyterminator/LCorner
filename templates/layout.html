@@ -148,99 +148,16 @@
         </div>
     </div>
 
+    <script src="{% static 'scripts/generate_csrf.js' %}"></script>
+    <script src="{% static 'scripts/layout.js' %}" defer></script>
     <script src="{% static 'scripts/custom.js' %}" defer></script>
+   
+    <!-- Watching Updates -->
+    <script src="{% static 'scripts/get_updates.js' %}"></script>
+    <script src="{% static 'scripts/ws.js' %}"></script>
 
     <!-- Block Scripts -->
     {% block scripts %} {% endblock %}
-
-    <script defer>
-        document.addEventListener("keydown", function(e){
-
-            if (
-                e.ctrlKey &&
-                (
-                    e.key === "+" ||
-                    e.key === "-" ||
-                    e.key === "="
-                )
-            ){
-                e.preventDefault()
-            }
-
-        }) 
-
-        document.addEventListener("wheel", function(e){
-
-            if (e.ctrlKey){
-                e.preventDefault()
-            }
-
-        }, { passive:false }) 
-
-
-        // Themes
-        function toggleThemeSwitch(el) {
-            const html = document.documentElement;
-
-            const current = html.getAttribute("data-theme");
-            const next = current === "dark" ? "light" : "dark";
-
-            html.setAttribute("data-theme", next);
-            localStorage.setItem("theme", next);
-
-            el.classList.toggle("switchery-on");
-        }
-
-       
-
-        window.addEventListener("load", () => {
-            const saved = localStorage.getItem("theme") || "dark";
-            document.documentElement.setAttribute("data-theme", saved);
-
-            const switchery = document.querySelector(".menu .switchery");
-
-            if (switchery) {
-                if (saved === "light") {
-                    switchery.classList.add("switchery-on");
-                } else {
-                    switchery.classList.remove("switchery-on");
-                }
-            }
-        });
-
-
-
-        // Load
-        window.addEventListener("load", function () {
-            setTimeout(() => {
-                document.querySelector(".layout-loader").style.display = "none";
-                document.body.removeAttribute("style")
-            }, 300);
-        });
-
-
-        // Socket
-        const socket = new WebSocket("ws://" + window.location.host + "/ws/notifications/");
-
-        socket.onopen = () => {
-            console.log("WebSocket connected");
-        };
-
-        socket.onmessage = (event) => {
-
-            const data = JSON.parse(event.data);
-
-            console.log(data);
-
-            // document.getElementById("xp").innerText = data.xp;
-            // document.getElementById("level").innerText = data.level;
-        }
-
-        socket.onclose = () => {
-            console.log("WebSocket closed");
-        };
-
-    </script>
 </body>
 
 </html>

@@ -19,7 +19,6 @@ class NotificationConsumer(WebsocketConsumer):
 
         self.accept()
 
-        print(f"{self.scope['user']} connected.")
 
     def disconnect(self, close_code):
 
@@ -28,7 +27,6 @@ class NotificationConsumer(WebsocketConsumer):
             self.channel_name
         )
 
-        print(f"{self.scope['user']} disconnected.")
 
     def notification_update(self, event):
 
