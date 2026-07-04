@@ -1,5 +1,3 @@
-print("ASGI LOADED")
-
 import os
 
 from channels.auth import AuthMiddlewareStack

@@ -227,9 +227,14 @@
         };
 
         socket.onmessage = (event) => {
+
             const data = JSON.parse(event.data);
+
             console.log(data);
-        };
+
+            // document.getElementById("xp").innerText = data.xp;
+            // document.getElementById("level").innerText = data.level;
+        }
 
         socket.onclose = () => {
             console.log("WebSocket closed");

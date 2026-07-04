@@ -1,7 +1,7 @@
 import random, string 
 from django.db import models
 from django.contrib.auth.models import User  
-
+from member.realtime import send_user_update
 
 def generate_unique_code():
     while True:
@@ -62,6 +62,7 @@ class Account(models.Model):
 
 
         self.save()
+        send_user_update(self.user)
 
     def save(self, *args, **kwargs):
         if not self.referral_code:
