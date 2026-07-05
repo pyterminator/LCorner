@@ -122,5 +122,25 @@
   {
     "en": "I quit smoking!",
     "az": "Siqareti tərgitmişəm!"
+  },
+  {
+    "en": "Keep your shirt on! He didn’t break your phone on purpose.",
+    "az": "Əsəbləşmə! O, sənin telefonunu bilərək qırmadı."
+  },
+  {
+    "en":"I’m content.",
+    "az":"Məmnunam/Razıyam"
+  },
+  {
+    "en":"I’m overjoyed.",
+    "az":"Həddindən artıq sevincliyəm / Sevincdən uçuram."
+  },
+  {
+    "en":"I’m excited.",
+    "az":"Həyəcanlıyam (müsbət mənada) / Səbrsizlənirəm."
+  },
+  {
+    "en":"Drop the subject!",
+    "az":"Bağla bu mövzunu!"
   }
 ]

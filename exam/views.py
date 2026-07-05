@@ -12,7 +12,16 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 @user_passes_test(lambda u: u.is_staff)
 def MyExams(request):
-    return render(request, "exam/my-exams.html")
+    my_exam_list = request.user.account.exams.order_by("-id").all()
+
+    data = {
+        "my_exam_count": len(my_exam_list),
+        "exams": my_exam_list,
+        "my_active_exam_count": my_exam_list.filter(is_active=True).count(),
+        "my_deactive_exam_count": my_exam_list.filter(is_active=False).count(),
+    }
+
+    return render(request, "exam/my-exams.html", context=data)
 
 @user_passes_test(lambda u: u.is_staff)
 def CreateNewExam(request):
@@ -20,7 +29,7 @@ def CreateNewExam(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            
+            question_count = 0
             title = data.get("title", "")
             exam_type = data.get("exam_type", "")
             if exam_type == "Limitli":
@@ -51,15 +60,16 @@ def CreateNewExam(request):
             with transaction.atomic():
 
                 exam = Exam.objects.create(
-                    author=request.user.account,
-                    title=title,
-                    slug=slugify(title),
-                    description=description,
-                    difficulty=difficulty,
-                    exam_type=exam_type,
-                    price=price,
-                    duration=question_count * 2 if question_count > 0 and exam_type == "limited" else 0,
-                    question_count=question_count if exam_type == "limited" else 0,
+                    author = request.user.account,
+                    title = title,
+                    slug = slugify(title),
+                    description = description,
+                    difficulty = difficulty,
+                    exam_type = exam_type,
+                    price = price,
+                    duration = question_count * 2 if question_count > 0 and exam_type == "limited" else 0,
+                    question_count = question_count if exam_type == "limited" else 0,
+                    earn_xp = question_count * 1 
                 )
 
                 exam.tags.set(new_tags)
@@ -71,6 +81,7 @@ def CreateNewExam(request):
                 "message": "İmtahan uğurla yaradıldı!"
             })
         except Exception as e:  
+            print(e)
             return JsonResponse({
                 "success": False,
                 "message": "İmtahan yaradılmadı!",

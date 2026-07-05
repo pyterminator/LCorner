@@ -39,6 +39,30 @@
         }
     }
 
+    .change-lang{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        margin-bottom: 2rem; 
+        a{
+            width: 6rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            color: var(--light);
+            gap: 1rem;
+            img{
+                width: 3rem;
+                height: 3rem;
+                border-radius: 50%;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+    }
+
     .modal{
         position: absolute;
         top: 0;
