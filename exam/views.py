@@ -1,7 +1,10 @@
 import json, random, re
 from post.models import Post
+from django.db import transaction
+from exam.models import Exam, Tag
 from member.models import Account
 from django.http import JsonResponse
+from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -15,7 +18,64 @@ def MyExams(request):
 def CreateNewExam(request):
 
     if request.method == "POST":
-        print("Sorğu gəldi!")
+        try:
+            data = json.loads(request.body)
+            
+            title = data.get("title", "")
+            exam_type = data.get("exam_type", "")
+            if exam_type == "Limitli":
+                question_count = int(data.get("question_count", 0))
+            price = data.get("price", 0)
+            difficulty = data.get('difficulty', "") 
+            description = data.get("description", "")
+            tags = data.get("tags", [])
+
+            if price == "Pulsuz": price = 0
+            else: price = int(price)
+
+            if exam_type == "Limitli": exam_type = "limited"
+            elif exam_type == "Limitsiz": exam_type = "endless"
+            else: exam_type = "endless"
+
+            if difficulty == "Asan": difficulty = "easy"
+            elif difficulty == "Orta": difficulty = "medium"
+            elif difficulty == "Çətin": difficulty = "hard"
+            else: difficulty = "easy"
+            
+            new_tags = []
+            for tag_name in tags:
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                new_tags.append(tag)
+
+    
+            with transaction.atomic():
+
+                exam = Exam.objects.create(
+                    author=request.user.account,
+                    title=title,
+                    slug=slugify(title),
+                    description=description,
+                    difficulty=difficulty,
+                    exam_type=exam_type,
+                    price=price,
+                    duration=question_count * 2 if question_count > 0 and exam_type == "limited" else 0,
+                    question_count=question_count if exam_type == "limited" else 0,
+                )
+
+                exam.tags.set(new_tags)
+            
+    
+
+            return JsonResponse({
+                "success": True,
+                "message": "İmtahan uğurla yaradıldı!"
+            })
+        except Exception as e:  
+            return JsonResponse({
+                "success": False,
+                "message": "İmtahan yaradılmadı!",
+                "error": f"{e}"
+            })
 
     return render(request, "exam/create-new-exam.html") 
 

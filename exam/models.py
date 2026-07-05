@@ -1,6 +1,20 @@
 from django.db import models
 from member.models import Account
+from django.utils.text import slugify
 
+
+class Tag(models.Model):
+    name = models.CharField(max_length=30, unique=True)
+    slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        super().save(*args, **kwargs)
 
 class Exam(models.Model):
     author = models.ForeignKey( Account, on_delete=models.CASCADE, related_name="exams" )
@@ -13,6 +27,12 @@ class Exam(models.Model):
 
     rating_total = models.PositiveIntegerField(default=0)
     rating_count = models.PositiveIntegerField(default=0)
+
+    tags = models.ManyToManyField(
+        Tag,
+        related_name="exams",
+        blank=True
+    )
 
     exam_type = models.CharField(
         max_length=20,
@@ -52,3 +72,5 @@ class Exam(models.Model):
             self.rating_total / self.rating_count,
             1
         )
+    
+

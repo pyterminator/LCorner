@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <form action="{% url 'createnewexam' %}" method="post">
+        <form action="{% url 'createnewexam' %}" method="post" id="exam-create" data-url="{% url 'myexams' %}">
             {% csrf_token %}
 
             <label for="exam-title">
@@ -119,9 +119,7 @@
             <label for="exam-description">
                 <p>İmtahan üçün açıqlama yazın <span>*</span></p> 
                 <textarea name="description" id="exam-description" placeholder="Məsələn : İmtahan əsasən 11-ci sinif şagirdləri üçün nəzərdə tutulub..."></textarea>
-                <div class="form-alert">
-                    Yalnız hərflər daxil edilməlidir!
-                </div>
+                <div class="form-alert"></div>
             </label>
 
 
@@ -158,6 +156,9 @@
 {% block scripts %}
     <!-- Scriptlərim -->
     <script>
+        
+
+
         function openSelectOption(icon){
             let opts = icon.parentElement.nextElementSibling 
             opts.querySelectorAll("input[type=radio]").forEach(item=>{
@@ -252,21 +253,66 @@
         })
         
 
-        document.getElementById("exam-title").addEventListener("input", function(e){
-            const textRegex = /^[A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]+$/;
-            if(!textRegex.test(e.target.value) && e.target.value.length > 0){
-                const invalidChar = e.target.value.match(/[^A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]/)[0];
-                e.target.previousElementSibling.querySelector("span").style.color = "var(--danger)"
-                e.target.nextElementSibling.innerText = `Başlıqda icazə verilməyən ${invalidChar} simvolundan istifadə edilib!`
-            } else {
-                e.target.nextElementSibling.innerText = "" 
-                if (e.target.value.length == 0){
-                    e.target.previousElementSibling.querySelector("span").style.color = "var(--danger)"
+        // document.getElementById("exam-title").addEventListener("input", function(e){
+        //     const textRegex = /^[A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]+$/;
+        //     if(!textRegex.test(e.target.value) && e.target.value.length > 0){
+        //         const invalidChar = e.target.value.match(/[^A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]/)[0];
+        //         e.target.previousElementSibling.querySelector("span").style.color = "var(--danger)"
+        //         e.target.nextElementSibling.innerText = `Başlıqda icazə verilməyən ${invalidChar} simvolundan istifadə edilib!`
+        //     } else {
+        //         e.target.nextElementSibling.innerText = "" 
+        //         if (e.target.value.length == 0){
+        //             e.target.previousElementSibling.querySelector("span").style.color = "var(--danger)"
+        //         } else {
+        //             e.target.previousElementSibling.querySelector("span").style.color = "var(--success)"
+        //         }
+        //     }
+        // })
+        const titleRegex = /^[A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]+$/;
+        const titleInvalidRegex = /[^A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,-]/;
+
+        const descriptionRegex = /^[A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,;:!?"'\/-]+$/;
+        const descriptionInvalidRegex = /[^A-Za-zƏəĞğİıÖöŞşÜüÇçÄäÖöÜüẞßА-Яа-яЁё0-9\s().,;:!?"'\/-]/;
+
+        function validateText(input, validRegex, invalidRegex, fieldName) {
+
+            input.addEventListener("input", (e) => {
+
+                if (!validRegex.test(e.target.value) && e.target.value.length > 0) {
+
+                    const invalidChar = e.target.value.match(invalidRegex)[0];
+
+                    e.target.previousElementSibling.querySelector("span").style.color = "var(--danger)";
+                    e.target.nextElementSibling.innerText =
+                        `${fieldName} üçün "${invalidChar}" simvoluna icazə verilmir.`;
+
                 } else {
-                    e.target.previousElementSibling.querySelector("span").style.color = "var(--success)"
+
+                    e.target.nextElementSibling.innerText = "";
+                    e.target.previousElementSibling.querySelector("span").style.color =
+                        e.target.value.trim() ? "var(--success)" : "var(--danger)";
                 }
-            }
-        })
+
+            });
+        }
+
+        
+
+        validateText(
+            document.getElementById("exam-title"),
+            titleRegex,
+            titleInvalidRegex,
+            "Başlıq"
+        );
+
+        validateText(
+            document.getElementById("exam-description"),
+            descriptionRegex,
+            descriptionInvalidRegex,
+            "Açıqlama"
+        );
+
+
 
         const exam_type_limited_number_input = document.getElementById("exam-type-limited-number");
         exam_type_limited_number_input.addEventListener("input", function(e) {
@@ -276,5 +322,39 @@
                 .querySelector(".selected p")
                 .innerText = `Limitli - ${e.target.value} sual`;
         });
+
+
+        document.getElementById("exam-create").addEventListener("submit", async function(e){
+            e.preventDefault()
+            const url = e.target.getAttribute("action")
+
+            const raw_data = {
+                "title" : e.target.title.value,
+                "exam_type": e.target.exam_type.value,
+                "question_count": e.target.question_count.value,
+                "difficulty": e.target.difficulty.value,
+                "price": e.target.price.value,
+                "description": e.target.description.value,
+                "tags": [...document.querySelectorAll(".tags-box > button > span:nth-child(2)")].map(item => item.textContent)
+            }
+
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                body: JSON.stringify(raw_data)
+            })
+
+            const data = await response.json() 
+            if (data.success){
+                window.location.href = e.target.dataset.url
+            }
+            
+        })
+
     </script>
 {% endblock %}
