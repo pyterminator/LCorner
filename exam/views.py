@@ -230,6 +230,21 @@ def PrepareQuizForSentenceBuilder(post:Post):
     }
 
 
+def UpdateExam(request, slug: str):
+    exam = Exam.objects.filter(slug=slug).first()
+    if exam:
+        data = {
+            "exam": exam
+        }
+        return render(request, "exam/update-exam.html", context=data)
+    
+    
+    return redirect("dashboard")
+
+
+
+
+
 
 
 

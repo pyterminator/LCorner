@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load custom_filters %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - {{exam.title}}
+    </title>
+{% endblock %}
+
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/update-exam.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb">
+        <a href="{% url 'myexams' %}"><i class="fa-solid fa-list"></i> İmtahanlarım</a>
+        <span>{{exam.title|slice:"0:20"}}...</span>
+    </div> 
+{% endblock %}
+
+{% block scripts %}
+    <!-- Scriptlərim -->
+{% endblock %}

@@ -92,7 +92,11 @@
 
                             <div class="earn">
                                 <i class="fa-solid fa-trophy"></i>
-                                <b>+50 XP</b>
+                                {% if exam.exam_type == "limited" %}
+                                    <b>+{{exam.earn_xp}} XP</b>
+                                {% elif exam.exam_type == "endless" %}
+                                    <b>+0.1 XP / doğru</b>
+                                {% endif %}
                             </div>
 
                             {% if exam.exam_type == "limited" %}
@@ -183,8 +187,12 @@
                     </div>
 
                     <div class="btn-group">
-                        <a href="#"><i class="fa-regular fa-pen-to-square"></i> Düzəlt</a>
-                        <a href="#" class="activate"><i class="fa-solid fa-plug"></i> Aktiv et</a>
+                        <a href="{% url 'updateexam' exam.slug %}"><i class="fa-regular fa-pen-to-square"></i> Düzəlt</a>
+                        {% if exam.is_active %}
+                            <a href="#" class="deactivate"><i class="fa-solid fa-plug-circle-xmark"></i> Deaktiv et</a>
+                        {% else %}
+                            <a href="#" class="activate"><i class="fa-solid fa-plug"></i> Aktiv et</a>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
