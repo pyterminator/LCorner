@@ -22,8 +22,62 @@
         <a href="{% url 'myexams' %}"><i class="fa-solid fa-list"></i> İmtahanlarım</a>
         <span>{{exam.title|slice:"0:20"}}...</span>
     </div> 
+
+
+    <div class="update-exam">
+        <div class="tab-nav">
+            <div class="tabs">
+                <button class="active" data-id="1">Əsas məlumatlar</button>
+                <button data-id="2">Suallar</button>
+            </div>
+            <div class="nav">
+                <div class="base">
+                    <h1 class="exam-title">
+                        {{exam.title}}
+                    </h1>
+                    <p class="exam-description">
+                        {{exam.description}}
+                    </p>
+
+                    <p class="tags-header"><i class="fa-solid fa-tags"></i> Etiketlər</p>
+                    <div class="tags-box">
+                        {% for tag in exam.tags.all %}
+                            <div class="tag">
+                                <span>#</span>
+                                <span>{{tag.name}}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="questions">Questions</div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block scripts %}
     <!-- Scriptlərim -->
+
+    <script>
+        const tabs_buttons = document.querySelectorAll(".tabs > button")
+        const base_div = document.querySelector(".tab-nav .nav .base")
+        const questions_div = document.querySelector(".tab-nav .nav .questions")
+        tabs_buttons.forEach(item=>{
+            item.addEventListener("click", function(e){
+                e.preventDefault() 
+                for (const element of tabs_buttons) {
+                    element.classList.remove("active")
+                }
+                item.classList.add("active")
+                if (item.dataset.id == 1){
+                    base_div.style.display = "block"
+                    questions_div.style.display = "none"
+                } else if(item.dataset.id == 2){
+                    base_div.style.display = "none"
+                    questions_div.style.display = "block"
+                }
+            })
+        })
+    </script>
 {% endblock %}
