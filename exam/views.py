@@ -9,6 +9,17 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+# Sentence Builder Game Ucun post.sentence-i liste cevirir
+def GenerateWordsForSB(sentence:str)-> list:
+    sentence = sentence.replace("’", "'").replace("`", "'").replace("‘", "'")
+
+    sentence = re.sub(
+        r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]",
+        "",
+        sentence
+    )
+    words = sentence.split() 
+    return words
 
 @user_passes_test(lambda u: u.is_staff)
 def MyExams(request):
@@ -80,8 +91,7 @@ def CreateNewExam(request):
                 "success": True,
                 "message": "İmtahan uğurla yaradıldı!"
             })
-        except Exception as e:  
-            print(e)
+        except Exception as e:   
             return JsonResponse({
                 "success": False,
                 "message": "İmtahan yaradılmadı!",
@@ -101,10 +111,10 @@ def PublicSentenceBuilder(request):
 
         answer = get_post.sentence.lower()
         # answer = re.sub(r"[^a-zA-Z0-9'\s]", "", answer)
-        answer = re.sub(r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]", "", answer)
+        # answer = re.sub(r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]", "", answer)
 
-
-        answer = " ".join([w.strip() for w in answer.split()]) 
+        answer = GenerateWordsForSB(answer)
+        answer = " ".join([w.strip() for w in answer]) 
         
         if answer == user_answer:
             new_post = GetPostForPublicSentenceBuilder(request, get_post)
@@ -128,7 +138,6 @@ def PublicSentenceBuilder(request):
 
 @login_required
 def SentenceBuilder(request):
-
     user = User.objects.filter(username=request.user.username).first()
     my_account:Account = user.account
 
@@ -140,13 +149,10 @@ def SentenceBuilder(request):
 
         get_post = Post.objects.filter(id=post_id).first() 
 
-        answer = get_post.sentence.lower()
-        # answer = re.sub(r"[^a-zA-Z0-9'\s]", "", answer)
-        answer = re.sub(r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]", "", answer)
+        answer = get_post.sentence.lower() 
+        answer = GenerateWordsForSB(answer)
 
-
-        answer = " ".join([w.strip() for w in answer.split()]) 
-        
+        answer = " ".join([w.strip() for w in answer]) 
         if answer == user_answer:
             new_post = GetPostForSentenceBuilder(request, my_account, get_post)
             data = PrepareQuizForSentenceBuilder(new_post)
@@ -165,32 +171,30 @@ def SentenceBuilder(request):
                 "success": False,
                 "message":"Cavab yanlışdır!"
             })
+        
          
 
     post = GetPostForSentenceBuilder(request, my_account)
     if not post: return redirect("dashboard")
     data = PrepareQuizForSentenceBuilder(post)
+
+
     return render(request, "sentence-builder.html", context=data)
 
 def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
-    
+    lang = request.GET.get("lang", "").upper()
+    if lang not in ["EN", "RU", "GE"]:
+        lang = "EN"
 
-    my_likes = list(Post.objects.filter(likes_set__account=my_account))
+    queryset = Post.objects.filter(likes_set__account=my_account)
 
-    if lang := request.GET.get("lang", ""):
-        lang: str = lang.upper()
-        if lang not in ["EN", "RU", "GE"]:
-            lang = "EN"
-        my_likes = [ml for ml in my_likes if ml.lang == lang]
+    if lang:
+        queryset = queryset.filter(lang=lang)
 
+    count = queryset.count() 
+    if count == 0: return None
 
-
-    post = random.choice(my_likes) if my_likes else None
-    
-    if p:
-        while post.id == p.id:
-            post = random.choice(my_likes) if my_likes else None
-
+    post = queryset[random.randint(0, count - 1)] 
     return post
 
 def GetPostForPublicSentenceBuilder(request, p:Post|None=None):
@@ -212,14 +216,25 @@ def GetPostForPublicSentenceBuilder(request, p:Post|None=None):
 
     return post
 
+
+def GenerateWordsForSB(sentence:str)-> list:
+    sentence = sentence.replace("’", "'").replace("`", "'").replace("‘", "'")
+
+    sentence = re.sub(
+        r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]",
+        "",
+        sentence
+    )
+    words = sentence.split() 
+    return words
+
+
 def PrepareQuizForSentenceBuilder(post:Post):
     sentence = post.sentence.lower()
- 
-    # sentence = re.sub(r"[^a-zA-Z0-9'\s]", "", sentence)
-    sentence = re.sub(r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]", "", sentence)
-
-    words = sentence.split()
-    random.shuffle(words)
+    words = GenerateWordsForSB(sentence)
+    
+    while GenerateWordsForSB(sentence) == words:
+        random.shuffle(words) 
 
     return {
         "words": words,
