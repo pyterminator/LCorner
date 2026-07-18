@@ -30,8 +30,7 @@ INSTALLED_APPS = [
     # Downloads
     'daphne',
     'channels',
-    "cloudinary",
-    "cloudinary_storage",
+   
 
 
     # Default
@@ -48,6 +47,10 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'notifications.apps.NotificationsConfig',
     'exam.apps.ExamConfig',
+
+    # Third party pox
+    "cloudinary",
+    "cloudinary_storage",
 
    
 ]
