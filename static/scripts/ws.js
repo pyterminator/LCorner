@@ -1,4 +1,8 @@
-const socket = new WebSocket("ws://" + window.location.host + "/ws/notifications/");
+const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+
+const socket = new WebSocket(
+    wsProtocol + window.location.host + "/ws/notifications/"
+);
 
 socket.onmessage = (event) => { 
     const data = JSON.parse(event.data); 
