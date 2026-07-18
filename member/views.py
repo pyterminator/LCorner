@@ -2,7 +2,7 @@ import re
 import os  
 import json
 import time
-from PIL import Image
+from PIL import Image, ImageOps
 from post.models import Post
 from django.db.models import F
 from string import ascii_letters
@@ -323,14 +323,29 @@ def ChangeMyAvatar(request):
             })
 
         try:
-            img = Image.open(avatar)
-            width, height = img.size
 
-            if width != height or width != 250:
+            avatar.seek(0) 
+            img = Image.open(avatar)  
+            width, height = img.size  
+
+            if width < 250 or height < 250:
                 return JsonResponse({
                     "success": False,
-                    "error": "Şəkil (250x250)px ölçüdə olmalıdır"
+                    "error": "Şəkil minimum (250x250)px ölçüdə olmalıdır"
                 })
+
+            elif width > 250 or height > 250:
+                img = ImageOps.fit(
+                    img,
+                    (250, 250),
+                    Image.LANCZOS
+                )
+
+            # if width != height or width != 250:
+            #     return JsonResponse({
+            #         "success": False,
+            #         "error": "Şəkil (250x250)px ölçüdə olmalıdır"
+            #     })
 
 
             account = Account.objects.filter(user=request.user).first()
@@ -346,12 +361,17 @@ def ChangeMyAvatar(request):
                     "error":"Şəkli dəyişmək üçün balansınızda minimum 500 xp olmalıdır"
                 })
 
-            if account.avatar: 
-                old_avatar_path = account.avatar.path 
-                if os.path.isfile(old_avatar_path):
-                    os.remove(old_avatar_path)
+            # if account.avatar: 
+            #     old_avatar_path = account.avatar.path 
+            #     if os.path.isfile(old_avatar_path):
+            #         os.remove(old_avatar_path)
+
+            if account.avatar:
+                account.avatar.delete(save=False)
+
             if not account.user.is_superuser:
                 account.xp = F("xp") - 500
+            avatar.seek(0)
             account.avatar = avatar  
             account.save(update_fields=["xp", "avatar"]) 
             account.refresh_from_db()
