@@ -52,70 +52,146 @@
 
                 <div class="questions">
 
-                    <div class="questions-header">
-                        <div class="left">
-                            <label for="all-items">
-                                <input type="checkbox" id="all-items">
-                                <span></span>
-                            </label>
-                            <p>
-                                Sual sayı : <em>5</em>
-                            </p>
+                    <form action="" method="post" class="form">
+                        <div class="header">
+                            <div class="left">Yeni sual əlavə et</div>
+                            <div class="right">
+                                <button type="button">
+                                    <i class="fa-solid fa-times"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="right">
-                            <button>
-                                Seçilənləri sil
-                            </button>
-                        </div>
-                    </div>
 
-                    <div class="question">
-                        <div class="container">
-                            <div class="left">
-                                <div class="select-btn">
-                                    <div class="dots">
-                                        <span class="dot"></span>
-                                        <span class="dot"></span>
-                                        <span class="dot"></span>
-                                    </div>
-                                </div>
-                                <label class="select-input" for="question_id_1">
-                                    <input type="checkbox" id="question_id_1">
-                                    <span><i class="fa-solid fa-check"></i></span>
+                        <label for="quiz_text_title">
+                            <p>Sual mətni</p> 
+                            <textarea name="" id="quiz_text_title"></textarea>
+                        </label>
+
+                        <div class="options">
+                            <p>Variantlar</p>
+                            <label for="">
+                                <span>A</span> 
+                                <textarea name="" id=""></textarea>
+                            </label>
+                            <label for="">
+                                <span>B</span> 
+                                <textarea name="" id=""></textarea>
+                            </label>
+                            <label for="">
+                                <span>C</span> 
+                                <textarea name="" id=""></textarea>
+                            </label>
+                            <label for="">
+                                <span>D</span> 
+                                <textarea name="" id=""></textarea>
+                            </label>
+                        </div>
+
+                        <div class="correct-answer">
+                            <p>Düzgün cavab seçin</p>
+                            <div class="inner-container">
+                                <label class="check-box" for="correct_answer_a">
+                                    <input type="radio" id="correct_answer_a" name="correct_answer">
+                                    <span></span>
+                                    <p>A</p>
+                                </label>
+                                <label class="check-box" for="correct_answer_b">
+                                    <input type="radio" id="correct_answer_b" name="correct_answer">
+                                    <span></span>
+                                    <p>B</p>
+                                </label>
+                                <label class="check-box" for="correct_answer_c">
+                                    <input type="radio" id="correct_answer_c" name="correct_answer">
+                                    <span></span>
+                                    <p>C</p>
+                                </label>
+                                <label class="check-box" for="correct_answer_d">
+                                    <input type="radio" id="correct_answer_d" name="correct_answer">
+                                    <span></span>
+                                    <p>D</p>
                                 </label>
                             </div>
-                            <div class="right">
-                                <div class="question-header">
-                                    <div class="info">
-                                        <span class="number">1</span>
-                                        <span class="type">Variantlı sual</span>
-                                    </div>
-                                    <div class="control-buttons">
-                                        <button><i class="fa-solid fa-pen"></i></button>
-                                        <button><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </div>
+                        </div>
 
-                                <div class="title">
-                                    Azərbaycanın paytaxtı haradır ?
+                        <div class="btn-group">
+                            <button type="button">Ləğv et</button>
+                            <button type="button">Əlavə et</button>
+                        </div>
+                    </form>
+
+                    <div class="data">
+                        <div class="questions-header">
+                            <div class="left">
+                                <label for="all-items">
+                                    <input type="checkbox" id="all-items">
+                                    <span>
+                                        <i class="fa-solid fa-check-double"></i>
+                                    </span>
+                                </label>
+                                <p>
+                                    Sual sayı : <em>5</em>
+                                </p>
+                            </div>
+                            <div class="right">
+                                <button>
+                                    Sual əlavə et <i class="fa-solid fa-plus"></i>
+                                </button>
+                                <button>
+                                    Seçilənləri sil <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+    
+                        <div class="question">
+                            <div class="container">
+                                <div class="left">
+                                    <div class="select-btn">
+                                        <div class="dots">
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                        </div>
+                                    </div>
+                                    <label class="select-input" for="question_id_1">
+                                        <input type="checkbox" id="question_id_1">
+                                        <span><i class="fa-solid fa-check"></i></span>
+                                    </label>
                                 </div>
-                                <div class="options">
-                                    <div class="option">
-                                        <span>A)</span><p>Gəncə</p>
+                                <div class="right">
+                                    <div class="question-header">
+                                        <div class="info">
+                                            <span class="number">1</span>
+                                            <span class="type">Variantlı sual</span>
+                                        </div>
+                                        <div class="control-buttons">
+                                            <button><i class="fa-solid fa-pen"></i></button>
+                                            <button><i class="fa-solid fa-trash-can"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="option">
-                                        <span>B)</span><p>Şəki</p>
+    
+                                    <div class="title">
+                                        Azərbaycanın paytaxtı haradır ?
                                     </div>
-                                    <div class="option">
-                                        <span>C)</span><p>Bakı</p>
-                                    </div>
-                                    <div class="option">
-                                        <span>D)</span><p>Salyan</p>
+                                    <div class="options">
+                                        <div class="option">
+                                            <span>A)</span><p>Gəncə</p>
+                                        </div>
+                                        <div class="option">
+                                            <span>B)</span><p>Şəki</p>
+                                        </div>
+                                        <div class="option">
+                                            <span>C)</span><p>Bakı</p>
+                                        </div>
+                                        <div class="option">
+                                            <span>D)</span><p>Salyan</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+
                 </div>
             </div>
         </div>
@@ -142,7 +218,7 @@
                     questions_div.style.display = "none"
                 } else if(item.dataset.id == 2){
                     base_div.style.display = "none"
-                    questions_div.style.display = "block"
+                    questions_div.style.display = "flex"
                 }
             })
         })

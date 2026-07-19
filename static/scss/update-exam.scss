@@ -128,44 +128,230 @@
             .questions {
                 transition: all .1s ease-in;
                 display: none;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 3rem;
+                flex-direction: row-reverse;
 
-                .question {
-                    color: var(--light);
-                    border: .2rem solid var(--main-dark);
-                    padding: 1rem;
+
+
+
+                form {
+                    display: block;
+                    width: 40rem;
+                    background-color: var(--light);
                     border-radius: 1rem;
-                    .container {
+                    color: var(--dark);
+                    padding: 1rem;
+
+                    .header {
                         display: flex;
-                        justify-content: flex-start;
-                        align-items: flex-start;
-                        gap: 1rem;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 2rem;
+                        border-bottom: .2rem solid var(--main-dark);
+                        padding: 1rem 0 2rem 0;
 
                         .left {
-                            width: 7rem;
+                            font-size: 1.4rem;
+                            font-weight: 600;
+                        }
+
+                        .right {
+                            button {
+                                border: .1rem solid var(--main-dark);
+                                color: var(--dark);
+                                padding: .3rem;
+                                border-radius: .3rem;
+                            }
+                        }
+                    }
+
+                    &>label[for=quiz_text_title] {
+                        margin-bottom: 1rem;
+                        display: block;
+                        width: 100%;
+
+                        &>p {
+                            font-size: 1.4rem;
+                            font-weight: 600;
+                            margin-bottom: .5rem;
+                        }
+
+                        &>textarea {
+                            width: 100%;
+                            height: 12rem;
+                            resize: none;
+                            border: .2rem solid var(--main-dark);
+                            border-radius: 1rem;
+                            padding: 1rem;
+                            font-size: 1.4rem;
+                            font-weight: 500;
+                            line-height: 2rem;
+                            color: var(--dark);
+                        }
+                    }
+
+                    .options {
+                        margin-bottom: 1rem;
+
+                        &>p {
+                            font-size: 1.4rem;
+                            font-weight: 600;
+                            margin-bottom: .5rem;
+                        }
+
+                        &>label {
                             display: flex;
                             justify-content: flex-start;
-                            align-items: flex-start;
-                            gap: .5rem;
+                            align-items: stretch;
+                            gap: .3rem;
+                            margin-bottom: .5rem;
+                            width: 100%;
 
-                            .select-btn {
-                                .dots {
-                                    display: flex;
-                                    flex-direction: column;
-                                    justify-content: flex-start;
-                                    align-items: center;
-                                    width: 3rem;
-                                    height: 4rem;
-                                    gap: .3rem;
-
-                                    .dot {
-                                        width: .5rem;
-                                        height: .5rem;
-                                        background-color: var(--main-dark);
-                                    }
-                                }
+                            &>span {
+                                width: 5rem;
+                                height: 5rem;
+                                line-height: 5rem;
+                                text-align: center;
+                                background-color: var(--main-dark);
+                                color: var(--dark);
+                                font-size: 1.4rem;
+                                font-weight: 600;
+                                border-top-left-radius: 1rem;
+                                border-bottom-left-radius: 1rem;
                             }
 
-                            label.select-input {
+                            &>textarea {
+                                resize: none;
+                                background-color: var(--main-dark);
+                                width: calc(100% - 5.3rem);
+                                min-height: 5rem;
+                                border-top-right-radius: 1rem;
+                                border-bottom-right-radius: 1rem;
+                                color: var(--dark);
+                                padding: 1rem;
+                                line-height: 1.5rem;
+                                font-size: 1.2rem;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+
+                    .correct-answer {
+                        margin-bottom: 1rem;
+                        width: 100%;
+                        display: block;
+
+                        &>p {
+                            font-size: 1.4rem;
+                            font-weight: 600;
+                            margin-bottom: .5rem;
+                        }
+
+                        .inner-container {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            gap: 1rem;
+                            width: 100%;
+
+                            .check-box {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                gap: 1rem;
+                                width: calc((100% - 3rem) / 4);
+                                border: .2rem solid var(--main-dark); 
+                                border-radius: 1rem;
+                                height: 4rem;
+                                cursor: pointer;
+
+                                &:has(input:checked) {
+                                    border-color: var(--badge);
+                                }
+
+                                input {
+                                    display: none;
+                                    &:checked+span{
+                                        position: relative;
+                                        &::after{
+                                            content: "";
+                                            position: absolute;
+                                            width: .5rem;
+                                            height: .5rem;
+                                            top: 50%;
+                                            left: 50%;
+                                            transform: translate(-50%, -50%);
+                                            background-color: var(--badge);
+                                            border-radius: 50%;
+                                        }
+                                    }
+                                }
+
+                                &>span {
+                                    width: 1rem;
+                                    height: 1rem;
+                                    background-color: var(--dark);
+                                    display: inline-block;
+                                    border-radius: 50%;
+                                }
+
+                                &>p {
+                                    font-size: 1.4rem;
+                                    font-weight: 600;
+                                    height: 2rem;
+                                    line-height: 2rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .btn-group{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 1rem;
+                        button{
+                            width: calc((100% - 1rem) / 2);
+                            height: 4rem;
+                            border: .2rem solid var(--main-dark);
+                            border-radius: 1rem;
+                            font-size: 1.4rem;
+                            font-weight: 600;
+                            &:nth-child(1){
+                                background-color: var(--light);
+                                color: var(--dark);
+                            }
+                            &:nth-child(2){
+                                background-color: var(--bg);
+                                border-color: var(--bg);
+                                color: var(--all-light);
+                            }
+                        }
+                    }
+                }
+
+                .data {
+                    display: block;
+                    width: calc(100% - 43rem);
+
+                    .questions-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 3rem;
+                        padding: 1rem;
+                        color: var(--light);
+
+
+                        .left {
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: center;
+                            gap: 1rem;
+
+                            label {
                                 cursor: pointer;
 
                                 input {
@@ -193,101 +379,229 @@
                                     border: .1rem solid var(--main-dark);
 
                                     i {
-                                        display: none;
+                                        color: var(--main);
                                     }
+                                }
+                            }
+
+                            p {
+                                font-size: 1.6rem;
+
+                                em {
+                                    font-weight: 600;
+                                    color: var(--badge);
                                 }
                             }
                         }
 
                         .right {
-                            width: calc(100% - 8rem);
+                            button {
+                                border: .1rem solid var(--main-dark);
 
-                            .question-header {
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                                margin-bottom: 2rem;
+                                &:nth-child(1) {
+                                    color: var(--success);
+                                    margin-right: .5rem;
 
-                                .info {
-                                    span {
-                                        display: inline-block;
-
-                                        &:nth-child(1) {
-                                            width: 3rem;
-                                            height: 3rem;
-                                            border-radius: .3rem;
-                                            background-color: var(--success);
-                                            color: var(--all-dark);
-                                            line-height: 3rem;
-                                            text-align: center;
-                                            font-size: 1.6rem;
-                                            font-weight: 600;
-                                            margin-right: 1rem;
-                                        }
-
-                                        &:nth-child(2) {
-                                            font-weight: 600;
-                                            font-size: 1.4rem;
-                                        }
-                                    }
-
-                                }
-
-                                .control-buttons{
-                                    button{
-                                        width: 3rem;
-                                        height: 3rem;
-                                        background-color: transparent;
-                                        font-size: 1.2rem; 
-                                        &:nth-child(1){
-                                            color: var(--star);
-                                        }
-                                        &:nth-child(2){
-                                            color: var(--danger);
-                                        }
+                                    &:hover {
+                                        background-color: var(--success);
+                                        border-color: var(--success);
                                     }
                                 }
-                            }
 
-                            .title{
-                                font-size: 1.6rem;
-                                margin-bottom: 2rem;
-                            }
+                                &:nth-child(2) {
+                                    color: var(--danger);
 
-                            .options{
+                                    &:hover {
+                                        background-color: var(--danger);
+                                        border-color: var(--danger);
+                                    }
+                                }
+
+                                padding: 1rem;
+                                border-radius: .6rem;
+                                font-size: 1.4rem;
+                                font-weight: normal;
+                                transition: all .1s ease-in-out;
+
+                                i {
+                                    margin-left: .5rem;
+                                }
+
+                                &:hover {
+                                    color: var(--all-light);
+                                }
+
+                            }
+                        }
+                    }
+
+                    .question {
+                        color: var(--light);
+                        border: .2rem solid var(--main-dark);
+                        padding: 1rem;
+                        border-radius: 1rem;
+
+                        .container {
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: flex-start;
+                            gap: 1rem;
+
+                            .left {
+                                width: 7rem;
                                 display: flex;
-                                flex-direction: column;
                                 justify-content: flex-start;
                                 align-items: flex-start;
+                                gap: .5rem;
 
-                                gap: 1rem;
-
-                                .option{
-                                    display: flex;
-                                    justify-content: flex-start;
-                                    align-items: center;
-                                    gap: 1rem;
-                                    span{
-                                        width: 4rem;
+                                .select-btn {
+                                    .dots {
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: flex-start;
+                                        align-items: center;
+                                        width: 3rem;
                                         height: 4rem;
-                                        font-size: 1.6rem;
-                                        font-weight: 600;
-                                        color: var(--main-dark);
-                                        border: .1rem solid var(--main-dark);
-                                        line-height: 3.8rem;
-                                        text-align: center;
-                                        border-radius: 1rem;
+                                        gap: .3rem;
+
+                                        .dot {
+                                            width: .5rem;
+                                            height: .5rem;
+                                            background-color: var(--main-dark);
+                                        }
                                     }
-                                    p{
-                                        width: calc(100% - 5rem);
-                                        font-size: 1.6rem;
-                                        color: var(--light);
+                                }
+
+                                label.select-input {
+                                    cursor: pointer;
+
+                                    input {
+                                        display: none;
+
+                                        &:checked+span {
+                                            background-color: var(--main-dark);
+
+                                            i {
+                                                display: inline-block;
+                                                color: var(--all-dark);
+                                            }
+                                        }
+                                    }
+
+                                    span {
+                                        width: 2rem;
+                                        height: 2rem;
+                                        border-radius: .3rem;
+                                        background-color: var(--main);
+                                        display: inline-block;
+                                        font-size: 1rem;
+                                        line-height: 1.8rem;
+                                        text-align: center;
+                                        border: .1rem solid var(--main-dark);
+
+                                        i {
+                                            display: none;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .right {
+                                width: calc(100% - 8rem);
+
+                                .question-header {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    margin-bottom: 2rem;
+
+                                    .info {
+                                        span {
+                                            display: inline-block;
+
+                                            &:nth-child(1) {
+                                                width: 3rem;
+                                                height: 3rem;
+                                                border-radius: .3rem;
+                                                background-color: var(--success);
+                                                color: var(--all-light);
+                                                line-height: 3rem;
+                                                text-align: center;
+                                                font-size: 1.6rem;
+                                                font-weight: 600;
+                                                margin-right: 1rem;
+                                            }
+
+                                            &:nth-child(2) {
+                                                font-weight: 600;
+                                                font-size: 1.4rem;
+                                            }
+                                        }
+
+                                    }
+
+                                    .control-buttons {
+                                        button {
+                                            width: 3rem;
+                                            height: 3rem;
+                                            background-color: transparent;
+                                            font-size: 1.2rem;
+
+                                            &:nth-child(1) {
+                                                color: var(--star);
+                                            }
+
+                                            &:nth-child(2) {
+                                                color: var(--danger);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .title {
+                                    font-size: 1.6rem;
+                                    margin-bottom: 2rem;
+                                }
+
+                                .options {
+                                    display: flex;
+                                    flex-direction: column;
+                                    justify-content: flex-start;
+                                    align-items: flex-start;
+
+                                    gap: 1rem;
+
+                                    .option {
+                                        display: flex;
+                                        justify-content: flex-start;
+                                        align-items: center;
+                                        gap: 1rem;
+
+                                        span {
+                                            width: 4rem;
+                                            height: 4rem;
+                                            font-size: 1.6rem;
+                                            font-weight: 600;
+                                            color: var(--main-dark);
+                                            border: .1rem solid var(--main-dark);
+                                            line-height: 3.8rem;
+                                            text-align: center;
+                                            border-radius: 1rem;
+                                        }
+
+                                        p {
+                                            width: calc(100% - 5rem);
+                                            font-size: 1.6rem;
+                                            color: var(--light);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+
                 }
+
             }
         }
     }
