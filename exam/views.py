@@ -195,6 +195,10 @@ def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
     if count == 0: return None
 
     post = queryset[random.randint(0, count - 1)] 
+
+    if p:
+        while post.id == p.id:
+            post = queryset[random.randint(0, count - 1)] 
     return post
 
 def GetPostForPublicSentenceBuilder(request, p:Post|None=None):

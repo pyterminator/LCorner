@@ -54,9 +54,7 @@
             color: var(--light);
             gap: 1rem;
             img{
-                width: 3rem;
-                height: 3rem;
-                border-radius: 50%;
+                width: 3rem; 
                 object-fit: cover;
                 object-position: center;
             }
@@ -178,8 +176,8 @@
             @extend %button-style;
             width: 25rem;
             height: 6rem;
-            background-color: var(--link);
-            color: var(--all-dark); 
+            background-color: var(--bg);
+            color: var(--all-light); 
         }
     }
 }

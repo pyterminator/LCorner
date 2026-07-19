@@ -20,5 +20,5 @@ def level_up_notification(sender, instance, created, **kwargs):
         Notification.objects.create(
             account=instance,
             type="LEVEL_UP",
-            message=f"🎉 Təbrik edirəm, sənin saytdakı yeni levelin : {instance.level}"
+            message=f"🎉 Təbriklər, sənin saytdakı yeni levelin : {instance.level}"
         )
