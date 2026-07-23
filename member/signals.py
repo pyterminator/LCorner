@@ -41,5 +41,14 @@ def create_user_account(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_account(sender, instance, **kwargs):
     # Əgər hər hansı səbəbdən account yoxdursa, xəta verməməsi üçün hasattr yoxlanışı
-    if hasattr(instance, "account"):
+
+    #// if hasattr(instance, "account"):
+    #//    instance.account.save()
+
+    try:
         instance.account.save()
+    except Account.DoesNotExist:
+        pass
+
+
+ 

@@ -74,3 +74,41 @@ class Exam(models.Model):
         )
     
 
+class Quiz(models.Model):
+    exam = models.ForeignKey(
+        Exam,
+        on_delete=models.CASCADE,
+        related_name="quizzes"
+    )
+
+    question = models.TextField()
+
+    order = models.PositiveIntegerField(default=1)
+
+    explanation = models.TextField(
+        blank=True,
+        default=""
+    )
+
+    earn_xp = models.FloatField(default=1)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.question[:50]
+    
+class QuizOption(models.Model):
+    quiz = models.ForeignKey(
+        Quiz,
+        on_delete=models.CASCADE,
+        related_name="options"
+    )
+
+    text = models.CharField(max_length=255, blank=True)
+    image = models.ImageField(upload_to="quiz/options/", blank=True, null=True)
+    audio = models.FileField(upload_to="quiz/options/", blank=True, null=True)
+
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.text

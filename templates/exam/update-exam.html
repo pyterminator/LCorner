@@ -53,6 +53,7 @@
                 <div class="questions">
 
                     <form action="" method="post" class="form">
+                        {% csrf_token %}
                         <div class="header">
                             <div class="left">Yeni sual əlavə et</div>
                             <div class="right">
@@ -64,26 +65,26 @@
 
                         <label for="quiz_text_title">
                             <p>Sual mətni</p> 
-                            <textarea name="" id="quiz_text_title"></textarea>
+                            <textarea name="quiz_text_title" id="quiz_text_title"></textarea>
                         </label>
 
                         <div class="options">
                             <p>Variantlar</p>
-                            <label for="">
+                            <label for="option_a">
                                 <span>A</span> 
-                                <textarea name="" id=""></textarea>
+                                <textarea name="option_a" id="option_a"></textarea>
                             </label>
-                            <label for="">
+                            <label for="option_b">
                                 <span>B</span> 
-                                <textarea name="" id=""></textarea>
+                                <textarea name="option_b" id="option_b"></textarea>
                             </label>
-                            <label for="">
+                            <label for="option_c">
                                 <span>C</span> 
-                                <textarea name="" id=""></textarea>
+                                <textarea name="option_c" id="option_c"></textarea>
                             </label>
-                            <label for="">
+                            <label for="option_d">
                                 <span>D</span> 
-                                <textarea name="" id=""></textarea>
+                                <textarea name="option_d" id="option_d"></textarea>
                             </label>
                         </div>
 
@@ -91,22 +92,22 @@
                             <p>Düzgün cavab seçin</p>
                             <div class="inner-container">
                                 <label class="check-box" for="correct_answer_a">
-                                    <input type="radio" id="correct_answer_a" name="correct_answer">
+                                    <input type="radio" id="correct_answer_a" name="correct_answer" value="a">
                                     <span></span>
                                     <p>A</p>
                                 </label>
                                 <label class="check-box" for="correct_answer_b">
-                                    <input type="radio" id="correct_answer_b" name="correct_answer">
+                                    <input type="radio" id="correct_answer_b" name="correct_answer" value="b">
                                     <span></span>
                                     <p>B</p>
                                 </label>
                                 <label class="check-box" for="correct_answer_c">
-                                    <input type="radio" id="correct_answer_c" name="correct_answer">
+                                    <input type="radio" id="correct_answer_c" name="correct_answer" value="c">
                                     <span></span>
                                     <p>C</p>
                                 </label>
                                 <label class="check-box" for="correct_answer_d">
-                                    <input type="radio" id="correct_answer_d" name="correct_answer">
+                                    <input type="radio" id="correct_answer_d" name="correct_answer" value="d">
                                     <span></span>
                                     <p>D</p>
                                 </label>
@@ -115,7 +116,7 @@
 
                         <div class="btn-group">
                             <button type="button">Ləğv et</button>
-                            <button type="button">Əlavə et</button>
+                            <button type="submit">Əlavə et</button>
                         </div>
                     </form>
 
@@ -142,53 +143,67 @@
                             </div>
                         </div>
     
-                        <div class="question">
-                            <div class="container">
-                                <div class="left">
-                                    <div class="select-btn">
-                                        <div class="dots">
-                                            <span class="dot"></span>
-                                            <span class="dot"></span>
-                                            <span class="dot"></span>
+
+                        {% for quiz in quizzes %}
+                            <div class="question">
+                                <div class="container">
+                                    <div class="left">
+                                        <div class="select-btn">
+                                            <div class="dots">
+                                                <span class="dot"></span>
+                                                <span class="dot"></span>
+                                                <span class="dot"></span>
+                                            </div>
                                         </div>
+                                        <label class="select-input" for="question_id_1">
+                                            <input type="checkbox" id="question_id_1">
+                                            <span><i class="fa-solid fa-check"></i></span>
+                                        </label>
                                     </div>
-                                    <label class="select-input" for="question_id_1">
-                                        <input type="checkbox" id="question_id_1">
-                                        <span><i class="fa-solid fa-check"></i></span>
-                                    </label>
-                                </div>
-                                <div class="right">
-                                    <div class="question-header">
-                                        <div class="info">
-                                            <span class="number">1</span>
-                                            <span class="type">Variantlı sual</span>
+                                    <div class="right">
+                                        <div class="question-header">
+                                            <div class="info">
+                                                <span class="number">1</span>
+                                                <span class="type">Variantlı sual</span>
+                                            </div>
+                                            <div class="control-buttons">
+                                                <button><i class="fa-solid fa-pen"></i></button>
+                                                <button><i class="fa-solid fa-trash-can"></i></button>
+                                            </div>
                                         </div>
-                                        <div class="control-buttons">
-                                            <button><i class="fa-solid fa-pen"></i></button>
-                                            <button><i class="fa-solid fa-trash-can"></i></button>
+        
+                                        <div class="title">
+                                            {{quiz.question}}
                                         </div>
-                                    </div>
-    
-                                    <div class="title">
-                                        Azərbaycanın paytaxtı haradır ?
-                                    </div>
-                                    <div class="options">
-                                        <div class="option">
-                                            <span>A)</span><p>Gəncə</p>
-                                        </div>
-                                        <div class="option">
-                                            <span>B)</span><p>Şəki</p>
-                                        </div>
-                                        <div class="option">
-                                            <span>C)</span><p>Bakı</p>
-                                        </div>
-                                        <div class="option">
-                                            <span>D)</span><p>Salyan</p>
+                                        <div class="options">
+                                            {% for option in quiz.options.all %}
+                                                <div class="option">
+                                                    <span>
+                                                        {% if forloop.counter == 1 %}
+                                                            A)
+                                                        {% elif forloop.counter == 2 %}
+                                                            B)
+                                                        {% elif forloop.counter == 3 %}
+                                                            C)
+                                                        {% elif forloop.counter == 4 %}
+                                                            D)
+                                                        {% endif %}
+                                                    </span>
+                                                    <p>
+                                                        {{option.text}}
+                                                        {% if option.is_correct %}
+                                                            ✅
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {% empty %}
+                            Salam
+                        {% endfor %}
                     </div>
                     
 

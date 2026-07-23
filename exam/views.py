@@ -1,12 +1,13 @@
 import json, random, re
 from post.models import Post
+from django.db.models import Max
 from django.db import transaction
-from exam.models import Exam, Tag
 from member.models import Account
 from django.http import JsonResponse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from exam.models import Exam, Tag, Quiz, QuizOption
+from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 # Sentence Builder Game Ucun post.sentence-i liste cevirir
@@ -250,15 +251,66 @@ def PrepareQuizForSentenceBuilder(post:Post):
 
 
 def UpdateExam(request, slug: str):
-    exam = Exam.objects.filter(slug=slug).first()
-    if exam:
+    try: 
+        exam = get_object_or_404(Exam, slug=slug)
+        quizzes = exam.quizzes.all().order_by("order")
+        
+            
+
+        if request.method == "POST":
+            quiz_text_title = request.POST.get("quiz_text_title", "")
+            option_a = request.POST.get("option_a", "")
+            option_b = request.POST.get("option_b", "")
+            option_c = request.POST.get("option_c", "")
+            option_d = request.POST.get("option_d", "")
+            correct_answer = request.POST.get("correct_answer", "")
+
+            last_order = (
+                exam.quizzes.aggregate(Max("order"))["order__max"] or 0
+            )
+
+
+            options = {
+                "a": option_a,
+                "b": option_b,
+                "c": option_c,
+                "d": option_d,
+            }
+
+            try:
+                with transaction.atomic():
+                    new_quiz = Quiz.objects.create(
+                        exam = exam,
+                        question = quiz_text_title,
+                        order = last_order + 1
+                    )
+
+                    for key, text in options.items():
+                        QuizOption.objects.create(
+                            quiz=new_quiz,
+                            text=text,
+                            is_correct=(correct_answer == key)
+                        )
+
+                    exam.question_count = exam.quizzes.count()
+                    exam.save(update_fields=["question_count"])
+                # Exam.objects.filter(pk=exam.pk).update(
+                #     question_count=exam.quizzes.count()
+                # )
+
+                return redirect("myexams")
+            except:
+                return redirect("updateexam", slug=exam.slug)
+
+
         data = {
-            "exam": exam
+            "exam": exam,
+            "quizzes": quizzes
         }
         return render(request, "exam/update-exam.html", context=data)
     
-    
-    return redirect("dashboard")
+    except:
+        return redirect("dashboard")
 
 
 
