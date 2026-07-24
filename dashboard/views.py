@@ -5,7 +5,6 @@ from post.models import Post
 from django.conf import settings
 from member.models import Account
 from django.utils.text import slugify
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -41,15 +40,17 @@ def CreateDefaultPosts(request):
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)
 
+
+
         posts = [
             Post(
                 author = account,
-                lang = "EN",
-                sentence = item['en'],
+                lang = item["lang"],
+                sentence = item[item["lang"].lower()],
                 description = item['az'],
                 approved = True,
                 is_public = True,
-                slug = f"{slugify(item['en'])[:50]}-{uuid.uuid4().hex[:6]}"
+                slug = f"{slugify(item[item['lang'].lower()])[:50]}-{uuid.uuid4().hex[:6]}"
             )
             for item in data
         ]

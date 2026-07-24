@@ -1,186 +1,232 @@
 [
   {
+    "lang":"EN",
     "en": "I usually wake up at 7 am.",
     "az": "Mən adətən səhər saat 7-də oyanıram."
   },
   {
+    "lang":"EN",
     "en": "She is studying for her exam right now.",
     "az": "O, hazırda imtahanına hazırlaşır."
   },
   {
+    "lang":"EN",
     "en": "We went to the cinema last weekend.",
     "az": "Keçən həftəsonu kinoya getdik."
   },
   {
+    "lang":"EN",
     "en": "They will visit their grandparents tomorrow.",
     "az": "Onlar sabah nənə və babalarını ziyarət edəcəklər."
   },
   {
+    "lang":"EN",
     "en": "I can speak English quite well.",
     "az": "Mən ingiliscə kifayət qədər yaxşı danışa bilirəm."
   },
   {
+    "lang":"EN",
     "en": "My brother doesn't like coffee.",
     "az": "Qardaşım qəhvəni sevmir."
   },
   {
+    "lang":"EN",
     "en": "Have you ever been to Baku?",
     "az": "Heç Bakıda olmusan?"
   },
   {
+    "lang":"EN",
     "en": "It was raining when I left the house.",
     "az": "Mən evdən çıxanda yağış yağırdı."
   },
   {
+    "lang":"EN",
     "en": "We are going to start a new project next month.",
     "az": "Gələn ay yeni layihəyə başlayacağıq."
   },
   {
+    "lang":"EN",
     "en": "If I have time, I will help you.",
     "az": "Vaxtım olsa, sənə kömək edəcəyəm."
   },
   {
+    "lang":"EN",
     "en": "I forgot my password again.",
     "az": "Yenə parolumu unutdum."
   },
   {
+    "lang":"EN",
     "en": "The train arrives at 8 pm.",
     "az": "Qatar saat 8-də çatır."
   },
   {
+    "lang":"EN",
     "en": "She has just finished her work.",
     "az": "O, işini indicə bitirib."
   },
   {
+    "lang":"EN",
     "en": "They were playing football all afternoon.",
     "az": "Onlar bütün günorta futbol oynayırdılar."
   },
   {
+    "lang":"EN",
     "en": "You should drink more water.",
     "az": "Daha çox su içməlisən."
   },
   {
+    "lang":"EN",
     "en": "I am looking for my headphones.",
     "az": "Qulaqlıqlarımı axtarıram."
   },
   {
+    "lang":"EN",
     "en": "He didn't answer my message.",
     "az": "O, mesajıma cavab vermədi."
   },
   {
+    "lang":"EN",
     "en": "We have known each other for years.",
     "az": "Biz bir-birimizi illərdir tanıyırıq."
   },
   {
+    "lang":"EN",
     "en": "Could you open the window, please?",
     "az": "Zəhmət olmasa pəncərəni aça bilərsən?"
   },
   {
+    "lang":"EN",
     "en": "I was very tired after work.",
     "az": "İşdən sonra çox yorğun idim."
   },
   {
+    "lang":"EN",
     "en": "The meeting starts in ten minutes.",
     "az": "İclas on dəqiqədən sonra başlayır."
   },
   {
+    "lang":"EN",
     "en": "She loves reading books before bed.",
     "az": "O, yatmazdan əvvəl kitab oxumağı sevir."
   },
   {
+    "lang":"EN",
     "en": "I have never tried sushi.",
     "az": "Mən heç vaxt suşi dadmamışam."
   },
   {
+    "lang":"EN",
     "en": "They are building a new school.",
     "az": "Onlar yeni məktəb tikirlər."
   },
   {
+    "lang":"EN",
     "en": "What were you doing at that time?",
     "az": "O vaxt nə edirdin?"
   },
   {
+    "lang":"EN",
     "en": "I need to buy some groceries.",
     "az": "Mənə bir az ərzaq almaq lazımdır."
   },
   {
+    "lang":"EN",
     "en": "The weather is getting colder.",
     "az": "Hava daha soyuq olur."
   },
   {
+    "lang":"EN",
     "en": "We might go on vacation this summer.",
     "az": "Bu yay tətilə gedə bilərik."
   },
   {
+    "lang":"EN",
     "en": "She has been learning English for two years.",
     "az": "O, iki ildir ingilis dili öyrənir."
   },
   {
+    "lang":"EN",
     "en": "Don't forget to lock the door.",
     "az": "Qapını kilidləməyi unutma."
   },
   {
+    "lang":"EN",
     "en": "I quit smoking!",
     "az": "Siqareti tərgitmişəm!"
   },
   {
+    "lang":"EN",
     "en": "Keep your shirt on!",
     "az": "Əsəbləşmə! \n Keep your shirt on! He didn’t break your phone on purpose.\nƏsəbləşmə! O, sənin telefonunu bilərək qırmadı."
   },
   {
+    "lang":"EN",
     "en":"I’m content.",
     "az":"Məmnunam/Razıyam"
   },
   {
+    "lang":"EN",
     "en":"I’m overjoyed.",
     "az":"Həddindən artıq sevincliyəm / Sevincdən uçuram."
   },
   {
+    "lang":"EN",
     "en":"I’m excited.",
     "az":"Həyəcanlıyam (müsbət mənada) / Səbrsizlənirəm."
   },
   {
+    "lang":"EN",
     "en":"Drop the subject!",
     "az":"Bağla bu mövzunu!"
   },
   {
-    "de": "Guten Morgen!",
+    "lang":"GE",
+    "ge": "Guten Morgen!",
     "az": "Sabahın xeyir!"
   },
   {
-    "de": "Ich lerne Deutsch jeden Tag.",
+    "lang":"GE",
+    "ge": "Ich lerne Deutsch jeden Tag.",
     "az": "Mən hər gün alman dili öyrənirəm."
   },
   {
-    "de": "Wie heißt du?",
+    "lang":"GE",
+    "ge": "Wie heißt du?",
     "az": "Sənin adın nədir?"
   },
   {
-    "de": "Ich habe heute viel Arbeit.",
+    "lang":"GE",
+    "ge": "Ich habe heute viel Arbeit.",
     "az": "Bu gün çox işim var."
   },
   {
-    "de": "Das Wetter ist heute schön.",
+    "lang":"GE",
+    "ge": "Das Wetter ist heute schön.",
     "az": "Bu gün hava gözəldir."
   },
 
   {
+    "lang":"RU",
     "ru": "Доброе утро!",
     "az": "Sabahın xeyir!"
   },
   {
+    "lang":"RU",
     "ru": "Я изучаю русский язык каждый день.",
     "az": "Mən hər gün rus dili öyrənirəm."
   },
   {
+    "lang":"RU",
     "ru": "Как тебя зовут?",
     "az": "Sənin adın nədir?"
   },
   {
+    "lang":"RU",
     "ru": "У меня сегодня много работы.",
     "az": "Bu gün çox işim var."
   },
   {
+    "lang":"RU",
     "ru": "Сегодня хорошая погода.",
     "az": "Bu gün hava gözəldir."
   }
