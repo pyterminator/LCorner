@@ -136,7 +136,7 @@
 
 
 
-                form {
+                .form {
                     display: block;
                     width: 40rem;
                     background-color: var(--light);
@@ -331,10 +331,19 @@
                         }
                     }
                 }
+                .form + .data{
+                    width: calc(100% - 43rem);
+                }
+
+                .deactive-form{
+                    display: none;
+                }
+                .deactive-form + .data{
+                    width: 100%;
+                }
 
                 .data {
-                    display: block;
-                    width: calc(100% - 43rem);
+                    display: block; 
 
                     .questions-header {
                         display: flex;
@@ -440,6 +449,9 @@
                         border: .2rem solid var(--main-dark);
                         padding: 1rem;
                         border-radius: 1rem;
+                        &:not(:last-child){
+                            margin-bottom: 1rem;
+                        }
 
                         .container {
                             display: flex;
@@ -637,13 +649,13 @@
         .nav { 
             .questions { 
                 flex-direction: column;  
-                form { 
+                .form { 
                     width: 100%;  
                 }
-
-                .data { 
+                .form + .data{
                     width: 100%;
-
+                }
+                .data {
                     .questions-header { 
                         justify-content: flex-start;
                         align-items: flex-start; 

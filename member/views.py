@@ -19,6 +19,16 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 
+def PublicPage(request): 
+    posts = Post.objects.filter(approved=True).filter(is_public=True).order_by('-id')[:12]
+
+    data = {
+        "posts": posts
+    }
+    
+    return render(request, "public-page.html", context=data)
+
+
 def MemberLogin(request):
     # Login olubsa dashboarda qaytar
     if request.user.is_authenticated:

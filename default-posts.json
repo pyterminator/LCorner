@@ -1,6 +1,6 @@
 [
   {
-    "en": "I usually wake up at 7 a.m.",
+    "en": "I usually wake up at 7 am.",
     "az": "Mən adətən səhər saat 7-də oyanıram."
   },
   {
@@ -44,7 +44,7 @@
     "az": "Yenə parolumu unutdum."
   },
   {
-    "en": "The train arrives at 8 p.m.",
+    "en": "The train arrives at 8 pm.",
     "az": "Qatar saat 8-də çatır."
   },
   {
@@ -124,8 +124,8 @@
     "az": "Siqareti tərgitmişəm!"
   },
   {
-    "en": "Keep your shirt on! He didn’t break your phone on purpose.",
-    "az": "Əsəbləşmə! O, sənin telefonunu bilərək qırmadı."
+    "en": "Keep your shirt on!",
+    "az": "Əsəbləşmə! \n Keep your shirt on! He didn’t break your phone on purpose.\nƏsəbləşmə! O, sənin telefonunu bilərək qırmadı."
   },
   {
     "en":"I’m content.",
@@ -142,5 +142,46 @@
   {
     "en":"Drop the subject!",
     "az":"Bağla bu mövzunu!"
+  },
+  {
+    "de": "Guten Morgen!",
+    "az": "Sabahın xeyir!"
+  },
+  {
+    "de": "Ich lerne Deutsch jeden Tag.",
+    "az": "Mən hər gün alman dili öyrənirəm."
+  },
+  {
+    "de": "Wie heißt du?",
+    "az": "Sənin adın nədir?"
+  },
+  {
+    "de": "Ich habe heute viel Arbeit.",
+    "az": "Bu gün çox işim var."
+  },
+  {
+    "de": "Das Wetter ist heute schön.",
+    "az": "Bu gün hava gözəldir."
+  },
+
+  {
+    "ru": "Доброе утро!",
+    "az": "Sabahın xeyir!"
+  },
+  {
+    "ru": "Я изучаю русский язык каждый день.",
+    "az": "Mən hər gün rus dili öyrənirəm."
+  },
+  {
+    "ru": "Как тебя зовут?",
+    "az": "Sənin adın nədir?"
+  },
+  {
+    "ru": "У меня сегодня много работы.",
+    "az": "Bu gün çox işim var."
+  },
+  {
+    "ru": "Сегодня хорошая погода.",
+    "az": "Bu gün hava gözəldir."
   }
 ]

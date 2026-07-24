@@ -3,12 +3,13 @@ from member.views import (
     MemberLogin, MemberRegistration, MemberLogout, 
     UserAccount, ChangeMyPassword, ChangeMyAvatar, DeleteMyAvatar,
     AccountList, UpdateBaseData, SaveBioData, ChangeUsername, ChangeUserStaff,
-    GetPostsAjax
+    GetPostsAjax, PublicPage
 )
 
 
 urlpatterns = [
-    path('', MemberLogin, name="login"),
+    path('', PublicPage, name='publicpage'),
+    path('login', MemberLogin, name="login"),
     path('logout', MemberLogout, name="logout"),
     path('register', MemberRegistration, name="register"),
     path('change-my-password',ChangeMyPassword, name="changemypassword"), 

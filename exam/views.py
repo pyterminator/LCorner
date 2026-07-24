@@ -253,7 +253,7 @@ def PrepareQuizForSentenceBuilder(post:Post):
 def UpdateExam(request, slug: str):
     try: 
         exam = get_object_or_404(Exam, slug=slug)
-        quizzes = exam.quizzes.all().order_by("order")
+        quizzes = exam.quizzes.all().order_by("-id")
         
             
 
@@ -292,13 +292,13 @@ def UpdateExam(request, slug: str):
                             is_correct=(correct_answer == key)
                         )
 
-                    exam.question_count = exam.quizzes.count()
-                    exam.save(update_fields=["question_count"])
+                # exam.question_count = exam.quizzes.count()
+                # exam.save(update_fields=["question_count"])
                 # Exam.objects.filter(pk=exam.pk).update(
                 #     question_count=exam.quizzes.count()
                 # )
 
-                return redirect("myexams")
+                return redirect("updateexam", slug=exam.slug)
             except:
                 return redirect("updateexam", slug=exam.slug)
 

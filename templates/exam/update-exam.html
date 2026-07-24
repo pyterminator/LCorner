@@ -52,12 +52,12 @@
 
                 <div class="questions">
 
-                    <form action="" method="post" class="form">
+                    <form action="" method="post" class="deactive-form">
                         {% csrf_token %}
                         <div class="header">
                             <div class="left">Yeni sual əlavə et</div>
                             <div class="right">
-                                <button type="button">
+                                <button type="button" onclick="closeCreateQuizForm(this)">
                                     <i class="fa-solid fa-times"></i>
                                 </button>
                             </div>
@@ -134,7 +134,7 @@
                                 </p>
                             </div>
                             <div class="right">
-                                <button>
+                                <button onclick="openCreateQuizForm(this)">
                                     Sual əlavə et <i class="fa-solid fa-plus"></i>
                                 </button>
                                 <button>
@@ -163,7 +163,7 @@
                                     <div class="right">
                                         <div class="question-header">
                                             <div class="info">
-                                                <span class="number">1</span>
+                                                <span class="number">{{forloop.counter}}</span>
                                                 <span class="type">Variantlı sual</span>
                                             </div>
                                             <div class="control-buttons">
@@ -237,5 +237,16 @@
                 }
             })
         })
+
+
+
+        function closeCreateQuizForm(btn){
+            const btn_parent_form = btn.parentElement.parentElement.parentElement; 
+            btn_parent_form.classList = "deactive-form"
+        }
+        function openCreateQuizForm(btn){
+            const btn_parent_form = btn.parentElement.parentElement.parentElement.previousElementSibling; 
+            btn_parent_form.classList = "form"
+        }
     </script>
 {% endblock %}
