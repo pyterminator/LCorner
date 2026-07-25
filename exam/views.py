@@ -3,6 +3,7 @@ from post.models import Post
 from django.db.models import Max
 from django.db import transaction
 from member.models import Account
+from django.contrib import messages
 from django.http import JsonResponse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
@@ -37,6 +38,10 @@ def MyExams(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def CreateNewExam(request):
+
+    if request.user.account.xp <= 500:
+        messages.error(request, "İmtahan yaratmaq üçün minimum 500 XP lazımdır.")
+        return redirect("myexams")
 
     if request.method == "POST":
         try:

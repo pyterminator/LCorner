@@ -142,6 +142,23 @@
             {% endif %}
  
             <main> 
+                <!-- Mesajlar -->
+                {% if messages %}
+                    {% for message in messages %} 
+                        <div class="alert alert-{{ message.tags }}">
+                            {% if message.tags == 'error' %}
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            {% elif message.tags == 'success' %}
+                                <i class="fa-regular fa-circle-check"></i>
+                            {% endif %}
+                            <p>
+                                {{ message }}
+                            </p>
+                            <span class="fa-solid fa-xmark" onclick="removeAlert(this)"></span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
                 <!-- Block Root -->
                 {% block root %} {% endblock %}
             </main>

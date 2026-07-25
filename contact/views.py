@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages as alert_messages
 
 def contact_view(request):
     data = {}
@@ -74,8 +75,8 @@ def contact_view(request):
             if "name_validator" not in data and "email_validator" not in data and "message_validator" not in data:
                 Message.objects.create(
                     name=name, email=email, message=message
-                )
-                data["success"] = "Mesajınız qeydə alındı, tezliklə sizinlə əlaqə saxlanılacaq!"
+                ) 
+                alert_messages.success(request, "Mesajınız qeydə alındı, tezliklə sizinlə əlaqə saxlanılacaq!")
                 data.pop("name")
                 data.pop("email")
                 data.pop("message")
@@ -89,7 +90,7 @@ def contact_view(request):
 def messages_view(request):
 
     data = {
-        "messages": Message.objects.all()
+        "msgs": Message.objects.all()
     }
 
     return render(request, "dashboard/messages.html", context=data)
