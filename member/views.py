@@ -2,6 +2,7 @@ import re
 import os  
 import json
 import time
+from io import BytesIO
 from PIL import Image, ImageOps
 from post.models import Post
 from django.db.models import F
@@ -15,6 +16,7 @@ from django.contrib.auth.models import User
 from notifications.models import Notification
 from django.shortcuts import render, redirect 
 from django.shortcuts import get_object_or_404
+from django.core.files.base import ContentFile
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
@@ -326,17 +328,12 @@ def ChangeMyAvatar(request):
         if not avatar.content_type.startswith("image/"):
             return JsonResponse({"success": False, "error": "Şəkil deyil"})
         
-        if avatar.size > 1 * 1024 * 1024:
-            return JsonResponse({
-                "success": False,
-                "error": "Şəklin həcmi maksiumum 1Mb ola bilər"
-            })
-
         try:
 
             avatar.seek(0) 
             img = Image.open(avatar)  
             width, height = img.size  
+            fmt = img.format or "PNG"
 
             if width < 250 or height < 250:
                 return JsonResponse({
@@ -344,21 +341,21 @@ def ChangeMyAvatar(request):
                     "error": "Şəkil minimum (250x250)px ölçüdə olmalıdır"
                 })
 
-            elif width > 250 or height > 250:
+            if width > 250 or height > 250:
                 img = ImageOps.fit(
                     img,
                     (250, 250),
                     Image.LANCZOS
-                )
+                ) 
+             
+            buffer = BytesIO()
+            img.save(buffer, format=fmt)
+            buffer.seek(0)
+            filename = os.path.basename(avatar.name)
+            avatar = ContentFile(buffer.read(), name=filename)
 
-            # if width != height or width != 250:
-            #     return JsonResponse({
-            #         "success": False,
-            #         "error": "Şəkil (250x250)px ölçüdə olmalıdır"
-            #     })
 
-
-            account = Account.objects.filter(user=request.user).first()
+            account = request.user.account
             if not account:
                 return JsonResponse({
                     "success":False,
@@ -371,11 +368,14 @@ def ChangeMyAvatar(request):
                     "error":"Şəkli dəyişmək üçün balansınızda minimum 500 xp olmalıdır"
                 })
 
-            # if account.avatar: 
-            #     old_avatar_path = account.avatar.path 
-            #     if os.path.isfile(old_avatar_path):
-            #         os.remove(old_avatar_path)
 
+
+            if avatar.size > 1 * 1024 * 1024:
+                return JsonResponse({
+                    "success": False,
+                    "error": "Şəklin həcmi maksiumum 1Mb ola bilər"
+                })
+            
             if account.avatar:
                 account.avatar.delete(save=False)
 
