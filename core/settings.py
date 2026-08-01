@@ -98,7 +98,7 @@ DATABASES = {
         "PORT": os.getenv("DB_PORT", "5432"),
         "OPTIONS": {
             "sslmode": os.getenv("DB_SSLMODE", "require"),
-            "channel_binding": os.getenv("DB_CHANNEL_BINDING", "require"),
+            # "channel_binding": os.getenv("DB_CHANNEL_BINDING", "require"),
         },
         "CONN_MAX_AGE": 60,
     }

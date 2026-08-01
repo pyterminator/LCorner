@@ -336,8 +336,9 @@ def ChangeMyAvatar(request):
 
             avatar.seek(0) 
             img = Image.open(avatar)  
-            width, height = img.size  
+            img = ImageOps.exif_transpose(img)
             fmt = img.format or "PNG"
+            width, height = img.size  
 
             if width < 250 or height < 250:
                 return JsonResponse({

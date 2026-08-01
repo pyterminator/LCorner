@@ -7,9 +7,11 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.views.decorators.http import require_POST
 from exam.models import Exam, Tag, Quiz, QuizOption
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages as alert_messages
 
 # Sentence Builder Game Ucun post.sentence-i liste cevirir
 def GenerateWordsForSB(sentence:str)-> list:
@@ -251,10 +253,10 @@ def PrepareQuizForSentenceBuilder(post:Post):
         "title": "Sözləri düzgün ardıcıllıqla yerləşdir",
         "description": post.description,
         "id": post.id,
-        "answer": sentence
+        "answer": " ".join(GenerateWordsForSB(sentence))
     }
 
-
+@user_passes_test(lambda u: u.is_staff)
 def UpdateExam(request, slug: str):
     try: 
         exam = get_object_or_404(Exam, slug=slug)
@@ -297,12 +299,6 @@ def UpdateExam(request, slug: str):
                             is_correct=(correct_answer == key)
                         )
 
-                # exam.question_count = exam.quizzes.count()
-                # exam.save(update_fields=["question_count"])
-                # Exam.objects.filter(pk=exam.pk).update(
-                #     question_count=exam.quizzes.count()
-                # )
-
                 return redirect("updateexam", slug=exam.slug)
             except:
                 return redirect("updateexam", slug=exam.slug)
@@ -310,7 +306,8 @@ def UpdateExam(request, slug: str):
 
         data = {
             "exam": exam,
-            "quizzes": quizzes
+            "quizzes": quizzes,
+            "quizzes_count": quizzes.count()
         }
         return render(request, "exam/update-exam.html", context=data)
     
@@ -318,7 +315,52 @@ def UpdateExam(request, slug: str):
         return redirect("dashboard")
 
 
+@user_passes_test(lambda u: u.is_staff)
+@require_POST
+def ActivateExam(request, id):
+    try:
+        exam = get_object_or_404(Exam, id=id)
+        if exam.author.user.id != request.user.id:
+            return JsonResponse({
+                "success": False,
+                "type": "error",
+                "message": "İcazəsiz cəhd!"
+            })
 
+        if exam.exam_type == "endless" and exam.quizzes.count() < 10: 
+            return JsonResponse({
+                "success": False, 
+                "type": "error",
+                "message": "Limitsiz sualdan ibarət olan imtahanı aktiv etmək üçün imtahanda minimum 10-sual olmalıdır."
+            })
+
+
+        if exam.is_active == True:
+            exam.is_active = False 
+            exam.save()
+            return JsonResponse({
+                "success": True,
+                "type":"success",
+                "is_activate": exam.is_active,
+                "message": "İmtahan deaktiv edildi!"
+            })
+        else:
+            exam.is_active = True
+            exam.save()
+            return JsonResponse({
+                "success": True,
+                "type":"success",
+                "is_activate": exam.is_active,
+                "message": "İmtahan aktiv edildi!"
+            })
+        
+    except:
+
+        return JsonResponse({
+            "success": False,
+            "type": "error",
+            "message": "Xəta oldu!"
+        })
 
 
 

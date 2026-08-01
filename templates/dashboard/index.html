@@ -29,9 +29,9 @@
     <div class="share-site">
         <div class="container">
             <p>Bu linki paylaş və sənin referans kodun vasitəsilə qeydiyyatdan keçən hər istifadəçi üçün 50XP qazan. Eyni zamanda paylaşdığın linklə sayta gələn hər baxış üçün 5XP qazan.</p>
-            <button onclick="copyLinkWithRC(this)" data-url="{% url 'register' %}" data-ref="{{request.user.account.referral_code}}"><i class="fa-regular fa-copy"></i> Linki kopyala</button>
-            <button onclick="shareSite(this)" data-url="{% url 'register' %}" data-ref="{{request.user.account.referral_code}}"><i class="fa-solid fa-share"></i> Paylaş</button>
-            <button onclick="shareSiteWithWP(this)" data-url="{% url 'register' %}" data-ref="{{request.user.account.referral_code}}"><i class="fa-brands fa-whatsapp"></i> ilə paylaş</button>
+            <button onclick="copyLinkWithRC(this)" data-url="{% url 'register' %}" data-ref="{{referral_code}}"><i class="fa-regular fa-copy"></i> Linki kopyala</button>
+            <button onclick="shareSite(this)" data-url="{% url 'register' %}" data-ref="{{referral_code}}"><i class="fa-solid fa-share"></i> Paylaş</button>
+            <button onclick="shareSiteWithWP(this)" data-url="{% url 'register' %}" data-ref="{{referral_code}}"><i class="fa-brands fa-whatsapp"></i> ilə paylaş</button>
         </div>
     </div>
 

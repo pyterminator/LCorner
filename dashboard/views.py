@@ -15,7 +15,7 @@ def Dashboard(request):
      
     
     posts = Post.objects.filter(approved=True).filter(is_public=True).order_by('-id')[:12]
-    my_account = Account.objects.filter(user=request.user).first()
+    my_account = request.user.account
 
     liked_posts = set(
         my_account.likes.values_list("post_id", flat=True)
@@ -25,7 +25,8 @@ def Dashboard(request):
     data = { 
         "has_post": Post.objects.filter(author=my_account).first(),
         "posts": posts,
-        "liked_posts":liked_posts
+        "liked_posts":liked_posts,
+        "referral_code": my_account.referral_code
     }
     return render(request, "dashboard/index.html", context=data)
 

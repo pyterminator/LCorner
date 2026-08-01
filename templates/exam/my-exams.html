@@ -147,7 +147,11 @@
                                     Sual sayı :
                                     <span>{{exam.quizzes.all.count}}</span> 
                                     <span>|</span>
-                                    <span>{{exam.question_count}}</span>
+                                    {% if exam.exam_type == "endless" %}
+                                        <span><i class="fa-solid fa-infinity"></i></span>
+                                    {% else %}
+                                        <span>{{exam.question_count}}</span>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -188,10 +192,10 @@
 
                     <div class="btn-group">
                         <a href="{% url 'updateexam' exam.slug %}"><i class="fa-regular fa-pen-to-square"></i> Düzəlt</a>
-                        {% if exam.is_active %}
-                            <a href="#" class="deactivate"><i class="fa-solid fa-plug-circle-xmark"></i> Deaktiv et</a>
+                        {% if exam.is_active == True %}
+                            <a href="{% url 'activateexam' exam.id %}" class="deactivate"><i class="fa-solid fa-plug-circle-xmark"></i> Deaktiv et</a>
                         {% else %}
-                            <a href="#" class="activate"><i class="fa-solid fa-plug"></i> Aktiv et</a>
+                            <a href="{% url 'activateexam' exam.id %}" class="activate"><i class="fa-solid fa-plug"></i> Aktiv et</a>
                         {% endif %}
                     </div>
                 </div>
@@ -214,4 +218,88 @@
 
 {% block scripts %}
     <!-- Scriptlərim -->
+    <script> 
+        let activate_btns = document.querySelectorAll("a.activate")
+        let deactivate_btns = document.querySelectorAll("a.deactivate")
+        activate_btns.forEach(item=>{
+            item.addEventListener("click", function(e){
+                e.preventDefault()
+                ActivateExam(item)
+            })
+        })
+        deactivate_btns.forEach(item=>{
+            item.addEventListener("click", function(e){
+                e.preventDefault()
+                ActivateExam(item)
+            })
+        })
+
+        async function ActivateExam(item){
+            const url = item.getAttribute("href")
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken")
+                }
+            })
+
+            const data = await response.json()
+
+            if (data.success){
+                let _my_cards_active = document.querySelector(".addons > .right > .card:nth-child(1) > p")
+                let _my_cards_deactive = document.querySelector(".addons > .right > .card:nth-child(2) > p")
+                
+
+                if (data.is_activate==true){
+                    item.classList = "deactivate"
+                    item.innerHTML = `<i class="fa-solid fa-plug-circle-xmark"></i> Deaktiv et`
+
+                    _my_cards_active.innerText = parseInt(_my_cards_active.innerText) + 1
+                    _my_cards_deactive.innerText = parseInt(_my_cards_deactive.innerText) - 1
+
+                } else {
+                    item.classList = "activate"
+                    item.innerHTML = `<i class="fa-solid fa-plug"></i> Aktiv et`
+
+                    _my_cards_deactive.innerText = parseInt(_my_cards_deactive.innerText) + 1
+                    _my_cards_active.innerText = parseInt(_my_cards_active.innerText) - 1
+                }
+            } else {
+                const message_type = data.type 
+                const message_text = data.message 
+                const main = document.querySelector("main");
+                main.prepend(CreateMessageBox(message_type, message_text));
+                window.scrollTo(0, 0)
+            }
+        }
+
+
+        function CreateMessageBox(message_type, message_text){
+            let div_1 = document.createElement("div")
+            div_1.className = `alert alert-${message_type}`
+
+            if (message_type=="error"){
+                let i_1 = document.createElement("i")
+                i_1.className = "fa-solid fa-triangle-exclamation" 
+                div_1.appendChild(i_1)
+            } else if (message_type == "success"){
+                let i_1 = document.createElement("i")
+                i_1.className = "fa-regular fa-circle-check" 
+                div_1.appendChild(i_1) 
+            }
+
+            let p_1 = document.createElement("p")
+            p_1.innerText = message_text
+            div_1.appendChild(p_1)
+
+            let span_1 = document.createElement("span")
+            span_1.className = "fa-solid fa-xmark"
+            span_1.setAttribute("onclick", "this.parentElement.remove()") 
+            div_1.appendChild(span_1)
+
+            return div_1
+        }
+
+    </script>
 {% endblock %}
