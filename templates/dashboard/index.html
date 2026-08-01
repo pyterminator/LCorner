@@ -69,8 +69,56 @@
         </div>
     {% endif %}
 
-    {% if posts %}
+    {% if exams %}
+        <div class="exams-container">
+            <h3 class="exams-header">Aktiv edilmiş son imtahanlar</h3>
+            <div class="exams">
+                {% for exam in exams %}
+                    <div class="exam">
+                        <a class="author" href="#">
+                            <div class="left">
+                                {% if exam.author.avatar %}
+                                    <img class="avatar" src="{{exam.author.avatar.url}}" alt="{{exam.author.user.username}}">
+                                {% else %}
+                                    <img class="default" src="{% static 'images/default-avatar.png' %}" alt="{{exam.author.user.username}}">
+                                {% endif %}
+                            </div>
+                            <div class="right">
+                                <div class="username">@{{exam.author.user.username}}</div>
+                                {% if exam.author.user.first_name or exam.author.user.last_name %}
+                                    <div class="fullname">{{exam.author.user.last_name}} {{exam.author.user.first_name}}</div>
+                                {% endif %} 
+                            </div>
+                        </a>
+                        <div class="title">{{exam.title}}</div>
+                        <div class="description">{{exam.description}}</div>
 
+
+                        <div class="addons">
+                            <div class="exam-type">
+                                Sual sayı : <span class='{{exam.exam_type}}'>{% if exam.exam_type == 'endless' %} <i class="fa-solid fa-infinity"></i> Limitsiz {% else %} <i class="fa-solid fa-clipboard-list"></i> {{exam.question_count}} sual {% endif %}</span>
+                            </div>
+                        </div>
+
+                        <a href="#" class="viewexam">İmtahana bax <i class="fa-solid fa-arrow-right-long"></i></a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        
+        <div class="line">
+            <div class="left"></div>
+            <div class="center"><span>e</span><span>Corner</span></div>
+            <div class="right"></div>
+        </div>
+    {% endif %}
+
+
+    
+
+
+    {% if posts %}
         <div class="posts-container">
             <h3 class="posts-header">Təsdiqlənmiş son postlar</h3>
             <div class="posts">

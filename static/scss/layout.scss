@@ -263,9 +263,9 @@
                         }
                     }
                 }
-
-                &>h1 {
-                    font-size: 3.2rem;
+ 
+                &>h3, &>h1{
+                    font-size: 1.8rem;
                     margin-bottom: 1rem;
                     color: var(--light);
                 }

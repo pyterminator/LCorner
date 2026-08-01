@@ -2,6 +2,7 @@ import os
 import json
 import uuid
 from post.models import Post 
+from exam.models import Exam
 from django.conf import settings
 from member.models import Account
 from django.utils.text import slugify
@@ -13,7 +14,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 @login_required
 def Dashboard(request):
      
-    
+    exams = Exam.objects.filter(is_active=True).order_by('-id')[:12]
     posts = Post.objects.filter(approved=True).filter(is_public=True).order_by('-id')[:12]
     my_account = request.user.account
 
@@ -25,6 +26,7 @@ def Dashboard(request):
     data = { 
         "has_post": Post.objects.filter(author=my_account).first(),
         "posts": posts,
+        "exams": exams,
         "liked_posts":liked_posts,
         "referral_code": my_account.referral_code
     }
