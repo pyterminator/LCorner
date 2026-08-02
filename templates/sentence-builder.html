@@ -27,27 +27,15 @@
         <h1>Cümlə qurma [Sistem oyunu]</h1>
         <p>Bu oyun sizin bəyəndiyiniz postlara əsasən sistem tərəfindən generasiya olunur. Suallarda səhv aşkar etdikdə bizə <a href="{% url 'contact' %}">Əlaqə formundan</a> bildirə bilərsiniz.</p>
 
-        <div class="change-lang"> 
-            <a href="{% url 'sentencebuilder' %}?lang=en">
-                <img src="{% static 'images/en.png' %}" draggable="false" class="flag" alt="lang_en">
-                En
-            </a>
-            <a href="{% url 'sentencebuilder' %}?lang=ge">
-                <img src="{% static 'images/ge.png' %}" draggable="false" class="flag" alt="lang_ge">
-                Ge
-            </a>
-            <a href="{% url 'sentencebuilder' %}?lang=ru">
-                <img src="{% static 'images/ru.png' %}" draggable="false" class="flag" alt="lang_ru">
-                Ru
-            </a>
-        </div>
-
         <div class="links">
             <button onclick="nextGame(this)" id="next" data-ans="{{answer}}" data-url="{% url 'sentencebuilder' %}" data-id="{{id}}">
                 <i class="fa-solid fa-rotate-right"></i>
             </button>
             <button onclick="openSentenceBuilderModal(this)" data-val="off" id="open-close-sentence-builder-modal">
                 <i class="fa-solid fa-circle-question"></i>
+            </button>
+            <button onclick="toggleSBGame(this)" id="sb-game-maximize-btn">
+                <i class="fa-solid fa-maximize"></i>
             </button>
         </div>
 
@@ -70,7 +58,7 @@
 
         <div class="game-title">
             {{title}} <span>(Sarı butonlara ardıcıllıqla kliklə)</span>
-            <p class="alert"></p>
+            <p class="sb-alert"></p>
         </div>
 
         <div class="box">
@@ -101,6 +89,7 @@
     <script src="{% static 'scripts/sb_game/next_game.js' %}"></script>
     <script src="{% static 'scripts/sb_game/get_next_game.js' %}"></script>
     <script src="{% static 'scripts/sb_game/check_answer.js' %}"></script>
+    <script src="{% static 'scripts/sb_game/maximize.js' %}"></script>
     
     
 {% endblock %}

@@ -31,7 +31,7 @@ async function getNextGame(id, userAnswer, url, btn) {
         document.querySelector(".sentence-builder .check button").dataset.id = data.id
         document.querySelector(".sentence-builder .links #next").dataset.id = data.id
         document.querySelector(".sentence-builder .links #next").dataset.ans = data.answer
-        document.querySelector(".game-title p.alert").innerText = ""
+        document.querySelector(".game-title p.sb-alert").innerText = ""
 
         let modal_p = document.querySelector(".sentence-builder .modal p")
         modal_p.innerHTML = `${data.answer}<span class="hr"></span>${data.description}`
@@ -40,7 +40,7 @@ async function getNextGame(id, userAnswer, url, btn) {
             "level": data.level
         }
     } else {
-        document.querySelector(".game-title p.alert").innerText = data.message
+        document.querySelector(".game-title p.sb-alert").innerText = data.message
         answerButtons.forEach(element => {
             element.click()
         });

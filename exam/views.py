@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 from exam.models import Exam, Tag, Quiz, QuizOption
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib import messages as alert_messages
+from notifications.models import Notification
 
 # Sentence Builder Game Ucun post.sentence-i liste cevirir
 def GenerateWordsForSB(sentence:str)-> list:
@@ -41,8 +41,8 @@ def MyExams(request):
 @user_passes_test(lambda u: u.is_staff)
 def CreateNewExam(request):
 
-    if request.user.account.xp <= 500:
-        messages.error(request, "İmtahan yaratmaq üçün minimum 500 XP lazımdır.")
+    if (not request.user.is_superuser) and request.user.account.xp <= 100:
+        messages.error(request, "İmtahan yaratmaq üçün minimum 100 XP lazımdır.")
         return redirect("myexams")
 
     if request.method == "POST":
@@ -92,6 +92,14 @@ def CreateNewExam(request):
                 )
 
                 exam.tags.set(new_tags)
+
+                if not request.user.is_superuser:
+                    request.user.account.add_xp(-100)
+                    Notification.objects.create(
+                        account=request.user.account,
+                        type="SYSTEM",
+                        message=f"İmtahan üçün hesabdan 100xp silindi."
+                    )
             
     
 
@@ -107,42 +115,6 @@ def CreateNewExam(request):
             })
 
     return render(request, "exam/create-new-exam.html") 
-
-def PublicSentenceBuilder(request):
-    if request.method == "POST": 
-        body = json.loads(request.body)
-        
-        post_id = body.get("id", None) 
-        user_answer = body.get("user_answer", None)
-
-        get_post = Post.objects.filter(id=post_id).first() 
-
-        answer = get_post.sentence.lower()
-        # answer = re.sub(r"[^a-zA-Z0-9'\s]", "", answer)
-        # answer = re.sub(r"[^a-zA-Z0-9ÄäÖöÜüẞßА-Яа-яЁё'\s]", "", answer)
-
-        answer = GenerateWordsForSB(answer)
-        answer = " ".join([w.strip() for w in answer]) 
-        
-        if answer == user_answer:
-            new_post = GetPostForPublicSentenceBuilder(request, get_post)
-            data = PrepareQuizForSentenceBuilder(new_post)
-            data["success"] = True
-            data["xp"] = None
-            data["level"] = None
-
-            return JsonResponse(data)
-        else: 
-            return JsonResponse({
-                "success": False,
-                "message":"Cavab yanlışdır!"
-            })
-         
-
-    post = GetPostForPublicSentenceBuilder(request)
-    if not post: return redirect("dashboard")
-    data = PrepareQuizForSentenceBuilder(post)
-    return render(request, "public-sentence-builder.html", context=data)
 
 @login_required
 def SentenceBuilder(request):
@@ -209,25 +181,6 @@ def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
             post = queryset[random.randint(0, count - 1)] 
     return post
 
-def GetPostForPublicSentenceBuilder(request, p:Post|None=None):
-
-    if lang := request.GET.get("lang", ""):
-        lang: str = lang.upper()
-        if lang not in ["EN", "RU", "GE"]:
-            lang = "EN"
-        posts = Post.objects.filter(approved=True, is_public=True, lang=lang).all()
-    else:
-        posts = Post.objects.filter(approved=True, is_public=True).all()
-
-
-    post = random.choice(posts) if posts else None
-    
-    if p:
-        while post.id == p.id:
-            post = random.choice(posts) if posts else None
-
-    return post
-
 
 def GenerateWordsForSB(sentence:str)-> list:
     sentence = sentence.replace("’", "'").replace("`", "'").replace("‘", "'")
@@ -239,7 +192,6 @@ def GenerateWordsForSB(sentence:str)-> list:
     )
     words = sentence.split() 
     return words
-
 
 def PrepareQuizForSentenceBuilder(post:Post):
     sentence = post.sentence.lower()

@@ -39,28 +39,6 @@
         }
     }
 
-    .change-lang{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 3rem;
-        margin-bottom: 2rem; 
-        a{
-            width: 6rem;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            color: var(--light);
-            gap: 1rem;
-            img{
-                width: 3rem; 
-                object-fit: cover;
-                object-position: center;
-            }
-        }
-    }
-
     .modal{
         position: absolute;
         top: 0;
@@ -78,6 +56,10 @@
         font-size: 1.4rem;
         text-align: center;
         z-index: 5;
+        p{
+            max-width: 80%;
+            margin: 0 auto;
+        }
         span.hr{
             display:block;
             width: 100%;
@@ -130,6 +112,7 @@
             color: var(--danger);
         }
         p{
+            margin: 1rem 0;
             font-size: 1.2rem;
             color: var(--danger);
             width: 100%; 

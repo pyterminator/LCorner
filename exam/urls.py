@@ -1,5 +1,5 @@
 from django.urls import path 
-from exam.views import MyExams, CreateNewExam, SentenceBuilder, PublicSentenceBuilder, UpdateExam, ActivateExam
+from exam.views import MyExams, CreateNewExam, SentenceBuilder, UpdateExam, ActivateExam
 
 
 urlpatterns = [
@@ -8,5 +8,4 @@ urlpatterns = [
     path('update/<str:slug>', UpdateExam, name="updateexam"),
     path('activate-exam/<int:id>', ActivateExam, name="activateexam"),
     path("system-sentence-builder-game", SentenceBuilder, name="sentencebuilder"),
-    path("public-sentence-builder-game", PublicSentenceBuilder, name="publicsentencebuilder"),
 ]
