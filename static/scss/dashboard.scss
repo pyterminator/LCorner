@@ -142,9 +142,10 @@
     border-radius: 1rem;
 
     h3.exams-header {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         margin-bottom: 1rem;
         color: var(--light);
+        font-weight: 400;
     }
 
     .exams{
@@ -157,10 +158,39 @@
         .exam{
             padding: 1rem;
             background-color: var(--input-bg);
-            width: calc((100% - 2rem) / 3);
-            min-width: 35rem;
+            width: calc((100% - 2rem) / 3); 
             border-radius: 1rem;
             color: var(--light);
+            position: relative;
+
+            .difficulty{
+                width: 3.5rem;
+                height: 1.6rem; 
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                border-radius: .4rem;
+                line-height: 1.4rem;
+                border: .1rem dotted var(--main);
+                text-align: center;
+                font-size: 1rem;
+                font-weight: 500;
+                color: var(--all-light);
+                box-shadow:
+                    inset 0 .1rem 0 rgba(255, 255, 255, .15),
+                    inset 0 -.25rem 0 rgba(0, 0, 0, .35);
+            }
+
+            .difficulty.easy{
+                background-color: var(--success); 
+            }
+            .difficulty.medium{
+                background-color: var(--badge); 
+            }
+            .difficulty.hard{
+                background-color: var(--danger); 
+            }
+
             .title{
                 font-size: 1.4rem;
                 font-weight: 600;
@@ -180,6 +210,7 @@
                 align-items: center;
                 gap: 1rem;
                 margin: 1rem 0;
+                width: calc(100% - 5rem);
                 .left{
                     width: 6rem;
                     height: 6rem;
@@ -242,7 +273,13 @@
 
             .addons{ 
                 margin: .5rem 0;
-                .exam-type{
+                display: flex;
+                justify-content: flex-start;
+                align-items: stretch;
+                flex-wrap: wrap;
+                gap: .3rem;
+
+                .exam-type, .earn-xp{
                     font-size: 1rem;
                     margin: .3rem 0;
                     display: inline-block;
@@ -254,12 +291,27 @@
                         font-weight: 600;
                         color: var(--light);
                     }
+                }
+
+                .exam-type{  
                     span.endless i{
-                        color: rebeccapurple;
+                        color: var(--star);
                     }
                     span.limited i{
-                        color: var(--bg);
+                        color: var(--badge);
                     }
+                }
+
+                .earn-xp{
+                    &>span{
+                        span.endless{
+                            color: var(--star);
+                        }
+                        span.limited{
+                            color: var(--badge);
+                        }
+                    }
+                   
                 }
             }
         }
@@ -274,9 +326,10 @@
     border-radius: 1rem;
 
     h3.posts-header {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         margin-bottom: 1rem;
         color: var(--light);
+        font-weight: 400;
     }
 
     .posts {
@@ -598,6 +651,15 @@
             }
         }
     }
+
+    .exams-container{ 
+        .exams{  
+            .exam{
+                width: calc((100% - 1rem) / 2); 
+            }
+        }
+    }
+
 }
 
 @media only screen and (max-width: 900px) {
@@ -611,6 +673,15 @@
         .posts {
             .post {
                 width: 100%;
+            }
+        }
+    }
+
+    .exams-container{ 
+        padding: 0;
+        .exams{  
+            .exam{
+                width: 100%; 
             }
         }
     }

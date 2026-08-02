@@ -72,10 +72,19 @@
     {% if exams %}
         <div class="exams-container">
             <h3 class="exams-header">Aktiv edilmiş son imtahanlar</h3>
-            <div class="exams">
+            <div class="exams"> 
                 {% for exam in exams %}
                     <div class="exam">
-                        <a class="author" href="#">
+                        <div class="difficulty {{exam.difficulty}}">
+                            {% if exam.difficulty == 'easy' %}
+                                asan 
+                            {% elif exam.difficulty == 'medium' %}
+                                orta
+                            {% else %}
+                                çətin
+                            {% endif %}
+                        </div>
+                        <a class="author" href="{% url 'myaccount' exam.author.user.username %}">
                             <div class="left">
                                 {% if exam.author.avatar %}
                                     <img class="avatar" src="{{exam.author.avatar.url}}" alt="{{exam.author.user.username}}">
@@ -90,19 +99,32 @@
                                 {% endif %} 
                             </div>
                         </a>
-                        <div class="title">{{exam.title}}</div>
-                        <div class="description">{{exam.description}}</div>
+                        <div class="title">
+                            {{exam.title|slice:"0:50"}} {% if exam.title|length > 50 %} ... {% endif %}
+                        </div>
+                        <div class="description">{{exam.description|slice:"0:50"}} {% if exam.description|length > 50 %} ... {% endif %}</div>
 
 
                         <div class="addons">
                             <div class="exam-type">
                                 Sual sayı : <span class='{{exam.exam_type}}'>{% if exam.exam_type == 'endless' %} <i class="fa-solid fa-infinity"></i> Limitsiz {% else %} <i class="fa-solid fa-clipboard-list"></i> {{exam.question_count}} sual {% endif %}</span>
                             </div>
+                            <div class="earn-xp">
+                                Qazandıracağı xal : 
+                                <span>
+                                    {% if exam.exam_type == 'endless' %}
+                                        <span class="endless">+0.1 XP</span> / doğru
+                                    {% else %}
+                                        <span class="limited">{{exam.earn_xp}}</span>xp
+                                    {% endif %}
+                                </span>
+                            </div> 
                         </div>
+
 
                         <a href="#" class="viewexam">İmtahana bax <i class="fa-solid fa-arrow-right-long"></i></a>
                     </div>
-                {% endfor %}
+                {% endfor %} 
             </div>
         </div>
         
@@ -112,9 +134,7 @@
             <div class="center"><span>e</span><span>Corner</span></div>
             <div class="right"></div>
         </div>
-    {% endif %}
-
-
+    {% endif %} 
     
 
 
