@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - {{ exam.title }}
+    </title>
+{% endblock %}
+
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/exam-detail.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb">
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>İmtahan detal səhifəsi</span>
+    </div>
+
+    <div class="exam-detail">
+        <div class="exam-type">
+            {% if exam.exam_type == 'endless' %}
+                <span class="exam-type-text">Limitsiz sual sayı</span>
+            {% elif exam.exam_type == 'limited' %}
+                <span class="exam-type-text">Məhdud sual sayı : {{exam.question_count}}</span>
+            {% endif %}
+        </div>
+        <h1>{{ exam.title }}</h1>
+        <p>
+            {{ exam.description }}
+        </p>
+        <div class="tags">
+            {% for tag in exam.tags.all %}
+                <div class="tag">
+                    <div class="sharp">#</div>
+                    <div class="tag-text">{{tag.name}}</div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a href="" class="start">İmtahana başla</a>
+    </div>
+
+    
+{% endblock %}
+
+<!-- Scripts -->
+{% block scripts %}
+{% endblock %}

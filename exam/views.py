@@ -316,6 +316,25 @@ def ActivateExam(request, id):
 
 
 
+def ExamDetailView(request, slug):
+    try:
+        exam = get_object_or_404(Exam, slug=slug)
+        quizzes = exam.quizzes.all().order_by("-id")
+
+
+        data = {
+            "exam": exam,
+            "quizzes": quizzes,
+            "quizzes_count": quizzes.count()
+        }
+    
+        return render(request, "exam/exam-detail.html", context=data)
+
+    except Exam.DoesNotExist:
+        return redirect("dashboard")
+
+    
+
 
 
 
