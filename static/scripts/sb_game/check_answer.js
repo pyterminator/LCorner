@@ -7,6 +7,9 @@ async function checkAnswer(btn) {
         return;
     }
 
+    btn.setAttribute("disabled", true)
+    btn.querySelector("i").className="fa-solid fa-spinner fa-spin"
+
 
     const url = btn.dataset.url
     const id = btn.dataset.id
@@ -37,6 +40,7 @@ async function checkAnswer(btn) {
             xplcl.innerHTML = res.level
         }
 
+        btn.removeAttribute("disabled")
+        btn.querySelector("i").className = "fa-regular fa-square-check"
     }
-
 } 

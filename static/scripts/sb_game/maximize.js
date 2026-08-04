@@ -1,8 +1,10 @@
 function toggleSBGame(btn) {
     if (document.fullscreenElement) {
         document.exitFullscreen();
+        document.body.querySelector("#xp-level").style.backgroundColor = "transparent";
     } else {
         document.body.requestFullscreen();
+        document.body.querySelector("#xp-level").style.backgroundColor = "var(--main)";
     }
 }
 
