@@ -6,7 +6,7 @@
     margin-bottom: 1rem;
 
     .container {
-        color: var(--light);
+        color: var(--all-light);
         border-radius: 1rem;
         background-color: var(--bg);
         padding: 2rem;
@@ -259,6 +259,7 @@
                 padding: 1rem 1.5rem;
                 text-align: center;
                 font-size: 1.2rem;
+                color: var(--all-light);
 
                 i{
                     margin-left: 1rem;

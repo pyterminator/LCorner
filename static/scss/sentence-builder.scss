@@ -1,45 +1,55 @@
 @use "_extends";
 
-.sentence-builder{
+.sentence-builder {
     position: relative;
     overflow-x: hidden;
-    &>h1{
+
+    &>h1 {
         font-size: 1.8rem;
         margin-bottom: 1rem;
         color: var(--light);
     }
-    &>h1+p{
+
+    &>h1+p {
         font-size: 1.2rem;
         color: var(--main-dark);
         margin-bottom: 2rem;
-        a{
+
+        a {
             color: var(--link);
         }
     }
 
-    .links{
+    .links {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 2rem;
         margin-bottom: 3rem;
 
-        button{
+        button {
             @extend %button-style;
             width: 5rem;
             height: 5rem;
             font-size: 1.6rem;
             color: var(--all-light);
-            &:nth-child(1){
+
+            &:nth-child(1) {
                 background-color: var(--danger);
             }
-            &:nth-child(2){
+
+            &:nth-child(2) {
                 background-color: var(--link);
+            }
+
+            &:nth-child(3) {
+                background-color: var(--all-light);
+                color: var(--all-dark);
             }
         }
     }
 
-    .modal{
+    .modal {
         position: absolute;
         top: 0;
         left: -5%;
@@ -47,7 +57,7 @@
         right: -5%;
         width: 110%;
         height: 100%;
-        background-color: var(--input-bg); 
+        background-color: var(--input-bg);
         display: none;
         justify-content: center;
         align-items: center;
@@ -56,34 +66,36 @@
         font-size: 1.4rem;
         text-align: center;
         z-index: 5;
-        p{
+
+        p {
             max-width: 80%;
             margin: 0 auto;
         }
-        span.hr{
-            display:block;
+
+        span.hr {
+            display: block;
             width: 100%;
             margin: 1rem 0;
             height: .1rem;
             background-color: var(--main-dark);
         }
 
-        i{  
+        i {
             @extend %button-style;
             position: absolute;
             top: 2rem;
-            right: calc(5% + 2rem); 
+            right: calc(5% + 2rem);
             width: 4rem;
             height: 4rem;
             font-size: 1.4rem;
             line-height: 3rem;
-            background-color: var(--danger); 
+            background-color: var(--danger);
             color: var(--all-light);
             cursor: pointer;
         }
     }
 
-    .btns{
+    .btns {
         display: flex;
         width: 100%;
         gap: 1rem;
@@ -92,38 +104,41 @@
         align-items: flex-start;
         margin-bottom: 2rem;
 
-        button{
+        button {
             @extend %button-style;
             background-color: var(--star);
             color: var(--dark);
-            &:disabled{
+
+            &:disabled {
                 background-color: var(--btn-bg);
                 color: var(--light);
             }
         }
     }
 
-    .game-title{
+    .game-title {
         text-align: center;
         font-size: 1.4rem;
         color: var(--light);
         margin-bottom: 3rem;
-        span{
+
+        span {
             color: var(--danger);
         }
-        p{
+
+        p {
             margin: 1rem 0;
             font-size: 1.2rem;
             color: var(--danger);
-            width: 100%; 
+            width: 100%;
             text-align: center;
             display: block;
         }
     }
 
 
-    .box{
-        width: 100%; 
+    .box {
+        width: 100%;
         min-height: 5.2rem;
         display: flex;
         justify-content: center;
@@ -133,15 +148,18 @@
         border-radius: 1rem;
         gap: .5rem;
         background-color: var(--input-bg);
-        button{
+
+        button {
             @extend %button-style;
             background-color: var(--bg);
             color: var(--all-light);
-            &:disabled{
-                &:hover{
+
+            &:disabled {
+                &:hover {
                     cursor: default;
                 }
-                &:active{
+
+                &:active {
                     transform: none;
                     box-shadow: none;
                 }
@@ -149,18 +167,19 @@
         }
     }
 
-    .check{
+    .check {
         margin-top: 2rem;
         margin-bottom: 2rem;
         display: flex;
         justify-content: center;
         align-items: center;
-        button{
+
+        button {
             @extend %button-style;
             width: 25rem;
             height: 6rem;
             background-color: var(--bg);
-            color: var(--all-light); 
+            color: var(--all-light);
         }
     }
 }
