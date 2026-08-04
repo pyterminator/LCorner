@@ -334,7 +334,22 @@ def ExamDetailView(request, slug):
         return redirect("dashboard")
 
     
+def ExamPano(request, slug):
+    try:
+        exam = get_object_or_404(Exam, slug=slug)
+        # quizzes = exam.quizzes.all().order_by("-id")
 
+
+        data = {
+            "exam": exam,
+            # "quizzes": quizzes,
+            # "quizzes_count": quizzes.count()
+        }
+    
+        return render(request, "exam/exam-pano.html", context=data)
+
+    except Exam.DoesNotExist:
+        return redirect("dashboard")
 
 
 

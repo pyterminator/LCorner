@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - {{ exam.title }}
+    </title>
+{% endblock %}
+
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/exam-pano.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+
+    <!-- Breadcrumb olmaz -->
+
+    <div class="exam-pano">
+        <div class="exam-box">
+            <div class="header">
+                <div class="left">Sual</div>
+                <div class="right">
+                    <button>
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="text">
+                Pythonda listin sonuncu elementini necə seçmək olar :
+            </div>
+
+            <div class="options">
+                <label class="option" for="xs-1-a">
+                    <input type="radio" name="answer" value="a" id="xs-1-a">
+
+                    <span>a</span>
+                    <p>my_list[:-1:]</p>
+                </label>
+                <label class="option" for="xs-1-b">
+                    <input type="radio" name="answer" value="b" id="xs-1-b">
+                    
+                    <span>b</span>
+                    <p>my_list[:-1:]</p>
+                </label>
+                <label class="option" for="xs-1-c">
+                    <input type="radio" name="answer" value="c" id="xs-1-c">
+
+                    <span>c</span>
+                    <p>my_list[:-1:]</p>
+                </label>
+                <label class="option" for="xs-1-d">
+                    <input type="radio" name="answer" value="d" id="xs-1-d">
+
+                    <span>d</span>
+                    <p>my_list[:-1:]</p>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}
+
+<!-- Scripts -->
+{% block scripts %}
+{% endblock %}
