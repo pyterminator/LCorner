@@ -19,7 +19,7 @@
 
     <!-- Breadcrumb olmaz -->
 
-    <div class="exam-pano">
+    <div class="exam-pano" data-url="{% url 'generatequizforexampano' exam.slug %}">
         <div class="header">
             <div class="left">Sual</div>
             <div class="right">
@@ -55,7 +55,7 @@
 
         createExamBox("Bakı hansı ölkənin paytaxtıdır ?")
 
-        function createExamBox(text){
+        async function createExamBox(text){
             let exam_pano_h = document.querySelector(".exam-pano > .header")
 
             let exam_box = document.createElement("div")
@@ -79,6 +79,7 @@
             exam_box.appendChild(options)
 
             exam_pano_h.insertAdjacentElement("afterend", exam_box);
+            await getQuizForExamPano()
         }
 
 
@@ -105,6 +106,29 @@
 
             return lbl
         }
+    
+    
+        async function getQuizForExamPano(){
+            let url = document.querySelector("exam-pano").dataset.url 
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                // body: JSON.stringify({
+                //     "id": id,
+                //     "user_answer": userAnswer
+                // })
+            })
+
+            const data = await response.json()
+            console.log(data)
+        }
+    
+    
     </script>
 
 

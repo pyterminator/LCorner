@@ -351,5 +351,38 @@ def ExamPano(request, slug):
     except Exam.DoesNotExist:
         return redirect("dashboard")
 
+@require_POST
+def GenerateQuizForExamPano(request, slug):
+    try:
+        exam = get_object_or_404(Exam, slug=slug)
 
+        quizzes = exam.quizzes.all()
+        count = quizzes.count() 
+
+        if count == 0:
+            return JsonResponse({
+                "success": False,
+                "message": "Bu imtahanda sual yoxdur."
+            })
+
+
+        if exam.exam_type == "endless":
+            quiz: Quiz = quizzes[random.randint(0, count - 1)]
+            return JsonResponse({
+                "success": True,
+                "id": quiz.id,
+                "text": quiz.question,
+                "options": quiz.options
+            })
+
+        return JsonResponse({
+            "success": True,
+            "message": "Limitli sual ucun generasiya hazir deyil"
+        })
+
+    except Exam.DoesNotExist:
+        return JsonResponse({
+            "success": False,
+            "message": "Yanlış cəhd!"
+        })
 
