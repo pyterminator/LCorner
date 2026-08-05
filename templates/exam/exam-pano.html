@@ -52,10 +52,7 @@
 
 
     <script>
-
-        createExamBox("Bakı hansı ölkənin paytaxtıdır ?")
-
-        async function createExamBox(text){
+        async function createExamBox(text, opts, quiz_id){
             let exam_pano_h = document.querySelector(".exam-pano > .header")
 
             let exam_box = document.createElement("div")
@@ -71,26 +68,28 @@
             let options = document.createElement("div")
             options.className = "options"
 
-            for (const element of ['a', 'b', 'c', 'd']) {
-                let opt_lbl = createOptionLabel(`xs-opt-${element}`, element, "Lorem ipsum dolor sit amet")
+            let i = 0;
+            let opts_letters = ["a", "b", "c", "d"]
+            for (const element of opts) {
+                let opt_lbl = createOptionLabel(`xs-opt-${opts_letters[i]}`, opts_letters[i], element.text, quiz_id)
                 options.appendChild(opt_lbl)
+                i++;
             }
 
             exam_box.appendChild(options)
 
-            exam_pano_h.insertAdjacentElement("afterend", exam_box);
-            await getQuizForExamPano()
+            exam_pano_h.insertAdjacentElement("afterend", exam_box); 
         }
 
 
-        function createOptionLabel(id, opt, opt_text){
+        function createOptionLabel(id, opt, opt_text, quiz_id){
             let lbl = document.createElement("label")
             lbl.className = "option"
             lbl.setAttribute("for", id)
 
             let lbl_input = document.createElement("input")
             lbl_input.setAttribute("type", "radio")
-            lbl_input.setAttribute("name", "answer")
+            lbl_input.setAttribute("name", `${quiz_id}-answer`)
             lbl_input.setAttribute("value", opt)
             lbl_input.setAttribute("id", id)
 
@@ -109,7 +108,7 @@
     
     
         async function getQuizForExamPano(){
-            let url = document.querySelector("exam-pano").dataset.url 
+            let url = document.querySelector(".exam-pano").dataset.url 
             const response = await fetch(url, {
                 method: "POST",
 
@@ -125,8 +124,13 @@
             })
 
             const data = await response.json()
-            console.log(data)
+            if (data.success){
+                console.log(data)
+                createExamBox(data.text, data.options, data.id)
+            }
         }
+
+        getQuizForExamPano()
     
     
     </script>

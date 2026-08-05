@@ -372,11 +372,18 @@ def GenerateQuizForExamPano(request, slug):
                 "success": True,
                 "id": quiz.id,
                 "text": quiz.question,
-                "options": quiz.options
+                "options": [
+                    {
+                        "id": option.id,
+                        "text": option.text,
+                        "is_correct": option.is_correct,
+                    }
+                    for option in quiz.options.all()
+                ]
             })
 
         return JsonResponse({
-            "success": True,
+            "success": False,
             "message": "Limitli sual ucun generasiya hazir deyil"
         })
 
