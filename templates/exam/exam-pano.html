@@ -28,38 +28,9 @@
                 </button>
             </div>
         </div>
-        <div class="exam-box">
-            <div class="text">
-                Pythonda listin sonuncu elementini necə seçmək olar :
-            </div>
+        
+        <!-- ExamBox -->
 
-            <div class="options">
-                <label class="option" for="xs-1-a">
-                    <input type="radio" name="answer" value="a" id="xs-1-a">
-
-                    <span>a</span>
-                    <p>my_list[:-1:]</p>
-                </label>
-                <label class="option" for="xs-1-b">
-                    <input type="radio" name="answer" value="b" id="xs-1-b">
-                    
-                    <span>b</span>
-                    <p>my_list[:-1:]</p>
-                </label>
-                <label class="option" for="xs-1-c">
-                    <input type="radio" name="answer" value="c" id="xs-1-c">
-
-                    <span>c</span>
-                    <p>my_list[:-1:]</p>
-                </label>
-                <label class="option" for="xs-1-d">
-                    <input type="radio" name="answer" value="d" id="xs-1-d">
-
-                    <span>d</span>
-                    <p>my_list[:-1:]</p>
-                </label>
-            </div>
-        </div>
         <div class="button-group">
             <button>
                 <i class="fa-solid fa-arrow-left"></i> Əvvəlki
@@ -78,4 +49,63 @@
 
 <!-- Scripts -->
 {% block scripts %}
+
+
+    <script>
+
+        createExamBox("Bakı hansı ölkənin paytaxtıdır ?")
+
+        function createExamBox(text){
+            let exam_pano_h = document.querySelector(".exam-pano > .header")
+
+            let exam_box = document.createElement("div")
+            exam_box.className = "exam-box"
+
+            let text_box = document.createElement("div")
+            text_box.className = "text"
+            text_box.innerText = text 
+
+            exam_box.appendChild(text_box)
+
+
+            let options = document.createElement("div")
+            options.className = "options"
+
+            for (const element of ['a', 'b', 'c', 'd']) {
+                let opt_lbl = createOptionLabel(`xs-opt-${element}`, element, "Lorem ipsum dolor sit amet")
+                options.appendChild(opt_lbl)
+            }
+
+            exam_box.appendChild(options)
+
+            exam_pano_h.insertAdjacentElement("afterend", exam_box);
+        }
+
+
+        function createOptionLabel(id, opt, opt_text){
+            let lbl = document.createElement("label")
+            lbl.className = "option"
+            lbl.setAttribute("for", id)
+
+            let lbl_input = document.createElement("input")
+            lbl_input.setAttribute("type", "radio")
+            lbl_input.setAttribute("name", "answer")
+            lbl_input.setAttribute("value", opt)
+            lbl_input.setAttribute("id", id)
+
+            let sp = document.createElement("span")
+            sp.innerText = opt 
+
+            let p = document.createElement("p")
+            p.innerText = opt_text
+
+            lbl.appendChild(lbl_input)
+            lbl.appendChild(sp)
+            lbl.appendChild(p)
+
+            return lbl
+        }
+    </script>
+
+
 {% endblock %}
