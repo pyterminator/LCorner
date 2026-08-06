@@ -30,7 +30,6 @@
         </div>
         
         <!-- ExamBox -->
-
         <div class="button-group">
             <button>
                 <i class="fa-solid fa-arrow-left"></i> Əvvəlki
@@ -38,7 +37,7 @@
             <span>
                 5
             </span>
-            <button>
+            <button onclick="nextQuiz(this)">
                 Sonrakı <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
@@ -57,6 +56,7 @@
 
             let exam_box = document.createElement("div")
             exam_box.className = "exam-box"
+            exam_box.dataset.id = quiz_id
 
             let text_box = document.createElement("div")
             text_box.className = "text"
@@ -107,7 +107,10 @@
         }
     
     
-        async function getQuizForExamPano(){
+        async function getQuizForExamPano(id=null, btn=null){
+            let sp = document.querySelector(".exam-pano > .button-group > span")
+            sp.innerHTML = `<i class='fa-solid fa-spinner fa-spin'></i>`
+
             let url = document.querySelector(".exam-pano").dataset.url 
             const response = await fetch(url, {
                 method: "POST",
@@ -117,20 +120,33 @@
                     "X-CSRFToken": getCookie("csrftoken"),
                 },
 
-                // body: JSON.stringify({
-                //     "id": id,
-                //     "user_answer": userAnswer
-                // })
+                body: JSON.stringify({
+                    "id": id ? id : null
+                    // "user_answer": userAnswer
+                })
             })
 
             const data = await response.json()
+
+            if (id && data.success && btn){
+                document.querySelector(".exam-box").remove()
+                btn.removeAttribute("disabled")
+            }
+
             if (data.success){
-                console.log(data)
                 createExamBox(data.text, data.options, data.id)
+                sp.innerHTML = 5                
             }
         }
 
         getQuizForExamPano()
+
+        // Next Quiz Button
+        function nextQuiz(btn){
+            btn.setAttribute("disabled", true)
+            let id = btn.parentElement.previousElementSibling.dataset.id 
+            getQuizForExamPano(id, btn)
+        }
     
     
     </script>

@@ -356,7 +356,13 @@ def GenerateQuizForExamPano(request, slug):
     try:
         exam = get_object_or_404(Exam, slug=slug)
 
-        quizzes = exam.quizzes.all()
+        posted_data = json.loads(request.body)
+        quiz_id = posted_data.get("id", None)
+        if quiz_id:
+            quizzes = exam.quizzes.exclude(id=5)
+        else:
+            quizzes = exam.quizzes.all()
+            
         count = quizzes.count() 
 
         if count == 0:
