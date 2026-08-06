@@ -12,6 +12,7 @@
 <!-- Style -->
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/exam-pano.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 {% endblock %}
 
 
@@ -92,6 +93,7 @@
             lbl_input.setAttribute("name", `${quiz_id}-answer`)
             lbl_input.setAttribute("value", opt)
             lbl_input.setAttribute("id", id)
+            lbl_input.setAttribute("onclick", "checkAnswer(this)")
 
             let sp = document.createElement("span")
             sp.innerText = opt 
@@ -148,6 +150,30 @@
             getQuizForExamPano(id, btn)
         }
     
+        // Check answer
+        async function checkAnswer(input){
+            let url = document.querySelector(".exam-box").dataset.url 
+            let id = document.querySelector(".exam-box").dataset.id 
+            let answer = input.value 
+
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                body: JSON.stringify({
+                    "id": id ? id : null,
+                    "answer": answer
+                })
+            })
+
+            const data = await response.json()
+            console.log(data)
+
+        }
     
     </script>
 

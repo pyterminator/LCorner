@@ -1,5 +1,5 @@
 from django.urls import path 
-from exam.views import MyExams, CreateNewExam, SentenceBuilder, UpdateExam, ActivateExam, ExamDetailView, ExamPano, GenerateQuizForExamPano
+from exam.views import MyExams, CreateNewExam, SentenceBuilder, UpdateExam, ActivateExam, ExamDetailView, ExamPano, GenerateQuizForExamPano, CheckAnswer
 
 
 urlpatterns = [

@@ -399,3 +399,30 @@ def GenerateQuizForExamPano(request, slug):
             "message": "Yanlış cəhd!"
         })
 
+
+@require_POST
+def CheckAnswer(request):
+    try:
+        data = json.loads(request.body)
+        id = data.get("id", None)
+        answer = data.get("answer", None)
+
+        quiz = get_object_or_404(Quiz, id=id)
+        options : QuizOption = quiz.options.all()
+
+        opt_letters = ['a', 'b', 'c', 'd']
+
+        if opt := options[opt_letters.index(answer)]:
+            if opt.is_correct:
+                return JsonResponse({
+                    "success": True
+                })
+
+        return JsonResponse({
+            "success": False
+        })
+    
+    except:
+        return JsonResponse({
+            "success": False
+        })
