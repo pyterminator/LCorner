@@ -20,7 +20,7 @@
 
     <!-- Breadcrumb olmaz -->
 
-    <div class="exam-pano" data-url="{% url 'generatequizforexampano' exam.slug %}">
+    <div class="exam-pano" data-url="{% url 'generatequizforexampano' exam.slug %}" data-uri="{% url 'exampanocheckanswer' %}">
         <div class="header">
             <div class="left">Sual</div>
             <div class="right">
@@ -32,13 +32,13 @@
         
         <!-- ExamBox -->
         <div class="button-group">
-            <button>
+            <button id="get-prev-quiz">
                 <i class="fa-solid fa-arrow-left"></i> Əvvəlki
             </button>
             <span>
                 5
             </span>
-            <button onclick="nextQuiz(this)">
+            <button onclick="nextQuiz(this)" id="get-next-quiz">
                 Sonrakı <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
@@ -152,7 +152,19 @@
     
         // Check answer
         async function checkAnswer(input){
-            let url = document.querySelector(".exam-box").dataset.url 
+            let getNextQuizbtn = document.getElementById("get-next-quiz")
+            let getPrevQuizbtn = document.getElementById("get-prev-quiz")
+            getNextQuizbtn.disabled = true
+            getPrevQuizbtn.disabled = true
+
+
+            let inputs = input.parentElement.parentElement.querySelectorAll("input")
+            inputs.forEach(element => {
+                element.setAttribute("disabled", true)
+            });
+
+
+            let url = document.querySelector(".exam-pano").dataset.uri
             let id = document.querySelector(".exam-box").dataset.id 
             let answer = input.value 
 
@@ -166,13 +178,26 @@
 
                 body: JSON.stringify({
                     "id": id ? id : null,
-                    "answer": answer
+                    "answer": answer ? answer : null
                 })
             })
 
             const data = await response.json()
-            console.log(data)
-
+            const examPano = document.querySelector(".exam-pano");
+            examPano.classList.remove("animate__animated", "animate__flash", "animate__headShake");
+            void examPano.offsetWidth;
+            
+            if (data.success==true){
+                examPano.classList.add("animate__animated", "animate__flash");
+                input.nextElementSibling.style.backgroundColor = "var(--bg)"
+                input.nextElementSibling.style.color = "var(--all-light)"
+            } else {
+                examPano.classList.add("animate__animated", "animate__headShake");
+                input.nextElementSibling.style.backgroundColor = "var(--danger)"
+                input.nextElementSibling.style.color = "var(--all-light)"
+            }
+            getNextQuizbtn.disabled = false
+            getPrevQuizbtn.disabled = false
         }
     
     </script>
