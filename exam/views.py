@@ -217,12 +217,11 @@ def UpdateExam(request, slug: str):
             
 
         if request.method == "POST":
-            quiz_text_title = request.POST.get("quiz_text_title", "")
-            option_a = request.POST.get("option_a", "")
-            option_b = request.POST.get("option_b", "")
-            option_c = request.POST.get("option_c", "")
-            option_d = request.POST.get("option_d", "")
-            correct_answer = request.POST.get("correct_answer", "")
+            data = json.loads(request.body)
+
+            quiz_text_title = data.get("question", "")
+            options = data.get("options", [])
+            correct_answer = data.get("correct_answer", "")
 
             last_order = (
                 exam.quizzes.aggregate(Max("order"))["order__max"] or 0
@@ -230,10 +229,10 @@ def UpdateExam(request, slug: str):
 
 
             options = {
-                "a": option_a,
-                "b": option_b,
-                "c": option_c,
-                "d": option_d,
+                "a": options[0],
+                "b": options[1],
+                "c": options[2],
+                "d": options[3],
             }
 
             try:
@@ -251,9 +250,16 @@ def UpdateExam(request, slug: str):
                             is_correct=(correct_answer == key)
                         )
 
-                return redirect("updateexam", slug=exam.slug)
+                return JsonResponse({
+                    "success":True,
+                    "id": new_quiz.id,
+                    "question": new_quiz.question,
+                    "options": list(new_quiz.options.values("id", "text", "is_correct"))
+                })
             except:
-                return redirect("updateexam", slug=exam.slug)
+                return JsonResponse({
+                    "success": False
+                })
 
 
         data = {

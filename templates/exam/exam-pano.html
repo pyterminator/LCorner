@@ -184,11 +184,11 @@
 
             const data = await response.json()
             const examPano = document.querySelector(".exam-pano");
-            examPano.classList.remove("animate__animated", "animate__flash", "animate__headShake");
+            examPano.classList.remove("animate__animated", "animate__jello", "animate__headShake");
             void examPano.offsetWidth;
             
             if (data.success==true){
-                examPano.classList.add("animate__animated", "animate__flash");
+                examPano.classList.add("animate__animated", "animate__jello");
                 input.nextElementSibling.style.backgroundColor = "var(--bg)"
                 input.nextElementSibling.style.color = "var(--all-light)"
             } else {

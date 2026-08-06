@@ -52,7 +52,7 @@
 
                 <div class="questions">
 
-                    <form action="" method="post" class="deactive-form">
+                    <form action="{% url 'updateexam' exam.slug %}" method="post" class="deactive-form" id="addNewQuiz">
                         {% csrf_token %}
                         <div class="header">
                             <div class="left">Yeni sual əlavə et</div>
@@ -248,5 +248,97 @@
             const btn_parent_form = btn.parentElement.parentElement.parentElement.previousElementSibling; 
             btn_parent_form.classList = "form"
         }
+
+
+        document.getElementById("addNewQuiz").addEventListener("submit", async function(e){
+            e.preventDefault()
+            let url = e.target.getAttribute("action")
+            let form_data = {
+                "question": e.target.quiz_text_title.value,
+                "options": [
+                    e.target.option_a.value,
+                    e.target.option_b.value,
+                    e.target.option_c.value,
+                    e.target.option_d.value
+                ],
+                "correct_answer": e.target.correct_answer.value
+            }
+
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                body: JSON.stringify(form_data)
+            })
+
+            const data = await response.json()
+
+            if (data.success){
+                let quiz_box = `
+                    <div class="question">
+                        <div class="container">
+                            <div class="left">
+                                <div class="select-btn">
+                                    <div class="dots">
+                                        <span class="dot"></span>
+                                        <span class="dot"></span>
+                                        <span class="dot"></span>
+                                    </div>
+                                </div>
+                                <label class="select-input" for="question_id_1">
+                                    <input type="checkbox" id="question_id_1">
+                                    <span><i class="fa-solid fa-check"></i></span>
+                                </label>
+                            </div>
+                            <div class="right">
+                                <div class="question-header">
+                                    <div class="info">
+                                        <span class="number">X</span>
+                                        <span class="type">Variantlı sual</span>
+                                    </div>
+                                    <div class="control-buttons">
+                                        <button><i class="fa-solid fa-pen"></i></button>
+                                        <button><i class="fa-solid fa-trash-can"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="title">
+                                    ${data.question}
+                                </div>
+                                <div class="options">
+                                    {% for option in quiz.options.all %}
+                                        <div class="option">
+                                            <span>
+                                                {% if forloop.counter == 1 %}
+                                                    A)
+                                                {% elif forloop.counter == 2 %}
+                                                    B)
+                                                {% elif forloop.counter == 3 %}
+                                                    C)
+                                                {% elif forloop.counter == 4 %}
+                                                    D)
+                                                {% endif %}
+                                            </span>
+                                            <p>
+                                                {{option.text}}
+                                                {% if option.is_correct %}
+                                                    ✅
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+
+        })
+
     </script>
 {% endblock %}

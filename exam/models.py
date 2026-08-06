@@ -72,7 +72,13 @@ class Exam(models.Model):
             self.rating_total / self.rating_count,
             1
         )
-    
+
+    @property
+    def progress(self):
+        if self.question_count == 0:
+            return 0
+        return (self.quizzes.count() / self.question_count) * 100
+        
 
 class Quiz(models.Model):
     exam = models.ForeignKey(

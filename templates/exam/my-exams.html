@@ -140,7 +140,7 @@
                                     {% if exam.exam_type == "endless" %}
                                     <div class="bar" style="width:0%;"></div>
                                     {% else %}
-                                    <div class="bar" style="width:40%;"></div>
+                                    <div class="bar" style="width:{{exam.progress}}%;"></div>
                                     {% endif %}
                                 </div>
                                 <div class="counter">
