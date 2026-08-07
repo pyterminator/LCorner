@@ -249,6 +249,62 @@
             btn_parent_form.classList = "form"
         }
 
+        function createQuestionElement(question_id){
+            let question = document.createElement("div")
+            question.className = "question"
+
+            let container = document.createElement("div")
+            container.className = "container"
+
+            let container_left = createContainerLeftElement(question_id)
+
+            let container_right = document.createElement("div")
+            container_right.className = "right"
+
+        }
+
+        function createContainerLeftElement(question_id){
+            let container_left = document.createElement("div")
+            container_left.className = "left"
+
+            let select_btn = document.createElement("div")
+            select_btn.className = "select-btn"
+
+            let dots = document.createElement("div")
+            dots.className = "dots"
+            let dot_1 = document.createElement("span")
+            dot_1.className = "dot"
+            let dot_2 = document.createElement("span")
+            dot_2.className = "dot"
+
+            let dot_3 = document.createElement("span")
+            dot_3.className = "dot"
+
+            dots.appendChild(dot_1)
+            dots.appendChild(dot_2)
+            dots.appendChild(dot_3)
+
+            select_btn.appendChild(dots)
+            container_left.appendChild(select_btn)
+
+            let select_input_label = document.createElement("label")
+            select_input_label.className = "select-input"
+            select_input_label.for = `question_id_${question_id}` 
+
+            let select_input_label_input = document.createElement("input")
+            select_input_label_input.type = "checkbox"
+            select_input_label_input.id = `question_id_${question_id}`
+
+            let select_input_label_span = document.createElement("span")
+            select_input_label_span.innerHTML = '<i class="fa-solid fa-check"></i>'
+
+            select_input_label.appendChild(select_input_label_input)
+            select_input_label.appendChild(select_input_label_span)
+
+            container_left.appendChild(select_input_label)
+            return container_left
+        }
+
 
         document.getElementById("addNewQuiz").addEventListener("submit", async function(e){
             e.preventDefault()
@@ -278,64 +334,7 @@
             const data = await response.json()
 
             if (data.success){
-                let quiz_box = `
-                    <div class="question">
-                        <div class="container">
-                            <div class="left">
-                                <div class="select-btn">
-                                    <div class="dots">
-                                        <span class="dot"></span>
-                                        <span class="dot"></span>
-                                        <span class="dot"></span>
-                                    </div>
-                                </div>
-                                <label class="select-input" for="question_id_1">
-                                    <input type="checkbox" id="question_id_1">
-                                    <span><i class="fa-solid fa-check"></i></span>
-                                </label>
-                            </div>
-                            <div class="right">
-                                <div class="question-header">
-                                    <div class="info">
-                                        <span class="number">X</span>
-                                        <span class="type">Variantlı sual</span>
-                                    </div>
-                                    <div class="control-buttons">
-                                        <button><i class="fa-solid fa-pen"></i></button>
-                                        <button><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </div>
-
-                                <div class="title">
-                                    ${data.question}
-                                </div>
-                                <div class="options">
-                                    {% for option in quiz.options.all %}
-                                        <div class="option">
-                                            <span>
-                                                {% if forloop.counter == 1 %}
-                                                    A)
-                                                {% elif forloop.counter == 2 %}
-                                                    B)
-                                                {% elif forloop.counter == 3 %}
-                                                    C)
-                                                {% elif forloop.counter == 4 %}
-                                                    D)
-                                                {% endif %}
-                                            </span>
-                                            <p>
-                                                {{option.text}}
-                                                {% if option.is_correct %}
-                                                    ✅
-                                                {% endif %}
-                                            </p>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `
+                let quiz_box = ``
             }
 
         })
