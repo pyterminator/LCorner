@@ -258,9 +258,13 @@
 
             let container_left = createContainerLeftElement(question_id)
 
-            let container_right = document.createElement("div")
-            container_right.className = "right"
+            let container_right = createContainerRightElement()
 
+            container.appendChild(container_left)
+            container.appendChild(container_right)
+            question.appendChild(container)
+
+            return question
         }
 
         function createContainerLeftElement(question_id){
@@ -305,6 +309,47 @@
             return container_left
         }
 
+        function createContainerRightElement(forloop_counter, quiz_type="Variantlı sual"){
+            let container_right = document.createElement("div")
+            container_right.className = "right"
+
+            let question_header = document.createElement("div")
+            question_header.className = "question-header"
+
+            let info = document.createElement("div")
+            info.className = "info"
+
+            let info_number = document.createElement("span")
+            info_number.className = "number"
+            info_number.innerText = forloop_counter
+            info.appendChild(info_number)
+
+            let info_type = document.createElement("span")
+            info_type.className = "type"
+            info_type.innerText = quiz_type
+            info.appendChild(info_type)
+
+            question_header.appendChild(info)
+
+            let control_buttons = document.createElement("div")
+            control_buttons.className = "control_buttons"
+
+            let cb_pen = document.createElement("button")
+            cb_pen.innerHTML = `<i class="fa-solid fa-pen"></i>`
+
+            let cb_trash = document.createElement("button")
+            cb_trash.innerHTML = `<i class="fa-solid fa-trash-can"></i>`
+
+            control_buttons.appendChild(cb_pen)
+            control_buttons.appendChild(cb_trash)
+
+            question_header.appendChild(control_buttons)
+
+            container_right.appendChild(question_header)
+
+            return container_right
+        }
+
 
         document.getElementById("addNewQuiz").addEventListener("submit", async function(e){
             e.preventDefault()
@@ -334,7 +379,11 @@
             const data = await response.json()
 
             if (data.success){
-                let quiz_box = ``
+                let questions_header = document.querySelector(".questions-header")
+                let quiz_box = createQuestionElement(data.id)
+
+                questions_header.insertAdjacentElement("afterend", quiz_box)
+                
             }
 
         })
