@@ -244,12 +244,13 @@
             const btn_parent_form = btn.parentElement.parentElement.parentElement; 
             btn_parent_form.classList = "deactive-form"
         }
+
         function openCreateQuizForm(btn){
             const btn_parent_form = btn.parentElement.parentElement.parentElement.previousElementSibling; 
             btn_parent_form.classList = "form"
         }
 
-        function createQuestionElement(question_id){
+        function createQuestionElement(question_id, title, options){
             let question = document.createElement("div")
             question.className = "question"
 
@@ -258,7 +259,7 @@
 
             let container_left = createContainerLeftElement(question_id)
 
-            let container_right = createContainerRightElement()
+            let container_right = createContainerRightElement(1, title, options, "Variantlı sual")
 
             container.appendChild(container_left)
             container.appendChild(container_right)
@@ -309,7 +310,7 @@
             return container_left
         }
 
-        function createContainerRightElement(forloop_counter, quiz_type="Variantlı sual"){
+        function createContainerRightElement(forloop_counter, title_text, options, quiz_type="Variantlı sual"){
             let container_right = document.createElement("div")
             container_right.className = "right"
 
@@ -347,7 +348,44 @@
 
             container_right.appendChild(question_header)
 
+
+            let title = document.createElement("div")
+            title.className = "title"
+            title.innerText = title_text
+            container_right.appendChild(title)
+
+            let opts = createContainerRightElementOptions(options)
+            container_right.appendChild(opts)
+
             return container_right
+        }
+
+
+        function createContainerRightElementOptions(options){
+            let opts = ["A", "B", "C", "D"]
+            let options_div = document.createElement("div")
+            options_div.className = "options"
+
+            
+            index = 0
+            for (const element of options) {
+                let opt = document.createElement("div")
+                opt.className = "option";
+
+                let opt_span = document.createElement("span")
+                opt_span.innerText = opts[index] + ")"
+                opt.appendChild(opt_span)
+
+                let opt_p = document.createElement("p")
+                opt_p.innerText = element.text 
+                opt_p.innerText += element.is_correct ? "✅" : ""
+                opt.appendChild(opt_p)
+
+                options_div.appendChild(opt)
+                index++;
+            }
+
+            return options_div
         }
 
 
@@ -380,7 +418,7 @@
 
             if (data.success){
                 let questions_header = document.querySelector(".questions-header")
-                let quiz_box = createQuestionElement(data.id)
+                let quiz_box = createQuestionElement(data.id, data.question, data.options)
 
                 questions_header.insertAdjacentElement("afterend", quiz_box)
                 
