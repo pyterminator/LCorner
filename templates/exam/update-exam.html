@@ -218,6 +218,7 @@
     <!-- Scriptlərim -->
 
     <script>
+
         const tabs_buttons = document.querySelectorAll(".tabs > button")
         const base_div = document.querySelector(".tab-nav .nav .base")
         const questions_div = document.querySelector(".tab-nav .nav .questions")
@@ -259,7 +260,7 @@
 
             let container_left = createContainerLeftElement(question_id)
 
-            let container_right = createContainerRightElement(1, title, options, "Variantlı sual")
+            let container_right = createContainerRightElement("", title, options, "Variantlı sual")
 
             container.appendChild(container_left)
             container.appendChild(container_right)
@@ -420,11 +421,23 @@
                 let questions_header = document.querySelector(".questions-header")
                 let quiz_box = createQuestionElement(data.id, data.question, data.options)
 
-                questions_header.insertAdjacentElement("afterend", quiz_box)
-                
+                questions_header.insertAdjacentElement("afterend", quiz_box)  
             }
+            forloopCounter()
 
+            document.querySelector("#addNewQuiz > div.header > div.right > button").click()
         })
+
+
+
+
+        function forloopCounter(){
+            let ssp = document.querySelectorAll(".data > .question > .container > .right > .question-header > .info > .number")
+            for (let index = 0; index < ssp.length; index++) {
+                const element = ssp[index]; 
+                element.innerText = index + 1    
+            }
+        }
 
     </script>
 {% endblock %}
