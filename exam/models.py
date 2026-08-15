@@ -53,6 +53,11 @@ class Exam(models.Model):
 
     price = models.PositiveIntegerField(default=0)
 
+    participants = models.ManyToManyField(
+        Account,
+        related_name="enrolled_exams",
+        blank=True
+    )
 
     min_pass_percent = models.PositiveIntegerField(
         default=70

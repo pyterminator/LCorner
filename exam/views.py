@@ -32,6 +32,7 @@ def MyExams(request):
     data = {
         "my_exam_count": len(my_exam_list),
         "exams": my_exam_list,
+        "participants": Account.objects.filter(enrolled_exams__isnull=False ).count(),
         "my_active_exam_count": my_exam_list.filter(is_active=True).count(),
         "my_deactive_exam_count": my_exam_list.filter(is_active=False).count(),
     }
@@ -431,4 +432,49 @@ def CheckAnswer(request):
     except:
         return JsonResponse({
             "success": False
+        })
+
+@user_passes_test(lambda u: u.is_staff)
+@require_POST
+def CheckIsFullExamWithQuestions(request):
+    try:
+        data = json.loads(request.body)
+        id = data.get("id")
+        exam = get_object_or_404(Exam, id=id)
+
+        if exam.exam_type == "endless":
+            return JsonResponse({"success": True})
+
+        if exam.question_count > exam.quizzes.all().count():
+            return JsonResponse({"success": False, "message": "İmtahan suallarla doludurulmayıb!"})
+
+        return JsonResponse({"status": True, "message": "İmtahan suallarla doldurulub!"})
+    except:
+        return JsonResponse({
+            "status": False,
+            "message": "'İmtahan suallarla dolubmu ?' - yoxlama prosesində xəta oldu!"
+        })
+
+
+
+@require_POST
+@login_required
+def EnrollExam(request):
+    try:
+        data = json.loads(request.body)
+        exam_id = data.get("exam_id")
+
+        exam = get_object_or_404(Exam, id=exam_id)
+
+        exam.participants.add(request.user.account)
+
+        return JsonResponse({
+            "status": True,
+            "message": "İmtahana uğurla yazıldınız!"
+        })
+
+    except Exception:
+        return JsonResponse({
+            "status": False,
+            "message": "İmtahana yazılarkən xəta baş verdi!"
         })

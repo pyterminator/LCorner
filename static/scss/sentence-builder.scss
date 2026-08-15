@@ -70,6 +70,7 @@
         p {
             max-width: 80%;
             margin: 0 auto;
+            white-space: pre-line;
         }
 
         span.hr {
@@ -181,7 +182,8 @@
             background-color: var(--bg);
             color: var(--all-light);
             &:disabled{
-                background-color: var(--danger);
+                background-color: var(--pending-text);
+                color: var(--all-dark);
             }
         }
     }
