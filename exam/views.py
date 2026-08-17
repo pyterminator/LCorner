@@ -345,16 +345,16 @@ def ExamDetailView(request, slug):
 def ExamPano(request, slug):
     try:
         exam = get_object_or_404(Exam, slug=slug)
-        # quizzes = exam.quizzes.all().order_by("-id")
+        data = {"exam": exam}
 
+        pano_url = "exam-pano.html"
+        if exam.exam_type == "limited":
+            quizzes = exam.quizzes.all().order_by("-id")
+            data['quizzes']= quizzes
+            data["quizzes_count"] = quizzes.count()
+            pano_url = "exam-limited-pano.html"
 
-        data = {
-            "exam": exam,
-            # "quizzes": quizzes,
-            # "quizzes_count": quizzes.count()
-        }
-    
-        return render(request, "exam/exam-pano.html", context=data)
+        return render(request, f"exam/{pano_url}", context=data)
 
     except Exam.DoesNotExist:
         return redirect("dashboard")
