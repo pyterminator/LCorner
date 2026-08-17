@@ -30,13 +30,14 @@
                     {% for quiz in quizzes %}
                         <div class="question {% if forloop.counter == 1 %} active {% endif %}">
                             <div class="title">
-                                <span>Sual {{forloop.counter}}:</span> {{quiz.question}}
+                                <span><em>Sual {{forloop.counter}}</em> / {{quizzes_count}}</span> 
+                                <p>{{quiz.question}}</p>
                             </div>
 
                             <div class="options">
                                 {% for option in quiz.options.all %}
-                                    <label class="option" for="question{{forloop.counter0}}">
-                                        <input type="radio" name="question{{quiz.id}}" id="question{{forloop.counter0}}" value="{{forloop.counter}}">
+                                    <label class="option" for="question{{quiz.id}}{{forloop.counter0}}">
+                                        <input type="radio" name="question{{quiz.id}}" id="question{{quiz.id}}{{forloop.counter0}}" value="{{forloop.counter}}">
                                         <span>
                                             {% if forloop.counter0 == 0 %}
                                                 A   
@@ -57,6 +58,11 @@
                             </div>
                         </div>
                     {% endfor %}
+
+                    <div class="footer">
+                        <button onclick="prevQuiz(this)">Əvvəlki</button>
+                        <button onclick="nextQuiz(this)">Sonrakı</button>
+                    </div>
                 </div>
             {% endif %}
         </div>
@@ -74,8 +80,34 @@
                     item.className = "active"
 
                     document.querySelector(".questions > .question.active").classList.remove("active")
-                    document.querySelectorAll(".questions > .question")[item.dataset.id-1].className="animate__animated animate__fadeInUp question active"
+                    document.querySelectorAll(".questions > .question")[item.dataset.id-1].className="animate__animated animate__slideInDown question active"
+                    setTimeout(() => {
+                        clearAnimation()
+                    }, 1000);
                 })
             })
+
+            function clearAnimation() {
+                document.querySelectorAll(".questions > .question").forEach(item => {
+                    item.classList.remove('animate__animated', 'animate__slideInDown');
+                });
+            }
+
+
+            function prevQuiz(btn){
+                let act = document.querySelector(".questions-menu > li.active")
+                if (act.previousElementSibling){
+                    act.classList.remove("active")
+                    act.previousElementSibling.className = "active"
+                }
+            }
+
+            function nextQuiz(btn){
+                let act = document.querySelector(".questions-menu > li.active")
+                if (act.nextElementSibling){
+                    act.classList.remove("active")
+                    act.nextElementSibling.className = "active"
+                }
+            }
     </script>
 {% endblock %}

@@ -1,5 +1,5 @@
 .exam-limited-pano {
-    background-color: var(--input-bg);
+    background-color: var(--dark);
     border-radius: 1rem;
     width: 100%;
     min-height: calc(100vh - 20rem);
@@ -7,10 +7,10 @@
     .container {
         display: flex;
         justify-content: flex-start;
-        align-items: flex-start;
+        align-items: stretch;
 
         .questions-menu {
-            width: 15rem;
+            width: 9rem;
             border-right: .1rem dotted var(--main-dark);
             min-height: calc(100vh - 20rem);
             padding: 1rem;
@@ -28,7 +28,7 @@
                 }
 
                 line-height: 3rem;
-                padding-left: .25rem;
+                padding-left: 1rem;
                 border: .1rem solid var(--main-dark);
                 color: var(--light);
                 cursor: pointer;
@@ -60,19 +60,34 @@
         }
 
         .questions{
+            width: calc(100% - 9rem);
             .question{
+                animation-duration: .5s;
                 display: none;
             }
             .question.active{
                 color: var(--light);
                 display: block;
-                padding: 1rem;
+                padding: 2rem;
+                width: 100%;
                 .title{
+                    display: block;
                     font-size: 1.4rem;
                     font-weight: 600;
                     margin-bottom: 1rem; 
+                    padding-bottom: 2rem;
+                    border-bottom: .1rem solid var(--input-bg);
+                    width: 100%;
                     span{
-                        color: var(--badge);
+                        display: block;
+                        margin-bottom: 1rem;
+                        font-size: 2rem;
+                        em{
+                            color: var(--badge);
+                        }
+                    }
+                    p{
+                        font-size: 1.2rem;
                     }
                 }
 
@@ -91,6 +106,9 @@
                         gap: 1rem;
                         cursor: pointer;
                         width: 100%;
+                        border: .2rem solid var(--input-bg);
+                        border-radius: 1rem;
+                        padding: 1rem;
                         input{
                             display: none;
                             &:checked + span{
@@ -124,6 +142,16 @@
                         }
                     }
                 }
+            }
+
+            .footer{
+                width: 100%;
+                height: 6rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem;
+                border-top: .1rem dotted var(--main-dark);
             }
         }
     }
