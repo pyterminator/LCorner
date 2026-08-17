@@ -7,11 +7,11 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-from django.views.decorators.http import require_POST
+from notifications.models import Notification
 from exam.models import Exam, Tag, Quiz, QuizOption
+from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from notifications.models import Notification
 
 # Sentence Builder Game Ucun post.sentence-i liste cevirir
 def GenerateWordsForSB(sentence:str)-> list:
@@ -182,7 +182,6 @@ def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
             post = queryset[random.randint(0, count - 1)] 
     return post
 
-
 def GenerateWordsForSB(sentence:str)-> list:
     sentence = sentence.replace("’", "'").replace("`", "'").replace("‘", "'")
 
@@ -273,7 +272,6 @@ def UpdateExam(request, slug: str):
     except:
         return redirect("dashboard")
 
-
 @user_passes_test(lambda u: u.is_staff)
 @require_POST
 def ActivateExam(request, id):
@@ -321,8 +319,6 @@ def ActivateExam(request, id):
             "message": "Xəta oldu!"
         })
 
-
-
 def ExamDetailView(request, slug):
     try:
         exam = get_object_or_404(Exam, slug=slug)
@@ -340,7 +336,6 @@ def ExamDetailView(request, slug):
 
     except Exam.DoesNotExist:
         return redirect("dashboard")
-
     
 def ExamPano(request, slug):
     try:
@@ -407,7 +402,6 @@ def GenerateQuizForExamPano(request, slug):
             "message": "Yanlış cəhd!"
         })
 
-
 @require_POST
 def CheckAnswer(request):
     try:
@@ -456,8 +450,6 @@ def CheckIsFullExamWithQuestions(request):
             "message": "'İmtahan suallarla dolubmu ?' - yoxlama prosesində xəta oldu!"
         })
 
-
-
 @require_POST
 @login_required
 def EnrollExam(request):
@@ -488,3 +480,5 @@ def EnrollExam(request):
             "type": "error",
             "message": "İmtahana yazılarkən xəta baş verdi!"
         })
+
+
