@@ -44,7 +44,16 @@
             {% endfor %}
         </div>
 
-        <a href="{% url 'exampano' exam.slug %}" class="start">İmtahana başla</a>
+        {% if is_enrolled %}
+            <a href="{% url 'exampano' exam.slug %}" class="start-enrolled">
+                İmtahana başla
+            </a>
+        {% else %}
+            <a href="{% url 'enrollexam' %}" class="start" data-rurl="{% url 'exampano' exam.slug %}" data-id="{{exam.id}}">
+                İmtahana yazıl
+            </a>
+        {% endif %}
+
     </div>
 
     
@@ -52,4 +61,44 @@
 
 <!-- Scripts -->
 {% block scripts %}
+
+    <script>
+        let start = document.querySelector(".start")
+        start.addEventListener("click", async function(e){
+            e.preventDefault()
+            let prev_inner_html = e.target.innerHTML
+            e.target.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`
+            let url = e.target.href 
+            
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                body: JSON.stringify({
+                    "exam_id": e.target.dataset.id
+                })
+            })
+
+            const data = await response.json()
+            console.log(data.success)
+            if (data.success){
+                e.target.className = "start-enrolled"
+                e.target.innerHTML = "İmtahana başla"
+            } else {
+                e.target.innerHTML = prev_inner_html
+            }
+
+            const message_type = data.type 
+            const message_text = data.message 
+            const main = document.querySelector("main");
+            main.prepend(CreateMessageBox(message_type, message_text));
+            window.scrollTo(0, 0)
+
+        })
+    </script>
+
 {% endblock %}

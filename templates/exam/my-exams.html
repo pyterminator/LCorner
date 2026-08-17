@@ -46,7 +46,7 @@
                 </div>
                 <div class="card">  
                     <div class="text">Paylanmış XP</div>
-                    <p>245, 750 </p> 
+                    <p>0 </p> 
                 </div>
             </div>
         </div>
@@ -160,14 +160,14 @@
                             <div class="detail">
                                 <i class="fa-solid fa-users"></i>
                                 <p>
-                                    <span>325</span>
+                                    <span>{{exam.participants.count}}</span>
                                     İştirakçı
                                 </p>
                             </div>
                             <div class="detail">
                                 <i class="fa-solid fa-trophy"></i>
                                 <p>
-                                    <span>14, 350</span>
+                                    <span>0</span>
                                     XP Paylanıb
                                 </p>
                             </div>
@@ -264,42 +264,14 @@
 
                     _my_cards_deactive.innerText = parseInt(_my_cards_deactive.innerText) + 1
                     _my_cards_active.innerText = parseInt(_my_cards_active.innerText) - 1
-                }
-            } else {
-                const message_type = data.type 
-                const message_text = data.message 
-                const main = document.querySelector("main");
-                main.prepend(CreateMessageBox(message_type, message_text));
-                window.scrollTo(0, 0)
+                }    
             }
+            
+            const message_type = data.type 
+            const message_text = data.message 
+            const main = document.querySelector("main");
+            main.prepend(CreateMessageBox(message_type, message_text));
+            window.scrollTo(0, 0)
         }
-
-
-        function CreateMessageBox(message_type, message_text){
-            let div_1 = document.createElement("div")
-            div_1.className = `alert alert-${message_type}`
-
-            if (message_type=="error"){
-                let i_1 = document.createElement("i")
-                i_1.className = "fa-solid fa-triangle-exclamation" 
-                div_1.appendChild(i_1)
-            } else if (message_type == "success"){
-                let i_1 = document.createElement("i")
-                i_1.className = "fa-regular fa-circle-check" 
-                div_1.appendChild(i_1) 
-            }
-
-            let p_1 = document.createElement("p")
-            p_1.innerText = message_text
-            div_1.appendChild(p_1)
-
-            let span_1 = document.createElement("span")
-            span_1.className = "fa-solid fa-xmark"
-            span_1.setAttribute("onclick", "this.parentElement.remove()") 
-            div_1.appendChild(span_1)
-
-            return div_1
-        }
-
     </script>
 {% endblock %}

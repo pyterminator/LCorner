@@ -263,7 +263,7 @@
 
             const data = await response.json()
 
-            if (data.success){
+            if (!data.success){
                 const btn_parent_form = btn.parentElement.parentElement.parentElement.previousElementSibling; 
                 btn_parent_form.classList = "form"
             } else {

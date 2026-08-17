@@ -1,9 +1,13 @@
 from django.urls import path 
-from exam.views import MyExams, CreateNewExam, SentenceBuilder, UpdateExam, ActivateExam, ExamDetailView, ExamPano, GenerateQuizForExamPano, CheckAnswer, CheckIsFullExamWithQuestions
+from exam.views import (
+    MyExams, CreateNewExam, SentenceBuilder, UpdateExam, ActivateExam, 
+    ExamDetailView, ExamPano, GenerateQuizForExamPano, CheckAnswer, 
+    CheckIsFullExamWithQuestions, EnrollExam )
 
 
 urlpatterns = [
     path('of-mine', MyExams, name="myexams"),
+    path('enroll-exam', EnrollExam, name="enrollexam"),
     path('create-new', CreateNewExam, name="createnewexam"),
     path('update/<str:slug>', UpdateExam, name="updateexam"),
     path('exam-detail/<str:slug>', ExamDetailView, name="examdetail"),

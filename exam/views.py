@@ -332,7 +332,8 @@ def ExamDetailView(request, slug):
         data = {
             "exam": exam,
             "quizzes": quizzes,
-            "quizzes_count": quizzes.count()
+            "quizzes_count": quizzes.count(),
+            "is_enrolled": exam.participants.filter(id=request.user.account.id).exists()
         }
     
         return render(request, "exam/exam-detail.html", context=data)
@@ -448,10 +449,10 @@ def CheckIsFullExamWithQuestions(request):
         if exam.question_count > exam.quizzes.all().count():
             return JsonResponse({"success": False, "message": "İmtahan suallarla doludurulmayıb!"})
 
-        return JsonResponse({"status": True, "message": "İmtahan suallarla doldurulub!"})
+        return JsonResponse({"success": True, "message": "İmtahan suallarla doldurulub!"})
     except:
         return JsonResponse({
-            "status": False,
+            "success": False,
             "message": "'İmtahan suallarla dolubmu ?' - yoxlama prosesində xəta oldu!"
         })
 
@@ -466,15 +467,24 @@ def EnrollExam(request):
 
         exam = get_object_or_404(Exam, id=exam_id)
 
+        if exam.participants.filter(id=request.user.account.id).exists():
+            return JsonResponse({
+                "success": False,
+                "type": "error",
+                "message": "Siz artıq bu imtahana yazılmısınız!"
+            })
+
         exam.participants.add(request.user.account)
 
         return JsonResponse({
-            "status": True,
+            "success": True,
+            "type": "success",
             "message": "İmtahana uğurla yazıldınız!"
         })
 
     except Exception:
         return JsonResponse({
-            "status": False,
+            "success": False,
+            "type": "error",
             "message": "İmtahana yazılarkən xəta baş verdi!"
         })
