@@ -1,8 +1,10 @@
+@use "extends";
+
 .exam-limited-pano {
     background-color: var(--dark);
     border-radius: 1rem;
     width: 100%;
-    min-height: calc(100vh - 20rem);
+    min-height: calc(100dvh - 20rem);
 
     .container {
         display: flex;
@@ -152,6 +154,9 @@
                 align-items: center;
                 padding: 1rem;
                 border-top: .1rem dotted var(--main-dark);
+                button{
+                    @extend %button-style;
+                }
             }
         }
     }
