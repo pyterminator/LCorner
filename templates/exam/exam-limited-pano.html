@@ -1,0 +1,113 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - {{ exam.title }}
+    </title>
+{% endblock %}
+
+
+<!-- Style -->
+{% block styles %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/exam-limited-pano.min.css' %}"> 
+{% endblock %}
+
+
+{% block root %}
+    <!-- Breadcrumb olmaz -->
+    <div class="exam-limited-pano">
+        <div class="container">
+            {% if quizzes %}
+                <ul class="questions-menu">
+                    {% for quiz in quizzes %}
+                        <li {% if forloop.counter == 1 %}class='active'{% endif %} data-id="{{forloop.counter}}">Sual {{forloop.counter}}</li>
+                    {% endfor %}
+                </ul>
+                <div class="questions">
+                    {% for quiz in quizzes %}
+                        <div class="question {% if forloop.counter == 1 %} active {% endif %}">
+                            <div class="title">
+                                <span><em>Sual {{forloop.counter}}</em> / {{quizzes_count}}</span> 
+                                <p>{{quiz.question}}</p>
+                            </div>
+
+                            <div class="options">
+                                {% for option in quiz.options.all %}
+                                    <label class="option" for="question{{quiz.id}}{{forloop.counter0}}">
+                                        <input type="radio" name="question{{quiz.id}}" id="question{{quiz.id}}{{forloop.counter0}}" value="{{forloop.counter}}">
+                                        <span>
+                                            {% if forloop.counter0 == 0 %}
+                                                A   
+                                            {% elif forloop.counter0 == 1 %}
+                                                B
+                                            {% elif forloop.counter0 == 2 %}
+                                                C
+                                            {% elif forloop.counter0 == 3 %}
+                                                D
+                                            {% endif %}
+                                            )
+                                        </span>
+                                        <p>
+                                            {{ option.text }}
+                                        </p>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="footer">
+                        <button onclick="prevQuiz(this)"><i class="fa-solid fa-angles-left"></i> Əvvəlki</button>
+                        <button onclick="nextQuiz(this)">Sonrakı <i class="fa-solid fa-angles-right"></i></button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+<!-- Scripts -->
+{% block scripts %}
+    <script>
+            let question_menu_list = document.querySelectorAll(".questions-menu > li")
+            question_menu_list.forEach(item=>{
+                item.addEventListener("click", function(e){
+                    e.preventDefault()
+                    document.querySelector(".questions-menu > li.active").classList.remove("active")
+                    item.className = "active"
+
+                    document.querySelector(".questions > .question.active").classList.remove("active")
+                    document.querySelectorAll(".questions > .question")[item.dataset.id-1].className="animate__animated animate__slideInDown question active"
+                    setTimeout(() => {
+                        clearAnimation()
+                    }, 1000);
+                })
+            })
+
+            function clearAnimation() {
+                document.querySelectorAll(".questions > .question").forEach(item => {
+                    item.classList.remove('animate__animated', 'animate__slideInDown');
+                });
+            }
+
+
+            function prevQuiz(btn){
+                let act = document.querySelector(".questions-menu > li.active")
+                if (act.previousElementSibling){
+                    act.classList.remove("active")
+                    act.previousElementSibling.className = "active"
+                }
+            }
+
+            function nextQuiz(btn){
+                let act = document.querySelector(".questions-menu > li.active")
+                if (act.nextElementSibling){
+                    act.classList.remove("active")
+                    act.nextElementSibling.className = "active"
+                }
+            }
+    </script>
+{% endblock %}

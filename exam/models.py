@@ -53,6 +53,11 @@ class Exam(models.Model):
 
     price = models.PositiveIntegerField(default=0)
 
+    participants = models.ManyToManyField(
+        Account,
+        related_name="enrolled_exams",
+        blank=True
+    )
 
     min_pass_percent = models.PositiveIntegerField(
         default=70
@@ -72,7 +77,13 @@ class Exam(models.Model):
             self.rating_total / self.rating_count,
             1
         )
-    
+
+    @property
+    def progress(self):
+        if self.question_count == 0:
+            return 0
+        return (self.quizzes.count() / self.question_count) * 100
+        
 
 class Quiz(models.Model):
     exam = models.ForeignKey(

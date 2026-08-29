@@ -68,3 +68,30 @@ all_images.forEach(element => {
         return false;
     })
 });
+
+// Message Box
+ function CreateMessageBox(message_type, message_text){
+    let div_1 = document.createElement("div")
+    div_1.className = `alert alert-${message_type}`
+
+    if (message_type=="error"){
+        let i_1 = document.createElement("i")
+        i_1.className = "fa-solid fa-triangle-exclamation" 
+        div_1.appendChild(i_1)
+    } else if (message_type == "success"){
+        let i_1 = document.createElement("i")
+        i_1.className = "fa-regular fa-circle-check" 
+        div_1.appendChild(i_1) 
+    }
+
+    let p_1 = document.createElement("p")
+    p_1.innerText = message_text
+    div_1.appendChild(p_1)
+
+    let span_1 = document.createElement("span")
+    span_1.className = "fa-solid fa-xmark"
+    span_1.setAttribute("onclick", "this.parentElement.remove()") 
+    div_1.appendChild(span_1)
+
+    return div_1
+}

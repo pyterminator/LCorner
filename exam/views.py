@@ -7,11 +7,11 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-from django.views.decorators.http import require_POST
+from notifications.models import Notification
 from exam.models import Exam, Tag, Quiz, QuizOption
+from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from notifications.models import Notification
 
 # Sentence Builder Game Ucun post.sentence-i liste cevirir
 def GenerateWordsForSB(sentence:str)-> list:
@@ -32,6 +32,7 @@ def MyExams(request):
     data = {
         "my_exam_count": len(my_exam_list),
         "exams": my_exam_list,
+        "participants": Account.objects.filter(enrolled_exams__isnull=False ).count(),
         "my_active_exam_count": my_exam_list.filter(is_active=True).count(),
         "my_deactive_exam_count": my_exam_list.filter(is_active=False).count(),
     }
@@ -181,7 +182,6 @@ def GetPostForSentenceBuilder(request, my_account, p:Post|None=None):
             post = queryset[random.randint(0, count - 1)] 
     return post
 
-
 def GenerateWordsForSB(sentence:str)-> list:
     sentence = sentence.replace("’", "'").replace("`", "'").replace("‘", "'")
 
@@ -217,12 +217,11 @@ def UpdateExam(request, slug: str):
             
 
         if request.method == "POST":
-            quiz_text_title = request.POST.get("quiz_text_title", "")
-            option_a = request.POST.get("option_a", "")
-            option_b = request.POST.get("option_b", "")
-            option_c = request.POST.get("option_c", "")
-            option_d = request.POST.get("option_d", "")
-            correct_answer = request.POST.get("correct_answer", "")
+            data = json.loads(request.body)
+
+            quiz_text_title = data.get("question", "")
+            options = data.get("options", [])
+            correct_answer = data.get("correct_answer", "")
 
             last_order = (
                 exam.quizzes.aggregate(Max("order"))["order__max"] or 0
@@ -230,10 +229,10 @@ def UpdateExam(request, slug: str):
 
 
             options = {
-                "a": option_a,
-                "b": option_b,
-                "c": option_c,
-                "d": option_d,
+                "a": options[0],
+                "b": options[1],
+                "c": options[2],
+                "d": options[3],
             }
 
             try:
@@ -251,9 +250,16 @@ def UpdateExam(request, slug: str):
                             is_correct=(correct_answer == key)
                         )
 
-                return redirect("updateexam", slug=exam.slug)
+                return JsonResponse({
+                    "success":True,
+                    "id": new_quiz.id,
+                    "question": new_quiz.question,
+                    "options": list(new_quiz.options.values("id", "text", "is_correct"))
+                })
             except:
-                return redirect("updateexam", slug=exam.slug)
+                return JsonResponse({
+                    "success": False
+                })
 
 
         data = {
@@ -265,7 +271,6 @@ def UpdateExam(request, slug: str):
     
     except:
         return redirect("dashboard")
-
 
 @user_passes_test(lambda u: u.is_staff)
 @require_POST
@@ -314,8 +319,6 @@ def ActivateExam(request, id):
             "message": "Xəta oldu!"
         })
 
-
-
 def ExamDetailView(request, slug):
     try:
         exam = get_object_or_404(Exam, slug=slug)
@@ -325,28 +328,28 @@ def ExamDetailView(request, slug):
         data = {
             "exam": exam,
             "quizzes": quizzes,
-            "quizzes_count": quizzes.count()
+            "quizzes_count": quizzes.count(),
+            "is_enrolled": exam.participants.filter(id=request.user.account.id).exists()
         }
     
         return render(request, "exam/exam-detail.html", context=data)
 
     except Exam.DoesNotExist:
         return redirect("dashboard")
-
     
 def ExamPano(request, slug):
     try:
         exam = get_object_or_404(Exam, slug=slug)
-        # quizzes = exam.quizzes.all().order_by("-id")
+        data = {"exam": exam}
 
+        pano_url = "exam-pano.html"
+        if exam.exam_type == "limited":
+            quizzes = exam.quizzes.all().order_by("-id")
+            data['quizzes']= quizzes
+            data["quizzes_count"] = quizzes.count()
+            pano_url = "exam-limited-pano.html"
 
-        data = {
-            "exam": exam,
-            # "quizzes": quizzes,
-            # "quizzes_count": quizzes.count()
-        }
-    
-        return render(request, "exam/exam-pano.html", context=data)
+        return render(request, f"exam/{pano_url}", context=data)
 
     except Exam.DoesNotExist:
         return redirect("dashboard")
@@ -356,7 +359,13 @@ def GenerateQuizForExamPano(request, slug):
     try:
         exam = get_object_or_404(Exam, slug=slug)
 
-        quizzes = exam.quizzes.all()
+        posted_data = json.loads(request.body)
+        quiz_id = posted_data.get("id", None)
+        if quiz_id:
+            quizzes = exam.quizzes.exclude(id=5)
+        else:
+            quizzes = exam.quizzes.all()
+            
         count = quizzes.count() 
 
         if count == 0:
@@ -392,4 +401,84 @@ def GenerateQuizForExamPano(request, slug):
             "success": False,
             "message": "Yanlış cəhd!"
         })
+
+@require_POST
+def CheckAnswer(request):
+    try:
+        data = json.loads(request.body)
+        id = data.get("id", None)
+        answer = data.get("answer", None)
+
+        quiz = get_object_or_404(Quiz, id=id)
+        options : QuizOption = quiz.options.all()
+
+        opt_letters = ['a', 'b', 'c', 'd']
+
+        if opt := options[opt_letters.index(answer)]:
+            if opt.is_correct:
+                return JsonResponse({
+                    "success": True
+                })
+
+        return JsonResponse({
+            "success": False
+        })
+    
+    except:
+        return JsonResponse({
+            "success": False
+        })
+
+@user_passes_test(lambda u: u.is_staff)
+@require_POST
+def CheckIsFullExamWithQuestions(request):
+    try:
+        data = json.loads(request.body)
+        id = data.get("id")
+        exam = get_object_or_404(Exam, id=id)
+
+        if exam.exam_type == "endless":
+            return JsonResponse({"success": True})
+
+        if exam.question_count > exam.quizzes.all().count():
+            return JsonResponse({"success": False, "message": "İmtahan suallarla doludurulmayıb!"})
+
+        return JsonResponse({"success": True, "message": "İmtahan suallarla doldurulub!"})
+    except:
+        return JsonResponse({
+            "success": False,
+            "message": "'İmtahan suallarla dolubmu ?' - yoxlama prosesində xəta oldu!"
+        })
+
+@require_POST
+@login_required
+def EnrollExam(request):
+    try:
+        data = json.loads(request.body)
+        exam_id = data.get("exam_id")
+
+        exam = get_object_or_404(Exam, id=exam_id)
+
+        if exam.participants.filter(id=request.user.account.id).exists():
+            return JsonResponse({
+                "success": False,
+                "type": "error",
+                "message": "Siz artıq bu imtahana yazılmısınız!"
+            })
+
+        exam.participants.add(request.user.account)
+
+        return JsonResponse({
+            "success": True,
+            "type": "success",
+            "message": "İmtahana uğurla yazıldınız!"
+        })
+
+    except Exception:
+        return JsonResponse({
+            "success": False,
+            "type": "error",
+            "message": "İmtahana yazılarkən xəta baş verdi!"
+        })
+
 

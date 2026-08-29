@@ -52,7 +52,7 @@
 
                 <div class="questions">
 
-                    <form action="" method="post" class="deactive-form">
+                    <form action="{% url 'updateexam' exam.slug %}" method="post" class="deactive-form" id="addNewQuiz">
                         {% csrf_token %}
                         <div class="header">
                             <div class="left">Yeni sual əlavə et</div>
@@ -134,7 +134,7 @@
                                 </p>
                             </div>
                             <div class="right">
-                                <button onclick="openCreateQuizForm(this)">
+                                <button onclick="openCreateQuizForm(this)" data-url="{% url 'checkisfullexamwithquestions' %}" data-id="{{exam.id}}">
                                     Sual əlavə et <i class="fa-solid fa-plus"></i>
                                 </button>
                                 <button>
@@ -155,8 +155,8 @@
                                                 <span class="dot"></span>
                                             </div>
                                         </div>
-                                        <label class="select-input" for="question_id_1">
-                                            <input type="checkbox" id="question_id_1">
+                                        <label class="select-input" for="question_id_{{quiz.id}}">
+                                            <input type="checkbox" id="question_id_{{quiz.id}}">
                                             <span><i class="fa-solid fa-check"></i></span>
                                         </label>
                                     </div>
@@ -218,6 +218,7 @@
     <!-- Scriptlərim -->
 
     <script>
+
         const tabs_buttons = document.querySelectorAll(".tabs > button")
         const base_div = document.querySelector(".tab-nav .nav .base")
         const questions_div = document.querySelector(".tab-nav .nav .questions")
@@ -244,9 +245,221 @@
             const btn_parent_form = btn.parentElement.parentElement.parentElement; 
             btn_parent_form.classList = "deactive-form"
         }
-        function openCreateQuizForm(btn){
-            const btn_parent_form = btn.parentElement.parentElement.parentElement.previousElementSibling; 
-            btn_parent_form.classList = "form"
+
+        async function openCreateQuizForm(btn){
+            let url = btn.dataset.url 
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                body: JSON.stringify({
+                    "id": btn.dataset.id
+                })
+            })
+
+            const data = await response.json()
+
+            if (!data.success){
+                const btn_parent_form = btn.parentElement.parentElement.parentElement.previousElementSibling; 
+                btn_parent_form.classList = "form"
+            } else {
+                alert(data.message)
+            }
+
+
         }
+
+        function createQuestionElement(question_id, title, options){
+            let question = document.createElement("div")
+            question.className = "question"
+
+            let container = document.createElement("div")
+            container.className = "container"
+
+            let container_left = createContainerLeftElement(question_id)
+
+            let container_right = createContainerRightElement("", title, options, "Variantlı sual")
+
+            container.appendChild(container_left)
+            container.appendChild(container_right)
+            question.appendChild(container)
+
+            return question
+        }
+
+        function createContainerLeftElement(question_id){
+            let container_left = document.createElement("div")
+            container_left.className = "left"
+
+            let select_btn = document.createElement("div")
+            select_btn.className = "select-btn"
+
+            let dots = document.createElement("div")
+            dots.className = "dots"
+            let dot_1 = document.createElement("span")
+            dot_1.className = "dot"
+            let dot_2 = document.createElement("span")
+            dot_2.className = "dot"
+
+            let dot_3 = document.createElement("span")
+            dot_3.className = "dot"
+
+            dots.appendChild(dot_1)
+            dots.appendChild(dot_2)
+            dots.appendChild(dot_3)
+
+            select_btn.appendChild(dots)
+            container_left.appendChild(select_btn)
+
+            let select_input_label = document.createElement("label")
+            select_input_label.className = "select-input"
+            select_input_label.for = `question_id_${question_id}` 
+
+            let select_input_label_input = document.createElement("input")
+            select_input_label_input.type = "checkbox"
+            select_input_label_input.id = `question_id_${question_id}`
+
+            let select_input_label_span = document.createElement("span")
+            select_input_label_span.innerHTML = '<i class="fa-solid fa-check"></i>'
+
+            select_input_label.appendChild(select_input_label_input)
+            select_input_label.appendChild(select_input_label_span)
+
+            container_left.appendChild(select_input_label)
+            return container_left
+        }
+
+        function createContainerRightElement(forloop_counter, title_text, options, quiz_type="Variantlı sual"){
+            let container_right = document.createElement("div")
+            container_right.className = "right"
+
+            let question_header = document.createElement("div")
+            question_header.className = "question-header"
+
+            let info = document.createElement("div")
+            info.className = "info"
+
+            let info_number = document.createElement("span")
+            info_number.className = "number"
+            info_number.innerText = forloop_counter
+            info.appendChild(info_number)
+
+            let info_type = document.createElement("span")
+            info_type.className = "type"
+            info_type.innerText = quiz_type
+            info.appendChild(info_type)
+
+            question_header.appendChild(info)
+
+            let control_buttons = document.createElement("div")
+            control_buttons.className = "control_buttons"
+
+            let cb_pen = document.createElement("button")
+            cb_pen.innerHTML = `<i class="fa-solid fa-pen"></i>`
+
+            let cb_trash = document.createElement("button")
+            cb_trash.innerHTML = `<i class="fa-solid fa-trash-can"></i>`
+
+            control_buttons.appendChild(cb_pen)
+            control_buttons.appendChild(cb_trash)
+
+            question_header.appendChild(control_buttons)
+
+            container_right.appendChild(question_header)
+
+
+            let title = document.createElement("div")
+            title.className = "title"
+            title.innerText = title_text
+            container_right.appendChild(title)
+
+            let opts = createContainerRightElementOptions(options)
+            container_right.appendChild(opts)
+
+            return container_right
+        }
+
+
+        function createContainerRightElementOptions(options){
+            let opts = ["A", "B", "C", "D"]
+            let options_div = document.createElement("div")
+            options_div.className = "options"
+
+            
+            index = 0
+            for (const element of options) {
+                let opt = document.createElement("div")
+                opt.className = "option";
+
+                let opt_span = document.createElement("span")
+                opt_span.innerText = opts[index] + ")"
+                opt.appendChild(opt_span)
+
+                let opt_p = document.createElement("p")
+                opt_p.innerText = element.text 
+                opt_p.innerText += element.is_correct ? " ✅" : ""
+                opt.appendChild(opt_p)
+
+                options_div.appendChild(opt)
+                index++;
+            }
+
+            return options_div
+        }
+
+
+        document.getElementById("addNewQuiz").addEventListener("submit", async function(e){
+            e.preventDefault()
+            let url = e.target.getAttribute("action")
+            let form_data = {
+                "question": e.target.quiz_text_title.value,
+                "options": [
+                    e.target.option_a.value,
+                    e.target.option_b.value,
+                    e.target.option_c.value,
+                    e.target.option_d.value
+                ],
+                "correct_answer": e.target.correct_answer.value
+            }
+
+            const response = await fetch(url, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                body: JSON.stringify(form_data)
+            })
+
+            const data = await response.json()
+
+            if (data.success){
+                let questions_header = document.querySelector(".questions-header")
+                let quiz_box = createQuestionElement(data.id, data.question, data.options)
+
+                questions_header.insertAdjacentElement("afterend", quiz_box)  
+            }
+            forloopCounter()
+
+            document.querySelector("#addNewQuiz > div.header > div.right > button").click()
+        })
+
+
+
+
+        function forloopCounter(){
+            let ssp = document.querySelectorAll(".data > .question > .container > .right > .question-header > .info > .number")
+            for (let index = 0; index < ssp.length; index++) {
+                const element = ssp[index]; 
+                element.innerText = index + 1    
+            }
+        }
+
     </script>
 {% endblock %}
