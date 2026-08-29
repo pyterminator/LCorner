@@ -26,9 +26,32 @@
     <h1>
         <p>Hesabım</p>
 
-        <button>
+        <button onclick="openAccountSettings(this)">
             <i class="fa-classic fa-solid fa-gear"></i>
         </button>
+
+        <div class="account-settings-menu">
+
+            <div class="close-btn" onclick="closeAccountSettings(this)">
+                <i class="fa-solid fa-times"></i>
+            </div>
+
+            <div class="container">
+
+                <div class="change-password">
+                    <div class="col">
+                        <svg width="102px" height="102px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"><path transform="translate(-2.4, -2.4), scale(1.7999999999999998)" fill="transparent" d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M9.5 12.4L10.9286 14L14.5 10" stroke="var(--badge)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M3 10.4167C3 7.21907 3 5.62028 3.37752 5.08241C3.75503 4.54454 5.25832 4.02996 8.26491 3.00079L8.83772 2.80472C10.405 2.26824 11.1886 2 12 2C12.8114 2 13.595 2.26824 15.1623 2.80472L15.7351 3.00079C18.7417 4.02996 20.245 4.54454 20.6225 5.08241C21 5.62028 21 7.21907 21 10.4167C21 10.8996 21 11.4234 21 11.9914C21 14.4963 20.1632 16.4284 19 17.9041M3.19284 14C4.05026 18.2984 7.57641 20.5129 9.89856 21.5273C10.62 21.8424 10.9807 22 12 22C13.0193 22 13.38 21.8424 14.1014 21.5273C14.6796 21.2747 15.3324 20.9478 16 20.5328" stroke="var(--badge)" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
+                    </div>
+                    <div class="col">
+                        <div class="header">Təhlükəsizlik</div>
+                        <p>Hesabınızı qorumaq üçün tez-tez şifrənizi dəyişməyiniz tövsiyyə olunur. Güclü şifrə təyin edin və məlumatlarınızı qoruyun.</p>
+                    </div>
+                    <div class="col">
+                        <a href="{% url 'changemypassword' %}"><i class="fa-solid fa-arrow-right-long"></i> Şifrəmi dəyiş</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </h1>
 
     <div class="account">
@@ -179,19 +202,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="change-password">
-                <div class="col">
-                    <svg width="102px" height="102px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"><path transform="translate(-2.4, -2.4), scale(1.7999999999999998)" fill="transparent" d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M9.5 12.4L10.9286 14L14.5 10" stroke="var(--badge)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M3 10.4167C3 7.21907 3 5.62028 3.37752 5.08241C3.75503 4.54454 5.25832 4.02996 8.26491 3.00079L8.83772 2.80472C10.405 2.26824 11.1886 2 12 2C12.8114 2 13.595 2.26824 15.1623 2.80472L15.7351 3.00079C18.7417 4.02996 20.245 4.54454 20.6225 5.08241C21 5.62028 21 7.21907 21 10.4167C21 10.8996 21 11.4234 21 11.9914C21 14.4963 20.1632 16.4284 19 17.9041M3.19284 14C4.05026 18.2984 7.57641 20.5129 9.89856 21.5273C10.62 21.8424 10.9807 22 12 22C13.0193 22 13.38 21.8424 14.1014 21.5273C14.6796 21.2747 15.3324 20.9478 16 20.5328" stroke="var(--badge)" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
-                </div>
-                <div class="col">
-                    <div class="header">Təhlükəsizlik</div>
-                    <p>Hesabınızı qorumaq üçün tez-tez şifrənizi dəyişməyiniz tövsiyyə olunur. Güclü şifrə təyin edin və məlumatlarınızı qoruyun.</p>
-                </div>
-                <div class="col">
-                    <a href="{% url 'changemypassword' %}"><i class="fa-solid fa-arrow-right-long"></i> Şifrəmi dəyiş</a>
-                </div>
-            </div>
+            </div> 
         </div>
     </div> 
 
@@ -336,6 +347,24 @@
                 posts_container.style.display = "flex"
                 likes_container.style.display = "none"
             }
+        }
+
+
+        function openAccountSettings(btn){
+            let account_settings_menu = btn.nextElementSibling;
+            account_settings_menu.style.left = "0";
+            account_settings_menu.style.transform = "rotate(0deg)"; 
+            document.body.style.height = "100vh";
+            document.body.style.overflowY = "hidden";
+
+        }
+
+        function closeAccountSettings(btn){
+            let account_settings_menu = btn.parentElement;
+            account_settings_menu.style.left = "120%";
+            account_settings_menu.style.transform = "rotate(45deg)"; 
+            document.body.style.height = "auto";
+            document.body.style.overflowY = "auto";
         }
 
     </script>
