@@ -3,8 +3,7 @@
 .exam-limited-pano {
     background-color: var(--dark);
     border-radius: 1rem;
-    width: 100%;
-    min-height: calc(100dvh - 20rem);
+    width: 100%; 
 
     .container {
         display: flex;
@@ -13,8 +12,7 @@
 
         .questions-menu {
             width: 9rem;
-            border-right: .1rem dotted var(--main-dark);
-            min-height: calc(100vh - 20rem);
+            border-right: .1rem dashed var(--main-dark); 
             padding: 1rem;
             overflow-x: hidden;
 
@@ -53,16 +51,18 @@
 
             li.active {
                 box-shadow: inset 0 .1rem 0 hsla(0, 0%, 100%, .15), inset 0 -0.25rem 0 rgba(0, 0, 0, .35);
-
+                border-color: var(--badge);
+                color: var(--badge);
                 &::before {
                     right: -1.1rem;
-                    background-color: var(--main-dark);
+                    background-color: var(--badge); 
                 }
             }
         }
 
         .questions{
             width: calc(100% - 9rem);
+            overflow-y: hidden;
             .question{
                 animation-duration: .5s;
                 display: none;
@@ -89,7 +89,8 @@
                         }
                     }
                     p{
-                        font-size: 1.2rem;
+                        font-size: 1.4rem;
+                        font-weight: bold;
                     }
                 }
 
@@ -153,9 +154,21 @@
                 justify-content: space-between;
                 align-items: center;
                 padding: 1rem;
-                border-top: .1rem dotted var(--main-dark);
+                border-top: .1rem dashed var(--main-dark);
                 button{
                     @extend %button-style;
+                    &:nth-child(1){
+                        &:hover{
+                            background-color: var(--star);
+                            color: var(--dark);
+                        }
+                    }
+                     &:nth-child(2){
+                        &:hover{
+                            background-color: var(--badge);
+                            color: var(--all-light); 
+                        }
+                    }
                 }
             }
         }

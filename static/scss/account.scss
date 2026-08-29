@@ -5,7 +5,7 @@ main>h1 {
     align-items: center;
     gap: 2rem;
 
-    p {
+    &>p {
         width: calc(100% - 6rem);
     }
 
@@ -36,10 +36,10 @@ main>h1 {
         top: 0;
         right: 0;
         bottom: 0;
-        left: 120%;
+        left: 150%;
         z-index: 150;
         transition: all .2s ease-in-out;
-        transform: rotate(45deg);
+        transform: rotate(90deg);
 
         .close-btn {
             position: absolute;
@@ -929,24 +929,28 @@ main>h1 {
 }
 
 @media only screen and (max-width: 900px) {
-    .account {
-        .change-password {
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 1rem;
 
-            .col {
-
-                &:nth-child(2) {
-                    width: 100%;
-                    text-align: center;
-                }
-
-                &:nth-child(3) {
-                    width: 100%;
-                    text-align: center;
-                    margin-top: 1rem;
+    main>h1{
+        .account-settings-menu {
+            .container{
+                .change-password {
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 1rem;
+        
+                    .col {
+                        width: 100%;
+                        text-align: center;
+        
+                        &:nth-child(2) {
+                            width: 100%;
+                        }
+        
+                        &:nth-child(3) {
+                            margin-top: 1rem;
+                        }
+                    }
                 }
             }
         }

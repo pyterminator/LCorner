@@ -95,18 +95,17 @@
 
 
             function prevQuiz(btn){
-                let act = document.querySelector(".questions-menu > li.active")
+                let act = document.querySelector(".questions-menu > li.active") 
                 if (act.previousElementSibling){
-                    act.classList.remove("active")
-                    act.previousElementSibling.className = "active"
+                    act.previousElementSibling.click() 
                 }
+
             }
 
             function nextQuiz(btn){
                 let act = document.querySelector(".questions-menu > li.active")
                 if (act.nextElementSibling){
-                    act.classList.remove("active")
-                    act.nextElementSibling.className = "active"
+                    act.nextElementSibling.click()
                 }
             }
     </script>
