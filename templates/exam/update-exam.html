@@ -263,10 +263,10 @@
 
             const data = await response.json()
 
-            if (!data.success){
+            if (!data.success || (data.success && data.open)){
                 const btn_parent_form = btn.parentElement.parentElement.parentElement.previousElementSibling; 
                 btn_parent_form.classList = "form"
-            } else {
+            } else { 
                 alert(data.message)
             }
 
@@ -356,7 +356,7 @@
             question_header.appendChild(info)
 
             let control_buttons = document.createElement("div")
-            control_buttons.className = "control_buttons"
+            control_buttons.className = "control-buttons"
 
             let cb_pen = document.createElement("button")
             cb_pen.innerHTML = `<i class="fa-solid fa-pen"></i>`

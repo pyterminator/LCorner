@@ -438,7 +438,7 @@ def CheckIsFullExamWithQuestions(request):
         exam = get_object_or_404(Exam, id=id)
 
         if exam.exam_type == "endless":
-            return JsonResponse({"success": True})
+            return JsonResponse({"success": True, "open": True})
 
         if exam.question_count > exam.quizzes.all().count():
             return JsonResponse({"success": False, "message": "İmtahan suallarla doludurulmayıb!"})
