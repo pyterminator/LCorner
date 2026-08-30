@@ -162,6 +162,8 @@
             border-radius: 1rem;
             color: var(--light);
             position: relative;
+            display: flex;
+            flex-direction: column;
 
             .difficulty{
                 width: 3.5rem;
@@ -251,6 +253,7 @@
             }
 
             a.viewexam{
+                @extend %button-style;
                 width: 100%;
                 display: block;
                 background-color: var(--bg);
@@ -260,6 +263,8 @@
                 text-align: center;
                 font-size: 1.2rem;
                 color: var(--all-light);
+                border-color: transparent;
+                margin-top: auto;
 
                 i{
                     margin-left: 1rem;
@@ -280,7 +285,7 @@
                 flex-wrap: wrap;
                 gap: .3rem;
 
-                .exam-type, .earn-xp{
+                .exam-type, .earn-xp, .participants-count, .updated-at{
                     font-size: 1rem;
                     margin: .3rem 0;
                     display: inline-block;
@@ -312,7 +317,17 @@
                             color: var(--badge);
                         }
                     }
-                   
+                }
+                .participants-count{
+                    i{
+                        color: var(--bg);
+                    }
+                }
+
+                .updated-at{
+                    i{
+                        color: var(--pending-border);
+                    }
                 }
             }
         }

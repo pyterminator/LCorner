@@ -118,7 +118,13 @@
                                         <span class="limited">{{exam.earn_xp}}</span>xp
                                     {% endif %}
                                 </span>
-                            </div> 
+                            </div>
+                            <div class="participants-count">
+                                İştirakçı sayı : <i class="fa-solid fa-users"></i> <span>{{exam.participants.count}}</span>
+                            </div>
+                            <div class="updated-at">
+                                Yenilənib : <i class="fa-solid fa-arrows-rotate"></i> <span>{{exam.updated_at|smart_date}}</span>
+                            </div>
                         </div>
 
 
