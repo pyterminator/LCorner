@@ -62,6 +62,17 @@
             {% endif %}
         </div>
         <div class="right-side">
+
+            <div class="timer">
+                <p class="timer-title">
+                    <i class="fa-regular fa-clock"></i> Qalan vaxt
+                </p>
+                <div class="timer-container">
+                    <span id="minute"> <b data-minute="{{exam.duration}}"></b> dəq</span>
+                    <span id="second"> <b></b> san</span>
+                </div>
+            </div>
+
             <div class="question-navigation">
                 <p class="navigation-title">
                     Sual Naviqasiyası
@@ -137,7 +148,29 @@
                     })
 
                 })
-            })
+            });
+
+            let totalSeconds = document.querySelector("#minute b").dataset.minute * 60;
+
+            const minute = document.querySelector("#minute b");
+            const second = document.querySelector("#second b");
+
+            const timer = setInterval(() => {
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+
+                minute.textContent = minutes;
+                second.textContent = seconds;
+
+                if (totalSeconds <= 0) {
+                    clearInterval(timer);
+                    // Vaxt bitəndə burada imtahanı bitirə bilərsən 
+                    // Vaxt bitdi
+                    return;
+                }
+
+                totalSeconds--;
+            }, 1000);
 
     </script>
 {% endblock %}
