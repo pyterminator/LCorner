@@ -15,7 +15,14 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 def Dashboard(request):
      
     exams = Exam.objects.filter(is_active=True).order_by('-id')[:6]
-    posts = Post.objects.filter(approved=True).filter(is_public=True).order_by('-id')[:6]
+    # posts = Post.objects.filter(approved=True).filter(is_public=True).order_by('-id')[:6]
+
+    posts = (
+        Post.objects
+        .select_related("author")
+        .filter(approved=True, is_public=True)
+        .order_by("-id")[:6]
+    )
     my_account = request.user.account
 
     liked_posts = set(

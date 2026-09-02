@@ -20,15 +20,10 @@
     <!-- Breadcrumb olmaz -->
     <div class="exam-limited-pano">
         <div class="container">
-            {% if quizzes %}
-                <ul class="questions-menu">
-                    {% for quiz in quizzes %}
-                        <li {% if forloop.counter == 1 %}class='active'{% endif %} data-id="{{forloop.counter}}">Sual {{forloop.counter}}</li>
-                    {% endfor %}
-                </ul>
+            {% if quizzes %} 
                 <div class="questions">
                     {% for quiz in quizzes %}
-                        <div class="question {% if forloop.counter == 1 %} active {% endif %}">
+                        <div class="question {% if forloop.counter == 1 %} active {% endif %}" data-id="{{quiz.id}}">
                             <div class="title">
                                 <span><em>Sual {{forloop.counter}}</em> / {{quizzes_count}}</span> 
                                 <p>{{quiz.question}}</p>
@@ -66,6 +61,21 @@
                 </div>
             {% endif %}
         </div>
+        <div class="right-side">
+            <div class="question-navigation">
+                <p class="navigation-title">
+                    Sual Naviqasiyası
+                </p>
+                <ul class="questions-menu">
+
+                    {% for quiz in quizzes %}
+                        <li {% if forloop.counter == 1 %}class='active'{% endif %} data-id="{{forloop.counter}}">
+                            {{forloop.counter}}
+                        </li>
+                    {% endfor %} 
+                </ul>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -80,18 +90,12 @@
                     item.className = "active"
 
                     document.querySelector(".questions > .question.active").classList.remove("active")
-                    document.querySelectorAll(".questions > .question")[item.dataset.id-1].className="animate__animated animate__slideInDown question active"
-                    setTimeout(() => {
-                        clearAnimation()
-                    }, 1000);
+                    document.querySelectorAll(".questions > .question")[item.dataset.id-1].className="question active"
+                     
                 })
             })
 
-            function clearAnimation() {
-                document.querySelectorAll(".questions > .question").forEach(item => {
-                    item.classList.remove('animate__animated', 'animate__slideInDown');
-                });
-            }
+            
 
 
             function prevQuiz(btn){
@@ -108,5 +112,8 @@
                     act.nextElementSibling.click()
                 }
             }
+
+            document.querySelectorAll("label.option input")
+
     </script>
 {% endblock %}

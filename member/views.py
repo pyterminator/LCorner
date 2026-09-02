@@ -26,7 +26,14 @@ def PublicPage(request):
     if request.user.is_authenticated:
         return redirect("dashboard")
 
-    posts = Post.objects.filter(approved=True).filter(is_public=True).order_by('-id')[:12]
+    # posts = Post.objects.filter(approved=True).filter(is_public=True).order_by('-id')[:12]
+
+    posts = (
+        Post.objects
+        .select_related("author")
+        .filter(approved=True, is_public=True)
+        .order_by("-id")[:6]
+    )
 
     data = {
         "posts": posts

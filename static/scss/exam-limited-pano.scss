@@ -1,100 +1,60 @@
 @use "extends";
 
 .exam-limited-pano {
-    background-color: var(--dark);
-    border-radius: 1rem;
-    width: 100%; 
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
 
     .container {
         display: flex;
         justify-content: flex-start;
         align-items: stretch;
+        width: calc(100% - 26rem);
+        background-color: var(--dark);
+        border-radius: 1rem; 
 
-        .questions-menu {
-            width: 9rem;
-            border-right: .1rem dashed var(--main-dark); 
-            padding: 1rem;
-            overflow-x: hidden;
-
-            li {
-                display: block;
-                width: 100%;
-                height: 3rem;
-                font-size: 1.2rem;
-                font-weight: 500;
-
-                &:not(:last-child) {
-                    margin-bottom: .5rem;
-                }
-
-                line-height: 3rem;
-                padding-left: 1rem;
-                border: .1rem solid var(--main-dark);
-                color: var(--light);
-                cursor: pointer;
-                border-radius: 1rem;
-                transition: all .1s ease-in;
-                position: relative;
-
-                &::before {
-                    content: "";
-                    transition: all .1s ease-in;
-                    position: absolute;
-                    width: 1rem;
-                    height: .25rem;
-                    background-color: transparent;
-                    transform: translateY(-50%);
-                    right: - 2.1rem;
-                    top: 50%;
-                }
-            }
-
-            li.active {
-                box-shadow: inset 0 .1rem 0 hsla(0, 0%, 100%, .15), inset 0 -0.25rem 0 rgba(0, 0, 0, .35);
-                border-color: var(--badge);
-                color: var(--badge);
-                &::before {
-                    right: -1.1rem;
-                    background-color: var(--badge); 
-                }
-            }
-        }
-
-        .questions{
-            width: calc(100% - 9rem);
+        .questions {
+            width: 100%;
             overflow-y: hidden;
-            .question{
-                animation-duration: .5s;
+
+            .question { 
                 display: none;
             }
-            .question.active{
+
+            .question.active {
                 color: var(--light);
                 display: block;
                 padding: 2rem;
                 width: 100%;
-                .title{
+
+                .title {
                     display: block;
                     font-size: 1.4rem;
                     font-weight: 600;
-                    margin-bottom: 1rem; 
+                    margin-bottom: 1rem;
                     padding-bottom: 2rem;
                     border-bottom: .1rem solid var(--input-bg);
                     width: 100%;
-                    span{
+
+                    span {
                         display: block;
                         margin-bottom: 1rem;
                         font-size: 2rem;
-                        em{
+
+                        em {
                             color: var(--badge);
                         }
                     }
-                    p{
+
+                    p {
                         font-size: 1.4rem;
                         font-weight: bold;
                     }
                 }
 
-                .options{
+                .options {
                     display: flex;
                     flex-direction: column;
                     flex-wrap: wrap;
@@ -102,7 +62,8 @@
                     align-items: flex-end;
                     gap: 1rem;
                     width: 100%;
-                    .option{
+
+                    .option {
                         display: flex;
                         justify-content: flex-start;
                         align-items: center;
@@ -112,19 +73,21 @@
                         border: .2rem solid var(--input-bg);
                         border-radius: 1rem;
                         padding: 1rem;
-                        input{
+
+                        input {
                             display: none;
-                            &:checked + span{
+
+                            &:checked+span {
                                 background-color: var(--star);
                                 box-shadow: inset 0 .3rem .5rem rgba(0, 0, 0, .4);
                             }
                         }
 
-                        &:hover span{
+                        &:hover span {
                             background-color: var(--star);
                         }
 
-                        span{
+                        span {
                             width: 3rem;
                             height: 3rem;
                             border-radius: 1rem;
@@ -139,7 +102,7 @@
 
                         }
 
-                        p{
+                        p {
                             width: calc(100% - 5rem);
                             font-size: 1.2rem;
                         }
@@ -147,7 +110,7 @@
                 }
             }
 
-            .footer{
+            .footer {
                 width: 100%;
                 height: 6rem;
                 display: flex;
@@ -155,22 +118,114 @@
                 align-items: center;
                 padding: 1rem;
                 border-top: .1rem dashed var(--main-dark);
-                button{
+
+                button {
                     @extend %button-style;
-                    &:nth-child(1){
-                        &:hover{
+
+                    &:nth-child(1) {
+                        &:hover {
                             background-color: var(--star);
                             color: var(--dark);
                         }
                     }
-                     &:nth-child(2){
-                        &:hover{
+
+                    &:nth-child(2) {
+                        &:hover {
                             background-color: var(--badge);
-                            color: var(--all-light); 
+                            color: var(--all-light);
                         }
                     }
                 }
             }
+        }
+    }
+
+    .right-side {
+        width: 25rem;
+        background-color: var(--dark);
+        border-radius: 1rem;
+        padding: 1rem;
+        color: var(--light);
+
+        .question-navigation {
+            p.navigation-title {
+                font-size: 1.4rem;
+                font-weight: 600;
+                margin-bottom: 1rem;
+            }
+
+            ul.questions-menu {
+                display: flex;
+                justify-content: flex-start;
+                align-items: stretch;
+                flex-wrap: wrap;
+                gap: 1rem;
+
+                li {
+                    width: 3rem;
+                    height: 3rem;
+                    text-align: center;
+                    border: .2rem solid var(--light);
+                    line-height: 2.6rem;
+                    background-color: var(--main-dark);
+                    border-radius: 1rem;
+                    cursor: pointer;
+                    transition: all .1s ease-in;
+                    box-shadow: inset 0 .1rem 0 hsla(0, 0%, 100%, .15), inset 0 -0.25rem 0 rgba(0, 0, 0, .35);
+
+
+                    span {
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                        color: var(--dark);
+                        transition: all .1s ease-in;
+                    }
+
+                    &:hover {
+                        background-color: var(--dark);
+
+                        span {
+                            color: var(--light);
+                        }
+                    }
+                }
+
+                li.active {
+                    border-color: var(--success);
+                    background-color: var(--success);
+
+                    span {
+                        color: var(--all-light);
+                    }
+                }
+
+                li.completed {
+                    border-color: var(--star);
+                    background-color: var(--star);
+
+                    span {
+                        color: var(--all-dark);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 1000px) {
+    .exam-limited-pano { 
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column-reverse;
+
+        .container {
+            width: 100%; 
+            
+        }
+
+        .right-side {
+            width: 100%;  
         }
     }
 }
