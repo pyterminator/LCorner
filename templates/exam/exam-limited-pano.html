@@ -32,7 +32,7 @@
                             <div class="options">
                                 {% for option in quiz.options.all %}
                                     <label class="option" for="question{{quiz.id}}{{forloop.counter0}}">
-                                        <input type="radio" name="question{{quiz.id}}" id="question{{quiz.id}}{{forloop.counter0}}" value="{{forloop.counter}}">
+                                        <input type="radio" name="question{{quiz.id}}" id="question{{quiz.id}}{{forloop.counter0}}" value="{{forloop.counter}}" data-id="{{quiz.id}}">
                                         <span>
                                             {% if forloop.counter0 == 0 %}
                                                 A   
@@ -69,11 +69,17 @@
                 <ul class="questions-menu">
 
                     {% for quiz in quizzes %}
-                        <li {% if forloop.counter == 1 %}class='active'{% endif %} data-id="{{forloop.counter}}">
-                            {{forloop.counter}}
+                        <li {% if forloop.counter == 1 %}class='active'{% endif %} data-id="{{forloop.counter}}" data-qid="{{quiz.id}}">
+                            <span>
+                                {{forloop.counter}}
+                            </span>
                         </li>
                     {% endfor %} 
                 </ul>
+            </div>
+
+            <div class="submit-form">
+                <button>İmtahanı bitir</button>
             </div>
         </div>
     </div>
@@ -87,7 +93,7 @@
                 item.addEventListener("click", function(e){
                     e.preventDefault()
                     document.querySelector(".questions-menu > li.active").classList.remove("active")
-                    item.className = "active"
+                    item.classList.add("active")
 
                     document.querySelector(".questions > .question.active").classList.remove("active")
                     document.querySelectorAll(".questions > .question")[item.dataset.id-1].className="question active"
@@ -113,7 +119,25 @@
                 }
             }
 
-            document.querySelectorAll("label.option input")
+            document.querySelectorAll("label.option input").forEach(item=>{
+                item.addEventListener("change", function(e){
+                    let quiz_id = item.dataset.id
+                    question_menu_list.forEach(innerItem=>{
+                        if (innerItem.dataset.qid == quiz_id){
+                            if (!innerItem.classList.contains("completed")){
+                                if (innerItem.classList.contains("active")){
+                                    innerItem.classList.remove("active");
+                                    innerItem.classList.add("completed", "active");
+                                }
+                                else {
+                                    innerItem.classList.add("completed")
+                                }
+                            }
+                        }
+                    })
+
+                })
+            })
 
     </script>
 {% endblock %}
