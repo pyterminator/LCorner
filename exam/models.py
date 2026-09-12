@@ -123,3 +123,37 @@ class QuizOption(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class LimitedExamResults(models.Model):
+    exam = models.ForeignKey(
+        Exam,
+        on_delete=models.CASCADE,
+        related_name="results"
+    )
+
+    user = models.ForeignKey(
+        Account,
+        on_delete=models.CASCADE,
+        related_name="exam_results"
+    )
+
+    total_questions = models.PositiveIntegerField()
+    correct_answers = models.PositiveIntegerField(default=0)
+    wrong_answers = models.PositiveIntegerField(default=0)
+
+    score_percent = models.FloatField(default=0)
+    earned_xp = models.FloatField(default=0)
+
+    passed = models.BooleanField(default=False)
+
+    started_at = models.DateTimeField()
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["exam", "user"],
+                name="unique_limited_exam_result"
+            )
+        ]

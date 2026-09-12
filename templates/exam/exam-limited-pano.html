@@ -18,7 +18,7 @@
 
 {% block root %}
     <!-- Breadcrumb olmaz -->
-    <div class="exam-limited-pano">
+    <div class="exam-limited-pano" data-url="{% url 'exampanochecklimitedquizanswer' %}" data-examid="{{exam.id}}">
         <div class="container">
             {% if quizzes %} 
                 <div class="questions">
@@ -32,7 +32,7 @@
                             <div class="options">
                                 {% for option in quiz.options.all %}
                                     <label class="option" for="question{{quiz.id}}{{forloop.counter0}}">
-                                        <input type="radio" name="question{{quiz.id}}" id="question{{quiz.id}}{{forloop.counter0}}" value="{{forloop.counter}}" data-id="{{quiz.id}}">
+                                        <input type="radio" name="question{{quiz.id}}" id="question{{quiz.id}}{{forloop.counter0}}" value="{{forloop.counter}}" data-id="{{quiz.id}}" data-optid="{{option.id}}">
                                         <span>
                                             {% if forloop.counter0 == 0 %}
                                                 A   
@@ -90,7 +90,26 @@
             </div>
 
             <div class="submit-form">
-                <button>İmtahanı bitir</button>
+                <button onclick="EndExam(this)">İmtahanı bitir</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="popup is_exam_finished">
+        <div class="container">
+            <div class="title">
+                İmtahanı bitirmək
+                <div class="close-btn" onclick="RejectEndExam(this)">
+                    <i class="fa-solid fa-times"></i>
+                </div>
+            </div>
+            <div class="popup-body">
+                İmtahanı bitirmək istədiyinizə əminsiniz ?
+            </div>
+            <div class="btn-groups">
+                <button id="close" onclick="RejectEndExam(this)">Xeyr</button>
+                <button id="continue" onclick="confirmed_exam_finised(this)">Bəli</button>
             </div>
         </div>
     </div>
@@ -99,78 +118,134 @@
 <!-- Scripts -->
 {% block scripts %}
     <script>
-            let question_menu_list = document.querySelectorAll(".questions-menu > li")
-            question_menu_list.forEach(item=>{
-                item.addEventListener("click", function(e){
-                    e.preventDefault()
-                    document.querySelector(".questions-menu > li.active").classList.remove("active")
-                    item.classList.add("active")
+        let question_menu_list = document.querySelectorAll(".questions-menu > li")
+        question_menu_list.forEach(item=>{
+            item.addEventListener("click", function(e){
+                e.preventDefault()
+                document.querySelector(".questions-menu > li.active").classList.remove("active")
+                item.classList.add("active")
 
-                    document.querySelector(".questions > .question.active").classList.remove("active")
-                    document.querySelectorAll(".questions > .question")[item.dataset.id-1].className="question active"
-                     
-                })
+                document.querySelector(".questions > .question.active").classList.remove("active")
+                document.querySelectorAll(".questions > .question")[item.dataset.id-1].className="question active"
+                    
             })
+        })
 
-            
+        
 
 
-            function prevQuiz(btn){
-                let act = document.querySelector(".questions-menu > li.active") 
-                if (act.previousElementSibling){
-                    act.previousElementSibling.click() 
-                }
-
+        function prevQuiz(btn){
+            let act = document.querySelector(".questions-menu > li.active") 
+            if (act.previousElementSibling){
+                act.previousElementSibling.click() 
             }
 
-            function nextQuiz(btn){
-                let act = document.querySelector(".questions-menu > li.active")
-                if (act.nextElementSibling){
-                    act.nextElementSibling.click()
-                }
-            }
+        }
 
-            document.querySelectorAll("label.option input").forEach(item=>{
-                item.addEventListener("change", function(e){
-                    let quiz_id = item.dataset.id
-                    question_menu_list.forEach(innerItem=>{
-                        if (innerItem.dataset.qid == quiz_id){
-                            if (!innerItem.classList.contains("completed")){
-                                if (innerItem.classList.contains("active")){
-                                    innerItem.classList.remove("active");
-                                    innerItem.classList.add("completed", "active");
-                                }
-                                else {
-                                    innerItem.classList.add("completed")
-                                }
+        function nextQuiz(btn){
+            let act = document.querySelector(".questions-menu > li.active")
+            if (act.nextElementSibling){
+                act.nextElementSibling.click()
+            }
+        }
+
+        document.querySelectorAll("label.option input").forEach(item=>{
+            item.addEventListener("change", function(e){
+                let quiz_id = item.dataset.id
+                question_menu_list.forEach(innerItem=>{
+                    if (innerItem.dataset.qid == quiz_id){
+                        if (!innerItem.classList.contains("completed")){
+                            if (innerItem.classList.contains("active")){
+                                innerItem.classList.remove("active");
+                                innerItem.classList.add("completed", "active");
+                            }
+                            else {
+                                innerItem.classList.add("completed")
                             }
                         }
-                    })
-
+                    }
                 })
+
+            })
+        });
+
+        let totalSeconds = document.querySelector("#minute b").dataset.minute * 60;
+
+        const minute = document.querySelector("#minute b");
+        const second = document.querySelector("#second b");
+
+        const timer = setInterval(() => {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            minute.textContent = minutes;
+            second.textContent = seconds;
+
+            if (totalSeconds <= 0) {
+                clearInterval(timer);
+                // Vaxt bitəndə burada imtahanı bitirə bilərsən 
+                // Vaxt bitdi
+                return;
+            }
+
+            totalSeconds--;
+        }, 1000);
+
+
+        function is_exam_finished(){
+            let is_exam_finished = document.querySelector(".is_exam_finished")
+            if (getComputedStyle(is_exam_finished).display == "flex"){
+                is_exam_finished.style.display = "none" 
+                document.body.style.height = "auto"
+                document.body.style.overflowY = "auto" 
+            } else {
+                is_exam_finished.style.display = "flex" 
+                document.body.style.height = "100dvh"
+                document.body.style.overflowY = "hidden"
+            }
+        }
+
+        function RejectEndExam(rej){
+            is_exam_finished()
+        }
+
+        function EndExam(btn){
+            is_exam_finished()
+        }
+
+         
+
+        async function confirmed_exam_finised(btn){ 
+            let url = document.querySelector(".exam-limited-pano").dataset.url
+            let exam_id = document.querySelector(".exam-limited-pano").dataset.examid
+            let answer = {
+                "answers": [],
+                "exam_id": exam_id
+            }
+            let checked_inputs = document.querySelectorAll(".exam-limited-pano > .container > .questions > .question > .options > .option > input[type=radio]:checked")
+
+            checked_inputs.forEach(inp => { 
+                let quiz_id = inp.dataset.id
+                let opt_id = inp.dataset.optid
+
+                answer["answers"].push({"quiz_id": quiz_id, "option_id": opt_id})
             });
 
-            let totalSeconds = document.querySelector("#minute b").dataset.minute * 60;
+            const response = await fetch(url, {
+                method: "POST",
 
-            const minute = document.querySelector("#minute b");
-            const second = document.querySelector("#second b");
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
 
-            const timer = setInterval(() => {
-                const minutes = Math.floor(totalSeconds / 60);
-                const seconds = totalSeconds % 60;
+                body: JSON.stringify(answer)
+            })
 
-                minute.textContent = minutes;
-                second.textContent = seconds;
+            const data = await response.json()
 
-                if (totalSeconds <= 0) {
-                    clearInterval(timer);
-                    // Vaxt bitəndə burada imtahanı bitirə bilərsən 
-                    // Vaxt bitdi
-                    return;
-                }
-
-                totalSeconds--;
-            }, 1000);
+            console.log(data)
+        }   
 
     </script>
 {% endblock %}

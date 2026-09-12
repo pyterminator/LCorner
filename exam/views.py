@@ -1,6 +1,7 @@
 import json, random, re
 from post.models import Post
 from django.db.models import Max
+from django.utils import timezone
 from django.db import transaction
 from member.models import Account
 from django.contrib import messages
@@ -8,9 +9,9 @@ from django.http import JsonResponse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from notifications.models import Notification
-from exam.models import Exam, Tag, Quiz, QuizOption
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404 
+from exam.models import Exam, Tag, Quiz, QuizOption, LimitedExamResults
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 # Sentence Builder Game Ucun post.sentence-i liste cevirir
@@ -349,10 +350,60 @@ def ExamPano(request, slug):
             data["quizzes_count"] = quizzes.count()
             pano_url = "exam-limited-pano.html"
 
+            limited_exam_result, created = LimitedExamResults.objects.get_or_create(
+                exam=exam,
+                user=request.user.account, 
+                defaults={
+                    "total_questions": exam.question_count,
+                    "started_at": timezone.now(),
+                }
+            )
+
+
         return render(request, f"exam/{pano_url}", context=data)
 
     except Exam.DoesNotExist:
         return redirect("dashboard")
+
+@require_POST
+def CheckLimitedQuizAnswer(request):
+    try:
+
+        correct_answer_count = 0
+        wrong_answer_count = 0
+
+        data = json.loads(request.body)
+        answers = data.get("answers")
+
+        exam = get_object_or_404(Exam, id=int(data.get("exam_id")))  
+
+        for ans in answers:  
+            quiz = get_object_or_404(Quiz, id=int(ans.get("quiz_id")))  
+            option = get_object_or_404(
+                QuizOption,
+                id=int(ans.get("option_id")),
+                quiz=quiz
+            )
+            if option.is_correct:
+                correct_answer_count += 1
+            else:
+                wrong_answer_count += 1
+
+        limited_exam_result = LimitedExamResults.objects.filter(user=request.user.account, exam=exam).first()
+        limited_exam_result.correct_answers = correct_answer_count
+        limited_exam_result.wrong_answers = wrong_answer_count
+        limited_exam_result.save()
+
+        return JsonResponse(
+            {
+                "success": True, 
+                "correct_answer": limited_exam_result.correct_answers,
+                "wrong_answer": limited_exam_result.wrong_answers, 
+                "unanswered": exam.question_count - (limited_exam_result.correct_answers + limited_exam_result.wrong_answers)
+            }
+        )
+    except: 
+        return JsonResponse({"success": False})
 
 @require_POST
 def GenerateQuizForExamPano(request, slug):
