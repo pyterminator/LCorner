@@ -52,7 +52,7 @@
 
                 <div class="questions">
 
-                    <form action="{% url 'updateexam' exam.slug %}" method="post" class="deactive-form" id="addNewQuiz">
+                    <form action="{% url 'updateexam' exam.slug %}" method="post" class="deactive-form" id="addNewQuiz" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="header">
                             <div class="left">Yeni sual əlavə et</div>
@@ -66,6 +66,12 @@
                         <label for="quiz_text_title">
                             <p>Sual mətni</p> 
                             <textarea name="quiz_text_title" id="quiz_text_title"></textarea>
+                        </label>
+
+                        <label for="quiz_image_title">
+                            <input type="file" id="quiz_image_title" accept="image/png, image/jpeg">
+                            <img src="https://cloudinary-marketing-res.cloudinary.com/image/upload/w_1300/q_auto/f_auto/hiking_dog_mountain" alt="">
+                            <p>Başlıq üçün <span>şəkil əlavə et</span>.</p>
                         </label>
 
                         <div class="options">
