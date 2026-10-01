@@ -218,11 +218,17 @@ def UpdateExam(request, slug: str):
             
 
         if request.method == "POST":
-            data = json.loads(request.body)
+            # data = json.loads(request.body)
 
-            quiz_text_title = data.get("question", "")
-            options = data.get("options", [])
-            correct_answer = data.get("correct_answer", "")
+            # quiz_text_title = data.get("question", "")
+            # options = data.get("options", [])
+            # correct_answer = data.get("correct_answer", "")
+            # image = request.FILES.get("image")
+
+            quiz_text_title = request.POST.get("question", "")
+            options = json.loads(request.POST.get("options", "[]"))
+            correct_answer = request.POST.get("correct_answer", "")
+            image = request.FILES.get("image")
 
             last_order = (
                 exam.quizzes.aggregate(Max("order"))["order__max"] or 0
@@ -241,7 +247,8 @@ def UpdateExam(request, slug: str):
                     new_quiz = Quiz.objects.create(
                         exam = exam,
                         question = quiz_text_title,
-                        order = last_order + 1
+                        order = last_order + 1,
+                        image = image
                     )
 
                     for key, text in options.items():
@@ -255,6 +262,7 @@ def UpdateExam(request, slug: str):
                     "success":True,
                     "id": new_quiz.id,
                     "question": new_quiz.question,
+                    "image": new_quiz.image.url if new_quiz.image else None,
                     "options": list(new_quiz.options.values("id", "text", "is_correct"))
                 })
             except:

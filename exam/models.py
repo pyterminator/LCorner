@@ -1,6 +1,16 @@
 from django.db import models
 from member.models import Account
 from django.utils.text import slugify
+import random 
+import string
+
+
+def get_random_quiz_image_name(instance, filename): 
+    ext = filename.split(".")[-1] 
+    random_str = "".join(
+        random.choices(string.ascii_letters + string.digits, k=10)
+    ) 
+    return f"quiz_images/{random_str}.{ext}"
 
 
 class Tag(models.Model):
@@ -93,6 +103,7 @@ class Quiz(models.Model):
     )
 
     question = models.TextField()
+    image = models.ImageField(upload_to=get_random_quiz_image_name, blank=True, null=True)
 
     order = models.PositiveIntegerField(default=1)
 

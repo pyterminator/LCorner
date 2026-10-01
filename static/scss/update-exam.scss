@@ -179,6 +179,7 @@
                             object-fit: contain;
                             object-position: top;
                             border-radius: 1rem;
+                            display: none;
                         }
                         &>p {
                             font-size: 1.4rem;
@@ -596,6 +597,15 @@
 
                                 .title {
                                     font-size: 1.6rem;
+                                    margin-bottom: 1rem;
+                                }
+
+                                .quiz-image{
+                                    img{
+                                        max-width: 30rem;
+                                        object-position: center;
+                                        object-fit: contain;
+                                    }
                                     margin-bottom: 2rem;
                                 }
 

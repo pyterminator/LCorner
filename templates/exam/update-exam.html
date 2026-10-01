@@ -69,8 +69,8 @@
                         </label>
 
                         <label for="quiz_image_title">
-                            <input type="file" id="quiz_image_title" accept="image/png, image/jpeg">
-                            <img src="https://cloudinary-marketing-res.cloudinary.com/image/upload/w_1300/q_auto/f_auto/hiking_dog_mountain" alt="">
+                            <input type="file" id="quiz_image_title" name="quiz_image_title" accept="image/png, image/jpeg">
+                            <img id="quiz_image" draggable="false" src="" alt="Quiz image">
                             <p>Başlıq üçün <span>şəkil əlavə et</span>.</p>
                         </label>
 
@@ -181,6 +181,11 @@
                                         <div class="title">
                                             {{quiz.question}}
                                         </div>
+                                        {% if quiz.image %}
+                                            <div class="quiz-image">
+                                                <img src="{{quiz.image.url}}" alt="{{quiz.question}}" draggable="false">
+                                            </div>
+                                        {% endif %}
                                         <div class="options">
                                             {% for option in quiz.options.all %}
                                                 <div class="option">
@@ -228,6 +233,10 @@
         const tabs_buttons = document.querySelectorAll(".tabs > button")
         const base_div = document.querySelector(".tab-nav .nav .base")
         const questions_div = document.querySelector(".tab-nav .nav .questions")
+
+        var quiz_image_title = document.getElementById("quiz_image_title")
+        var quiz_image = document.getElementById("quiz_image")  
+
         tabs_buttons.forEach(item=>{
             item.addEventListener("click", function(e){
                 e.preventDefault() 
@@ -279,7 +288,7 @@
 
         }
 
-        function createQuestionElement(question_id, title, options){
+        function createQuestionElement(question_id, title, title_img, options){
             let question = document.createElement("div")
             question.className = "question"
 
@@ -288,7 +297,7 @@
 
             let container_left = createContainerLeftElement(question_id)
 
-            let container_right = createContainerRightElement("", title, options, "Variantlı sual")
+            let container_right = createContainerRightElement("", title, title_img, options, "Variantlı sual")
 
             container.appendChild(container_left)
             container.appendChild(container_right)
@@ -339,7 +348,7 @@
             return container_left
         }
 
-        function createContainerRightElement(forloop_counter, title_text, options, quiz_type="Variantlı sual"){
+        function createContainerRightElement(forloop_counter, title_text, title_img, options, quiz_type="Variantlı sual"){
             let container_right = document.createElement("div")
             container_right.className = "right"
 
@@ -383,6 +392,15 @@
             title.innerText = title_text
             container_right.appendChild(title)
 
+            let quiz_img = document.createElement("div")
+            quiz_img.className = "quiz-image"
+            let quiz_img_element = document.createElement("img")
+            quiz_img_element.draggable = false
+            quiz_img_element.src = title_img
+            quiz_img_element.alt = title_text
+            quiz_img.appendChild(quiz_img_element)
+            container_right.appendChild(quiz_img)
+
             let opts = createContainerRightElementOptions(options)
             container_right.appendChild(opts)
 
@@ -421,36 +439,49 @@
         document.getElementById("addNewQuiz").addEventListener("submit", async function(e){
             e.preventDefault()
             let url = e.target.getAttribute("action")
-            let form_data = {
-                "question": e.target.quiz_text_title.value,
-                "options": [
-                    e.target.option_a.value,
-                    e.target.option_b.value,
-                    e.target.option_c.value,
-                    e.target.option_d.value
-                ],
-                "correct_answer": e.target.correct_answer.value
+
+            let form_data = new FormData();
+            form_data.append("question", e.target.quiz_text_title.value);
+
+            form_data.append("options", JSON.stringify([
+                e.target.option_a.value,
+                e.target.option_b.value,
+                e.target.option_c.value,
+                e.target.option_d.value
+            ]));
+            form_data.append("correct_answer", e.target.correct_answer.value);
+
+            let image = e.target.quiz_image_title.files[0];
+            if (image) {
+                form_data.append("image", image);
             }
 
             const response = await fetch(url, {
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json",
                     "X-CSRFToken": getCookie("csrftoken"),
                 },
 
-                body: JSON.stringify(form_data)
-            })
-
+                body: form_data
+            });
             const data = await response.json()
 
-            if (data.success){
-                let questions_header = document.querySelector(".questions-header")
-                let quiz_box = createQuestionElement(data.id, data.question, data.options)
 
-                questions_header.insertAdjacentElement("afterend", quiz_box)  
+            if (data.success) {
+                let questions_header = document.querySelector(".questions-header");
+
+                let quiz_box = createQuestionElement(
+                    data.id,
+                    data.question,
+                    data.image,
+                    data.options
+                );
+
+                questions_header.insertAdjacentElement("afterend", quiz_box);
             }
+
+
             forloopCounter()
 
             document.querySelector("#addNewQuiz > div.header > div.right > button").click()
@@ -467,5 +498,13 @@
             }
         }
 
+        quiz_image_title.addEventListener("change", function(e){
+            var reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onload = function (event) {
+                quiz_image.style.display = "block"
+                quiz_image.src = event.target.result;
+            };
+        })
     </script>
 {% endblock %}
