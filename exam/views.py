@@ -1,5 +1,6 @@
 import json, random, re
 from post.models import Post
+from django.urls import reverse
 from django.db.models import Max
 from django.utils import timezone
 from django.db import transaction
@@ -218,12 +219,6 @@ def UpdateExam(request, slug: str):
             
 
         if request.method == "POST":
-            # data = json.loads(request.body)
-
-            # quiz_text_title = data.get("question", "")
-            # options = data.get("options", [])
-            # correct_answer = data.get("correct_answer", "")
-            # image = request.FILES.get("image")
 
             quiz_text_title = request.POST.get("question", "")
             options = json.loads(request.POST.get("options", "[]"))
@@ -331,15 +326,25 @@ def ActivateExam(request, id):
 def ExamDetailView(request, slug):
     try:
         exam = get_object_or_404(Exam, slug=slug)
+        is_completed = False
+
+
+        limited_exam_result = LimitedExamResults.objects.filter(exam=exam, user=request.user.account).first()
+        if limited_exam_result:
+            if limited_exam_result.completed_at:
+                is_completed = True
+
         quizzes = exam.quizzes.all().order_by("-id")
-
-
         data = {
             "exam": exam,
             "quizzes": quizzes,
             "quizzes_count": quizzes.count(),
-            "is_enrolled": exam.participants.filter(id=request.user.account.id).exists()
+            "is_enrolled": exam.participants.filter(id=request.user.account.id).exists(),
+            "is_completed": is_completed,
         }
+
+        if is_completed:
+            data["limited_exam_result_id"] = limited_exam_result.id
     
         return render(request, "exam/exam-detail.html", context=data)
 
@@ -400,18 +405,31 @@ def CheckLimitedQuizAnswer(request):
         limited_exam_result = LimitedExamResults.objects.filter(user=request.user.account, exam=exam).first()
         limited_exam_result.correct_answers = correct_answer_count
         limited_exam_result.wrong_answers = wrong_answer_count
+
+        limited_exam_result.completed_at = timezone.now()
+
         limited_exam_result.save()
 
         return JsonResponse(
             {
                 "success": True, 
                 "correct_answer": limited_exam_result.correct_answers,
-                "wrong_answer": limited_exam_result.wrong_answers, 
+                "wrong_answer": limited_exam_result.wrong_answers,
+                "limited_exam_result_page": reverse("lookexamresult", kwargs={"id": limited_exam_result.id}),
                 "unanswered": exam.question_count - (limited_exam_result.correct_answers + limited_exam_result.wrong_answers)
             }
         )
     except: 
         return JsonResponse({"success": False})
+
+def LookExamResult(request, id):
+    exam_result = LimitedExamResults.objects.filter(id=id).first()
+
+    data = {
+        "exam_result": exam_result
+    }
+
+    return render(request, "exam/exam-result.html", context=data)
 
 @require_POST
 def GenerateQuizForExamPano(request, slug):

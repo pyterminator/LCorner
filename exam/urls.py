@@ -2,7 +2,8 @@ from django.urls import path
 from exam.views import (
     MyExams, CreateNewExam, SentenceBuilder, UpdateExam, ActivateExam, 
     ExamDetailView, ExamPano, GenerateQuizForExamPano, CheckAnswer, 
-    CheckIsFullExamWithQuestions, EnrollExam, CheckLimitedQuizAnswer )
+    CheckIsFullExamWithQuestions, EnrollExam, CheckLimitedQuizAnswer,
+    LookExamResult)
 
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     path('exam-pano/checkanswer', CheckAnswer, name='exampanocheckanswer'),
     path('ecam-pano/checklimitedquizanswer', CheckLimitedQuizAnswer, name="exampanochecklimitedquizanswer"),
     path('exam-pano/<str:slug>', ExamPano, name="exampano"),
+    path('exam-result/<int:id>', LookExamResult, name="lookexamresult"),
     path('generate-quiz-for-exam-pano/<str:slug>', GenerateQuizForExamPano, name="generatequizforexampano"),
     path('activate-exam/<int:id>', ActivateExam, name="activateexam"),
     path("system-sentence-builder-game", SentenceBuilder, name="sentencebuilder"),

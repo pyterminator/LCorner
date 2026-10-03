@@ -159,7 +159,7 @@ class LimitedExamResults(models.Model):
     passed = models.BooleanField(default=False)
 
     started_at = models.DateTimeField()
-    completed_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         constraints = [

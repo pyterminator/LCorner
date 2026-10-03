@@ -215,7 +215,7 @@
 
          
 
-        async function confirmed_exam_finised(btn){ 
+        async function confirmed_exam_finised(btn=NaN){ 
             let url = document.querySelector(".exam-limited-pano").dataset.url
             let exam_id = document.querySelector(".exam-limited-pano").dataset.examid
             let answer = {
@@ -244,8 +244,88 @@
 
             const data = await response.json()
 
-            console.log(data)
+            if (data.success){
+                const exam_result_popup = CreateExamResultPopup(data.correct_answer, data.wrong_answer, data.unanswered, data.limited_exam_result_page);
+                document.querySelector(".is_exam_finished").insertAdjacentElement("afterend", exam_result_popup);
+                RejectEndExam();
+                document.body.style.height = "100dvh";
+                document.body.style.overflowY = "hidden";
+            }
         }   
+
+
+
+
+        function CreateExamResultPopup(correct, wrong, unanswered, limited_exam_result_page) {
+            const popup = document.createElement("div");
+            popup.className = "popup exam-result";
+
+            const container = document.createElement("div");
+            container.className = "container";
+
+            const title = document.createElement("div");
+            title.className = "title";
+            title.appendChild(document.createTextNode("İmtahan nəticələri"));
+
+            const popupBody = document.createElement("div");
+            popupBody.className = "popup-body";
+
+            const correctAnswer = document.createElement("div");
+            correctAnswer.className = "correct-answer";
+            correctAnswer.appendChild(
+                document.createTextNode("Düzgün cavab sayı : ")
+            );
+
+            const correctSpan = document.createElement("span");
+            correctSpan.textContent = correct;
+            correctAnswer.appendChild(correctSpan);
+
+            const wrongAnswer = document.createElement("div");
+            wrongAnswer.className = "wrong-answer";
+            wrongAnswer.appendChild(
+                document.createTextNode("Səhv cavab sayı : ")
+            );
+
+            const wrongSpan = document.createElement("span");
+            wrongSpan.textContent = wrong;
+            wrongAnswer.appendChild(wrongSpan);
+
+            const unansweredAnswer = document.createElement("div");
+            unansweredAnswer.className = "unanswered";
+            unansweredAnswer.appendChild(
+                document.createTextNode("Cavablanmamış sual sayı : ")
+            );
+
+            const unansweredSpan = document.createElement("span");
+            unansweredSpan.textContent = unanswered;
+            unansweredAnswer.appendChild(unansweredSpan);
+
+            popupBody.appendChild(correctAnswer);
+            popupBody.appendChild(wrongAnswer);
+            popupBody.appendChild(unansweredAnswer);
+
+            const btnGroups = document.createElement("div");
+            btnGroups.className = "btn-groups";
+
+            const homeBtn = document.createElement("a");
+            homeBtn.href = "/";
+            homeBtn.textContent = "Ana səhifə";
+
+            const resultsBtn = document.createElement("a");
+            resultsBtn.href = limited_exam_result_page;
+            resultsBtn.textContent = "Nəticə detalı";
+
+            btnGroups.appendChild(homeBtn);
+            btnGroups.appendChild(resultsBtn);
+
+            container.appendChild(title);
+            container.appendChild(popupBody);
+            container.appendChild(btnGroups);
+
+            popup.appendChild(container);
+
+            return popup;
+        }
 
     </script>
 {% endblock %}
