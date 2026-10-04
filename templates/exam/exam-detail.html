@@ -45,9 +45,15 @@
         </div>
 
         {% if is_enrolled %}
-            <a href="{% url 'exampano' exam.slug %}" class="start-enrolled">
-                İmtahana başla
-            </a>
+            {% if is_completed %}
+                <a href="{% url 'lookexamresult' limited_exam_result_id %}" class="start-enrolled">
+                    Nəticə detalı
+                </a>
+            {% else %}
+                <a href="{% url 'exampano' exam.slug %}" class="start-enrolled">
+                    İmtahana başla
+                </a>
+            {% endif %}
         {% else %}
             <a href="{% url 'enrollexam' %}" class="start" data-rurl="{% url 'exampano' exam.slug %}" data-id="{{exam.id}}">
                 İmtahana yazıl

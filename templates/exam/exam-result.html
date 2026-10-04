@@ -7,3 +7,71 @@
         ECorner - {{ exam_result.exam.title }}
     </title>
 {% endblock %}
+
+<!-- Styles -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/exam-result.min.css' %}">
+{% endblock %}
+
+
+{% block root %}
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb"> 
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>İmtahan nəticələrim</span>
+    </div>
+
+    <h1>İmtahan nəticələrim</h1>
+
+    <div class="exam-result">
+        <p>
+            Xoş gəldin, <b>{{request.user.username}}</b>.
+            <br/>
+            Bu səhifədə sizin <b>{{exam_result.exam.title}}</b> adlı imtahanda göstərdiyiniz nəticələr göstərilir.
+        </p>
+        <div class="summary-card">
+            <h3>Nəticə Xülasəsi</h3>
+            
+            <div class="progress-circle-wrapper" style="--percent: {{ exam_result.percentage }}%;">
+                <div class="progress-circle-inner">
+                    <div class="score-text">{{exam_result.correct_answers}} <span class="score-total">/ {{exam_result.exam.question_count}}</span></div>
+                    <div class="percentage-badge">{{ exam_result.percentage }}%</div>
+                </div>
+            </div>
+
+            <div class="result-status">
+                Status: 
+                <strong>
+                    {% if exam_result.percentage >= 80 %}
+                        Əla nəticə!
+                    {% elif exam_result.percentage >= 50 %}
+                        Yaxşı nəticə
+                    {% else %}
+                        Kafi nəticə
+                    {% endif %}
+                </strong>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Django-dan gələn dəyərləri alırıq
+            const correct = parseInt(document.getElementById('correct-count').textContent, 10) || 0;
+            const total = parseInt(document.getElementById('total-count').textContent, 10) || 0;
+
+            // Faizi hesablayırıq
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+            // Elementlərə mənimsədirik
+            const circle = document.querySelector('.progress-circle-wrapper');
+            const badge = document.getElementById('percentage-badge');
+
+            circle.style.setProperty('--percent', `${percentage}%`);
+            badge.textContent = `${percentage}%`;
+        });
+    </script>
+{% endblock %}

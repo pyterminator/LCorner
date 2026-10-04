@@ -161,6 +161,12 @@ class LimitedExamResults(models.Model):
     started_at = models.DateTimeField()
     completed_at = models.DateTimeField(null=True, blank=True)
 
+    @property
+    def percentage(self):
+        if self.exam.question_count > 0:
+            return round((self.correct_answers / self.exam.question_count) * 100)
+        return 0
+
     class Meta:
         constraints = [
             models.UniqueConstraint(

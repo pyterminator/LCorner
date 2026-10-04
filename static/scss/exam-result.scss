@@ -1,0 +1,89 @@
+.exam-result {
+    & > p {
+        color: var(--main-dark);
+        margin-bottom: 1rem;
+    }
+
+    .summary-card {
+        background: var(--post-bg);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1rem;
+        padding: 28px;
+        width: 320px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+
+        & > h3 {
+            color: var(--light);
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            align-self: flex-start;
+        }
+
+        .progress-circle-wrapper {
+            position: relative;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            /* --percent dəyişənini istifadə edirik (susmaya görə 0%) */
+            background: conic-gradient(
+                var(--success) 0% var(--percent, 0%),
+                var(--input-bg) var(--percent, 0%) 100%
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(53, 201, 138, 0.15);
+            transition: background 0.3s ease;
+
+            .progress-circle-inner {
+                width: 138px;
+                height: 138px;
+                background-color: var(--dark);
+                border-radius: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .score-text {
+                    font-size: 32px;
+                    font-weight: 800;
+                    color: var(--light);
+                    line-height: 1;
+
+                    .score-total {
+                        font-size: 20px;
+                        color: var(--main-dark);
+                        font-weight: 500;
+                    }
+                }
+
+                .percentage-badge {
+                    margin-top: 6px;
+                    background: rgba(53, 201, 138, 0.15);
+                    color: var(--success);
+                    font-size: 13px;
+                    font-weight: 700;
+                    padding: 3px 10px;
+                    border-radius: 12px;
+                    border: 1px solid var(--success);
+                }
+            }
+        }
+
+        .result-status {
+            margin-top: 18px;
+            font-size: 14px;
+            color: var(--main-dark);
+            text-align: center;
+
+            strong {
+                color: var(--success);
+            }
+        }
+    }
+}
