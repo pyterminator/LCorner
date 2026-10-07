@@ -29,14 +29,17 @@
                 line-height: 6rem;
                 color: var(--light);
                 border-left: 1rem solid var(--bg);
-                span{
-                    &:nth-child(1){
+
+                span {
+                    &:nth-child(1) {
                         color: var(--all-dark);
                     }
-                    &:nth-child(2){
+
+                    &:nth-child(2) {
                         color: var(--all-light);
                     }
                 }
+
                 i {
                     display: none;
                 }
@@ -51,7 +54,45 @@
                 height: calc(100% - 6rem);
                 padding: 1rem;
 
-                a {
+
+                .for-guests {
+                    width: 100%;
+                    background-color: var(--input-bg);
+                    padding: 1rem;
+                    border-radius: 1rem;
+
+
+                    h3 {
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                        color: var(--light);
+                        margin-bottom: 1rem;
+                    }
+
+                    a.login-register {
+                        display: block;
+                        width: 100%;
+                        @extend %button-style;
+                        margin-bottom: .5rem;
+                        text-align: left;
+                        padding-left: 1.2rem; 
+                    }
+
+                    a.login{
+                        background-color: var(--success);
+                    }
+
+                    a.terms-of-use{
+                        color: var(--star);
+                        font-size: 1rem;
+                        font-weight: 500;
+                        display: block;
+                        margin-top: 1rem;
+                    }
+                     
+                }
+
+                &>a {
                     display: block;
                     width: 100%;
                     @extend %button-style;
@@ -63,7 +104,8 @@
                         margin-right: .5rem;
                     }
                 }
-                .theme-change{
+
+                .theme-change {
                     position: absolute;
                     bottom: 0;
                     left: 0;
@@ -80,15 +122,16 @@
                     gap: 1rem;
                 }
 
-                .line{
+                .line {
                     width: 70%;
                     height: .3rem;
                     background-color: var(--main-dark);
-                    border-radius: 50%; 
+                    border-radius: 50%;
                     opacity: .3;
                     margin: 2.5rem auto 1rem auto;
                 }
-                .for-staffs{
+
+                .for-staffs {
                     font-size: 1.2rem;
                     font-weight: 600;
                     margin-top: 2rem;
@@ -103,7 +146,7 @@
             width: 100%;
             min-height: 100vh;
             margin-left: 0;
-            transition: all .1s ease; 
+            transition: all .1s ease;
 
             nav {
                 width: 100%;
@@ -119,7 +162,7 @@
 
                 .links {
                     display: flex;
-                    gap: 2rem; 
+                    gap: 2rem;
 
                     &>span {
                         @extend %button-style;
@@ -131,13 +174,15 @@
                         cursor: pointer;
                         display: none;
                     }
-                    #notify{
+
+                    #notify {
                         @extend %button-style;
                         position: relative;
                         background-color: var(--bg);
                         color: var(--all-light);
                         cursor: pointer;
-                        span{
+
+                        span {
                             width: 1rem;
                             height: 1rem;
                             border-radius: 50%;
@@ -191,21 +236,23 @@
                 }
             }
 
-            #xp-level{
+            #xp-level {
                 display: flex;
-                justify-content: flex-end; 
+                justify-content: flex-end;
                 padding: .3rem .5rem;
                 position: sticky;
-                top: 6rem; 
-                z-index: 7; 
+                top: 6rem;
+                z-index: 7;
                 background-color: transparent;
-                .container{
+
+                .container {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     gap: .2rem;
-                    p{ 
-                        font-size: 1rem; 
+
+                    p {
+                        font-size: 1rem;
                         padding: .1rem 1rem;
                         border-radius: .5rem;
                         text-transform: uppercase;
@@ -213,16 +260,19 @@
                         box-shadow:
                             inset 0 .1rem 0 rgba(255, 255, 255, .15),
                             inset 0 -.25rem 0 rgba(0, 0, 0, .35);
-                        span{
+
+                        span {
                             font-weight: 600;
                             font-size: 1.4rem;
                         }
-                        &:nth-child(1){
-                            background-color: var(--star); 
+
+                        &:nth-child(1) {
+                            background-color: var(--star);
                             color: var(--all-dark);
                         }
-                        &:nth-child(2){
-                            background-color: var(--badge); 
+
+                        &:nth-child(2) {
+                            background-color: var(--badge);
                             color: var(--all-light);
                         }
                     }
@@ -252,13 +302,15 @@
                     border-radius: 1rem;
                     box-shadow: var(--input-bg) 0 .2rem 0 .1rem;
 
-                    a, span {
+                    a,
+                    span {
                         position: relative;
 
                         &:not(:last-child) {
                             color: var(--link);
+
                             &::after {
-                                content:">";
+                                content: ">";
                                 font-size: 1rem;
                                 color: var(--main-dark);
                                 position: absolute;
@@ -269,8 +321,9 @@
                         }
                     }
                 }
- 
-                &>h3, &>h1{
+
+                &>h3,
+                &>h1 {
                     font-size: 1.8rem;
                     margin-bottom: 1rem;
                     color: var(--light);

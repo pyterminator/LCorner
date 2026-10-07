@@ -350,7 +350,8 @@ def ExamDetailView(request, slug):
 
     except Exam.DoesNotExist:
         return redirect("dashboard")
-    
+
+@login_required
 def ExamPano(request, slug):
     try:
         exam = get_object_or_404(Exam, slug=slug)

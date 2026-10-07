@@ -1,0 +1,93 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+<!-- Page Title -->
+{% block title %}
+    <title>
+        ECorner - İstifadə şərtləri
+    </title>
+{% endblock %}
+
+<!-- Styles -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/terms-of-use.min.css' %}">
+{% endblock %}
+
+{% block root %}
+    
+    <!-- Breadcrumb --> 
+    <div class="breadcrumb"> 
+        <a href="{% url 'dashboard' %}"><i class="fa-solid fa-home"></i> Ana səhifə</a>
+        <span>Əlaqə</span>
+    </div>
+
+    <h1>İstifadə şərtləri</h1>
+
+    <div class="terms-container">
+        <div class="terms-header">
+            <h1>ECorner - İstifadə Şərtləri (Terms of Use)</h1>
+            <p class="last-updated">Son yenilənmə tarixi: 7 Oktyabr 2026</p>
+        </div>
+
+        <div class="terms-content">
+            <section class="terms-section">
+                <h2>1. Ümumi Müddəalar</h2>
+                <p>
+                    Bu İstifadə Şərtləri ("Şərtlər"), <strong>ECorner</strong> online təhsil və imtahan platformasından ("Platforma") istifadənizi tənzimləyir. 
+                    Platformada qeydiyyatdan keçməklə və ya xidmətlərdən istifadə etməklə siz bu şərtləri tam şəkildə qəbul etmiş sayılırsınız.
+                </p>
+            </section>
+
+            <section class="terms-section">
+                <h2>2. Hesabın Yaradılması və Təhlükəsizlik</h2>
+                <ul>
+                    <li>İstifadəçi qeydiyyat zamanı tələb olunan məlumatları dəqiq və tam şəkildə daxil etməlidir.</li>
+                    <li>Hesabın giriş məlumatlarının (e-poçt və şifrə) məxfiliyinə və təhlükəsizliyinə şəxsən istifadəçi cavabdehdir.</li>
+                    <li>Giriş məlumatlarınızı üçüncü şəxslərə vermək və ya bir hesabı birdən çox şəxs üçün istifadə etmək qadağandır.</li>
+                </ul>
+            </section>
+
+            <section class="terms-section">
+                <h2>3. Müəllif Hüquqları və Əqli Mülkiyyət</h2>
+                <p>
+                    ECorner platformasında təqdim olunan bütün sınaq imtahanları, suallar, izahlar, proqram təminatı kodu, UI/UX interfeys dizaynı, loqo və vizual materiallar <strong>ECorner</strong>-in əqli mülkiyyətidir və müəllif hüquqları ilə qorunur.
+                </p>
+                <ul>
+                    <li>Materialların icazəsiz kopyalanması, skrinşot edilərək kütləvi paylaşılması, satılması və ya kommersiya məqsədilə istifadəsi qəti qadağandır.</li>
+                    <li>Qaydaları pozan istifadəçilərin hesabı xəbərdarlıq edilmədən bloklana bilər və hüquqi addımlar atıla bilər.</li>
+                </ul>
+            </section>
+
+            <section class="terms-section">
+                <h2>4. Qadağan Olunmuş Hərəkətlər</h2>
+                <p>Platformadan istifadə edərkən aşağıdakı hərəkətlərə yol verilməsinə icazə verilmir:</p>
+                <ul>
+                    <li>Platformanın texniki təhlükəsizlik sistemlərinə müdaxilə etmək (botlar, skriptlər və ya avtomatlaşdırılmış alətlərdən istifadə etmək).</li>
+                    <li>Platforma üzərindən etikaya zidd, təhqiramiz və ya qanunsuz kontent yaymaq.</li>
+                    <li>Digər istifadəçilərin sistemdən rahat istifadə etməsinə mane olmaq.</li>
+                </ul>
+            </section>
+
+            <section class="terms-section">
+                <h2>5. Məsuliyyətin Məhdudlaşdırılması</h2>
+                <p>
+                    ECorner xidmətlərin fasiləsiz və xətasız fəaliyyət göstərməsi üçün bütün texniki tədbirləri görür. Lakin internet provayderlərindəki texniki problemlər, profilaktik işlər və ya fors-major hallar səbəbindən yaranan müvəqqəti kəsintilərə görə platforma birbaşa məsuliyyət daşımır.
+                </p>
+            </section>
+
+            <section class="terms-section">
+                <h2>6. Şərtlərin Dəyişdirilməsi</h2>
+                <p>
+                    ECorner bu İstifadə Şərtlərini istənilən vaxt yeniləmək hüququnu özündə saxlayır. Yenilənmiş şərtlər saytda dərc edildiyi andan qüvvəyə minir.
+                </p>
+            </section>
+
+            <section class="terms-section">
+                <h2>7. Əlaqə</h2>
+                <p>
+                    İstifadə şərtləri ilə bağlı hər hansı sualınız və ya təklifiniz varsa, bizimlə platformanın dəstək bölməsi və ya rəsmi əlaqə vasitələri ilə əlaqə saxlaya bilərsiniz.
+                </p>
+            </section>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,61 @@
+.terms-container {
+    background-color: var(--post-bg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+    color: var(--light);
+
+    .terms-header {
+        border-bottom: 1px solid var(--btn-bg);
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+
+        h1 {
+            font-size: 24px;
+            color: var(--light);
+            font-weight: 700;
+        }
+
+        .last-updated {
+            font-size: 13px;
+            color: var(--main-dark);
+            margin-top: 4px;
+        }
+    }
+
+    .terms-section {
+        margin-bottom: 24px;
+
+        h2 {
+            font-size: 18px;
+            color: var(--success);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--light);
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+
+            li {
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--main-dark);
+                margin-bottom: 6px;
+
+                strong {
+                    color: var(--light);
+                }
+            }
+        }
+    }
+}

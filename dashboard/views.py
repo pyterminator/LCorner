@@ -40,6 +40,9 @@ def Dashboard(request):
     return render(request, "dashboard/index.html", context=data)
 
 
+def TermsOfUse(request):
+    return render(request, "terms-of-use.html")
+
 @user_passes_test(lambda u: u.is_superuser)
 def CreateDefaultPosts(request):
     if Post.objects.count() == 0:
