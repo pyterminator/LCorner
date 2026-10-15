@@ -7,6 +7,9 @@ from django.http import JsonResponse
 from notifications.models import Notification
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test 
+from django.utils import timezone
+from datetime import timedelta, datetime
+
 
 @login_required
 def post_create_view(request):
@@ -90,17 +93,24 @@ def post_approved_view(request, id):
         "success":False
     })
 
-@login_required
+
 def post_detail_view(request, slug):
     try:
         post = get_object_or_404(Post, slug=slug)
-        
-        
 
-        if request.user != post.author.user:
+        # Every Refresh
+        now = timezone.now()
+        session_key = f"viewed_post_{post.id}"
+        last_view = request.session.get(session_key)
+
+        if (not last_view or now - (datetime.fromisoformat(last_view) if isinstance(last_view, str) else last_view) >= timedelta(hours=1)):
+            post.increase_view()
+            request.session[session_key] = now.isoformat()
+
+
+        if request.user.is_authenticated and request.user != post.author.user:
             account = get_object_or_404(Account, user=request.user)
-            post.view += 1
-            post.save()
+            
             Notification.objects.create(
                 account=post.author,
                 actor=account,
@@ -116,17 +126,9 @@ def post_detail_view(request, slug):
             "post": post
         }
 
-
-        my_account = get_object_or_404(Account, user=request.user)
-        liked_posts = set(
-            my_account.likes.values_list("post_id", flat=True)
-        )
-        
-        if post.id in liked_posts:
-            data["liked"] = True 
-        else:
-            data["liked"] = False
-        
+        if request.user.is_authenticated:
+            my_account = get_object_or_404(Account, user=request.user)
+            data["liked"] = my_account.likes.filter(post=post).exists()
         
         return render(request, "post/post-detail.html", context=data)
     except:

@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from member.models import Account
 from django.utils.text import slugify
+from django.db.models import F
 
 class Post(models.Model):
 
@@ -30,3 +31,9 @@ class Post(models.Model):
             base = slugify(self.sentence)[:50]
             self.slug = f"{base}-{uuid.uuid4().hex[:6]}"
         super().save(*args, **kwargs)
+
+    def increase_view(self):
+        Post.objects.filter(pk=self.pk).update(
+            view=F("view") + 1
+        )
+        self.refresh_from_db(fields=["view"])
