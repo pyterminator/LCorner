@@ -2,6 +2,11 @@
 {% load static %}
 {% load custom_filters %}
 
+<!-- Page Meta Desc -->
+{% block meta_description %}
+    <meta name="description" content="ECorner platformasında paylaşılan dil mətni: {{ post.sentence|strip_tags|slice:'0:140' }}">
+{% endblock %}
+
 <!-- Page Title -->
 {% block title %}
     <title>

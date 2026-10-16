@@ -11,7 +11,9 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ECorner">
     <meta property="og:description" content="Xarici dil öyrənməyi asanlaşdıran interaktiv platforma.">
-    <meta name="description" content="ECorner - dil öyrənmək, məşq etmək, biliklərini yoxlamaq və öyrənmə prosesindən zövq almaq üçün interaktiv platforma.">
+    {% block meta_description %}
+        <meta name="description" content="ECorner - dil öyrənmək, məşq etmək, biliklərini yoxlamaq və öyrənmə prosesindən zövq almaq üçün interaktiv platforma.">
+    {% endblock %}
     <meta name="keywords" content="ECorner, language learning, English learning, language games, sentence builder, language exams, online exams, language posts, vocabulary learning">
     <meta name="author" content="Shukurov Mushvig - PyTerminator">
     <!-- Dinamik Title -->
