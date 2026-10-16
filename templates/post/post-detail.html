@@ -4,7 +4,7 @@
 
 <!-- Page Meta Desc -->
 {% block meta_description %}
-    <meta name="description" content="ECorner platformasında paylaşılan dil mətni: {{ post.sentence|strip_tags|slice:'0:140' }}">
+    <meta name="description" content="{{ post.sentence }}">
 {% endblock %}
 
 <!-- Page Title -->
