@@ -3,6 +3,7 @@ from django.db import models
 from member.models import Account
 from django.utils.text import slugify
 from django.db.models import F
+from django.utils import timezone
 
 class Post(models.Model):
 
@@ -37,3 +38,17 @@ class Post(models.Model):
             view=F("view") + 1
         )
         self.refresh_from_db(fields=["view"])
+
+    @property
+    def smart_date(self):
+        now = timezone.now()
+        diff = now - self.created_at
+
+        days = diff.days
+
+        if days == 0:
+            return "Bu gün"
+        elif days == 1:
+            return "Dünən"
+        else:
+            return f"{days} gün əvvəl"

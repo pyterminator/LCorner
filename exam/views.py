@@ -34,11 +34,11 @@ def MyExams(request):
     data = {
         "my_exam_count": len(my_exam_list),
         "exams": my_exam_list,
-        "participants": Account.objects.filter(enrolled_exams__isnull=False ).count(),
+        "participants":Account.objects.filter(enrolled_exams__in=my_exam_list).distinct().count(),
         "my_active_exam_count": my_exam_list.filter(is_active=True).count(),
         "my_deactive_exam_count": my_exam_list.filter(is_active=False).count(),
+        # "participants": Account.objects.filter(enrolled_exams__isnull=False ).count(),
     }
-
     return render(request, "exam/my-exams.html", context=data)
 
 @user_passes_test(lambda u: u.is_staff)

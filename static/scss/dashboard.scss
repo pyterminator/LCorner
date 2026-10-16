@@ -627,6 +627,28 @@
             }
         }
     }
+
+    .showmore{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+        i{
+            display: inline-block;
+            width: 5rem;
+            height: 5rem;
+            margin: 0;
+            padding: 0;
+            line-height: 5rem;
+            text-align: center;
+            font-size: 3rem;
+            color: var(--light);
+        }
+    }
+    .showmore-deactive{
+        display: none;
+    }
 }
 
 .line{

@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test 
 from django.utils import timezone
 from datetime import timedelta, datetime
-
+from django.views.decorators.http import require_POST
 
 @login_required
 def post_create_view(request):
@@ -134,8 +134,11 @@ def post_detail_view(request, slug):
     except:
         return redirect("dashboard")
 
-@login_required
+# Login Required vermek lazim deyil!
 def PostLike(request):
+
+    if not request.user.is_authenticated:
+        return JsonResponse({"success": False})
 
     if request.method != "POST":
         return JsonResponse({"success": False})
@@ -195,3 +198,54 @@ def PostLike(request):
 
     except:
         return JsonResponse({"success": False}) 
+
+@require_POST
+def LoadPost(request):
+    data = json.loads(request.body)
+    last_id = data.get("last_id", None)
+
+    if last_id:
+        posts = Post.objects.filter(
+            id__lt=last_id
+        ).order_by("-id")[:6]
+
+        post_list = [
+            {
+                "is_authenticated": request.user.is_authenticated,
+                "id": post.id,
+                "sentence": post.sentence,
+                "description": post.description,
+                "slug": post.slug,
+                "likes": post.likes,
+                "view": post.view,
+                "username": post.author.user.username,
+                "smartdate": post.smart_date,
+                "avatar": (
+                    post.author.avatar.url
+                    if post.author.avatar
+                    else None
+                ),
+                "fullname": post.author.user.last_name + " " + post.author.user.first_name,
+                "lang": post.lang
+            }
+            for post in posts
+        ]
+
+        last_post_id = posts[len(posts) - 1].id if posts else last_id
+
+        has_more = Post.objects.filter(
+            id__lt=last_post_id
+        ).exists()
+
+        return JsonResponse({
+            "success": True,
+            "posts": post_list,
+            "has_more": has_more,
+        })
+
+    return JsonResponse({
+        "success": False,
+        "type": "error",
+        "message": "Xəta oldu!"
+    })
+

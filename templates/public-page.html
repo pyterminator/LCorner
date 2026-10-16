@@ -24,9 +24,9 @@
 
         <div class="posts-container">
             <h3 class="posts-header">Təsdiqlənmiş son postlar</h3>
-            <div class="posts">
+            <div class="posts" id="posts-container" data-url="{% url 'loadpost' %}">
                 {% for p in posts %}
-                    <div class="post">
+                    <div class="post" data-id="{{p.id}}">
                         <div class="post-header">
                             <div class="left">
                                 <div class="avatar">
@@ -72,7 +72,7 @@
                             </div>
 
                             <div class="description">
-                                <div div class="flag">
+                                <div class="flag">
                                     <img src="{% static 'images/az.png' %}" draggable="false" alt="AZ">
                                 </div>
                                 <div class="content">
@@ -89,7 +89,7 @@
                         </div>
                         <div class="like-created">
                             <div class="like"> 
-                                <i class="fa-regular fa-heart" onclick="postLike(this)" data-id="{{p.id}}" data-url="{% url 'postlike' %}"></i>
+                                <i class="fa-regular fa-heart"></i>
                                 <span>{{p.likes}}</span>
                             </div>
                             <div class="dot"></div>
@@ -108,10 +108,14 @@
                     </div>  
                 {% endfor %}
             </div>
+            <div class="showmore showmore-deactive" id="showmorepost">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
         </div>
     {% endif %}
 {% endblock %}
 
 {% block scripts %}
     <script src="{% static 'scripts/postlike.js' %}"></script>
+    <script src="{% static 'scripts/showmoreposts.js' %}"></script>
 {% endblock %}
