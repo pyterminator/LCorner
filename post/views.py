@@ -217,7 +217,11 @@ def LoadPost(request):
                 "description": post.description,
                 "slug": post.slug,
                 "likes": post.likes,
-                "is_liked": Like.objects.filter(account=request.user.account, post=post).exists(),
+                "is_liked": (
+                    Like.objects.filter(account=request.user.account, post=post).exists()
+                    if request.user.is_authenticated
+                    else False
+                ),
                 "view": post.view,
                 "username": post.author.user.username,
                 "smartdate": post.smart_date,
