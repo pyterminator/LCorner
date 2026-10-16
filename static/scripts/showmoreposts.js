@@ -100,8 +100,8 @@ async function loadPosts() {
                     </div>
                     <div class="like-created">
                         <div class="like"> 
-                            <i class="fa-regular fa-heart"
-                                ${post.is_authenticated ? 'onclick="postLike(this)"' : ''}
+                            <i class="${post.is_liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"
+                                ${post.is_authenticated && ! post.is_liked ? 'onclick="postLike(this)"' : ''}
                                 data-id="${post.id}"
                                 data-url="/post/post-like/">
                             </i>

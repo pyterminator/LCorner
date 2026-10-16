@@ -188,7 +188,7 @@ def PostLike(request):
                         "post_slug": post.slug
                     }
                 )
-            
+
 
         return JsonResponse({
             "success": True, 
@@ -217,6 +217,7 @@ def LoadPost(request):
                 "description": post.description,
                 "slug": post.slug,
                 "likes": post.likes,
+                "is_liked": Like.objects.filter(account=request.user.account, post=post).exists(),
                 "view": post.view,
                 "username": post.author.user.username,
                 "smartdate": post.smart_date,
