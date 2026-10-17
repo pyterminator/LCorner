@@ -399,14 +399,16 @@
             title.innerText = title_text
             container_right.appendChild(title)
 
-            let quiz_img = document.createElement("div")
-            quiz_img.className = "quiz-image"
-            let quiz_img_element = document.createElement("img")
-            quiz_img_element.draggable = false
-            quiz_img_element.src = title_img
-            quiz_img_element.alt = title_text
-            quiz_img.appendChild(quiz_img_element)
-            container_right.appendChild(quiz_img)
+            if (title_img){
+                let quiz_img = document.createElement("div")
+                quiz_img.className = "quiz-image"
+                let quiz_img_element = document.createElement("img")
+                quiz_img_element.draggable = false
+                quiz_img_element.src = title_img
+                quiz_img_element.alt = title_text
+                quiz_img.appendChild(quiz_img_element)
+                container_right.appendChild(quiz_img)
+            }
 
             let opts = createContainerRightElementOptions(options)
             container_right.appendChild(opts)
@@ -486,12 +488,16 @@
                 );
 
                 questions_header.insertAdjacentElement("afterend", quiz_box);
+
             }
 
 
             forloopCounter()
 
             document.querySelector("#addNewQuiz > div.header > div.right > button").click()
+            quiz_image.style.display = "none"
+            quiz_image.src = "";
+            document.getElementById("addNewQuiz").reset()
         })
 
 
@@ -503,6 +509,8 @@
                 const element = ssp[index]; 
                 element.innerText = index + 1    
             }
+            let data_question_header_em = document.querySelector("div.questions > div.data > div.questions-header > div.left > p > em")
+            data_question_header_em.innerHTML = ssp.length
         }
 
         quiz_image_title.addEventListener("change", function(e){

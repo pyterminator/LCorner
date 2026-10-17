@@ -206,7 +206,7 @@ def LoadPost(request):
 
     if last_id:
         posts = Post.objects.filter(
-            id__lt=last_id
+            id__lt=last_id, approved=True, is_public=True
         ).order_by("-id")[:6]
 
         post_list = [
