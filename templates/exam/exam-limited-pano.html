@@ -36,6 +36,12 @@
                                 <p>{{quiz.question}}</p>
                             </div>
 
+                            {% if quiz.image %}
+                                <div class="image">
+                                    <img src="{{ quiz.image.url }}" alt="{{ quiz.question }}" draggable="false">
+                                </div>
+                            {% endif %}
+
                             <div class="options">
                                 {% for option in quiz.options.all %}
                                     <label class="option" for="question{{quiz.id}}{{forloop.counter0}}">

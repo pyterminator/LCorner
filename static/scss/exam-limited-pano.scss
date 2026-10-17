@@ -54,6 +54,16 @@
                     }
                 }
 
+                .image{
+                    img{
+                        width: 100%;
+                        max-width: 20rem;
+                        object-fit: contain;
+                        object-position: top;
+                        border-radius: 1rem;
+                    }
+                }
+
                 .options {
                     display: flex;
                     flex-direction: column;
