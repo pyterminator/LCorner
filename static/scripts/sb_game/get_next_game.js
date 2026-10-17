@@ -1,4 +1,4 @@
-async function getNextGame(id, userAnswer, url, btn) {
+async function getNextGame(id, userAnswer, url, btn, bot) {
     const response = await fetch(url, {
         method: "POST",
 
@@ -9,7 +9,8 @@ async function getNextGame(id, userAnswer, url, btn) {
 
         body: JSON.stringify({
             "id": id,
-            "user_answer": userAnswer
+            "user_answer": userAnswer,
+            "bot": bot
         })
     })
 

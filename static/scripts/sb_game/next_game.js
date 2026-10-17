@@ -4,5 +4,5 @@ async function nextGame(btn){
     const id = btn.dataset.id
 
 
-    await getNextGame(id, ans, url, btn)
+    await getNextGame(id, ans, url, btn, "bot")
 }

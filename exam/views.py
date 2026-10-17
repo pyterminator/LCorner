@@ -129,7 +129,7 @@ def SentenceBuilder(request):
         
         post_id = body.get("id", None) 
         user_answer = body.get("user_answer", None)
-
+        is_bot = body.get("bot", None)
         get_post = Post.objects.filter(id=post_id).first() 
 
         answer = get_post.sentence.lower() 
@@ -143,7 +143,8 @@ def SentenceBuilder(request):
             
 
             # 1 xal ver
-            my_account.add_xp(1)
+            if is_bot != "bot":
+                my_account.add_xp(1)
 
             data["xp"] = my_account.xp 
             data["level"] = my_account.level
